@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>cn.moonnow</groupId>
+  <artifactId>rely</artifactId>
+  <version>9.9.6.ICU</version>
+  <packaging>pom</packaging>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.1.0.RELEASE</version>
+  </parent>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <java.version>1.8</java.version>
+  </properties>
+
+  <!--
+    统一在一个文件中管理项目所需要的jar包依赖
+    封装模块(tool) 业务模块(sign...) 发布模块(dev-tool...) 都继承该模块
+  -->
+
+  <dependencies>
+<!--     jar部署 引入tomcat 不引入servlet -->
+<!--     war部署 不引入tomcat 引入servlet -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-logging</artifactId>
+        </exclusion>
+<!--         <exclusion> -->
+<!--           <groupId>org.springframework.boot</groupId> -->
+<!--           <artifactId>spring-boot-starter-tomcat</artifactId> -->
+<!--         </exclusion> -->
+      </exclusions>
+    </dependency>
+<!--     <dependency> -->
+<!--       <groupId>javax.servlet</groupId> -->
+<!--       <artifactId>javax.servlet-api</artifactId> -->
+<!--     </dependency> -->
+<!--     mysql8数据库连接驱动 直接引进来 不在tomcat中引用 方便一点 -->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>8.0.11</version><!--$NO-MVN-MAN-VER$-->
+    </dependency>
+<!--     oracle数据库连接驱动 -->
+<!--     maven安装驱动jar包命令  path替换为实际路径 -->
+<!--     mvn install:install-file -Dfile=/path/ojdbc6.jar -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0.2.0 -Dpackaging=jar -->
+<!--     <dependency> -->
+<!--       <groupId>com.oracle</groupId> -->
+<!--       <artifactId>ojdbc6</artifactId> -->
+<!--       <version>11.2.0.2.0</version> -->
+<!--     </dependency> -->
+<!--     数据库连接池 -->
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>druid-spring-boot-starter</artifactId>
+      <version>1.1.10</version>
+    </dependency>
+<!--     实体类序列化 -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+    </dependency>
+<!--     jdbc -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-jdbc</artifactId>
+    </dependency>
+<!--     直接使用mybatis plus -->
+    <dependency>
+      <groupId>com.baomidou</groupId>
+      <artifactId>mybatis-plus-boot-starter</artifactId>
+      <version>3.1.1</version>
+    </dependency>
+<!--     为了不写get set -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <optional>true</optional>
+    </dependency>
+<!--     json操作 -->
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+    </dependency>
+<!--     后台服务发网络请求框架 -->
+    <dependency>
+      <groupId>com.github.msimw</groupId>
+      <artifactId>retrofit2-spring</artifactId>
+      <version>1.1</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-log4j12</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+<!--     日志框架 -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-log4j2</artifactId>
+    </dependency>
+<!--     测试 -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+<!--     aop 实现方式自选 可以用spring自身实现 可以用 aspectjrt -->
+<!--     <dependency> -->
+<!--       <groupId>org.springframework.boot</groupId> -->
+<!--       <artifactId>spring-boot-starter-aop</artifactId> -->
+<!--       <exclusions> -->
+<!--         <exclusion> -->
+<!--           <groupId>org.springframework.boot</groupId> -->
+<!--           <artifactId>spring-boot-starter-logging</artifactId> -->
+<!--         </exclusion> -->
+<!--       </exclusions> -->
+<!--     </dependency> -->
+<!--     <dependency> -->
+<!--       <groupId>org.aspectj</groupId> -->
+<!--       <artifactId>aspectjrt</artifactId> -->
+<!--     </dependency> -->
+  </dependencies>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>tool-util</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>tool-entity</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>tool-interface</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>tool-persistent</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>tool-service</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>tool-rest</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+</project>

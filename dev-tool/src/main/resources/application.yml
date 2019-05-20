@@ -1,0 +1,36 @@
+server:
+  port: 6680
+  servlet:
+    context-path: /api
+
+spring:
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/coding?useUnicode=yes&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      username: root
+      password: moonnow
+      initial-size: 5
+      max-active: 20
+      min-idle: 10
+      max-wait: 10
+      filters: stat,wall
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 2000
+
+logging:
+  level:
+    root: DEBUG
+    # root: INFO
+
+mybatis:
+  mapper-locations: classpath*:cn/moonnow/**/mapping/*.xml
+  type-aliases-package: cn.moonnow.**.entity
+  configuration:
+    map-underscore-to-camel-case: true
+
+proconfig:
+  cookies-times-effect: 1800000
+  is-open-authorization-interceptor: true

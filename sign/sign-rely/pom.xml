@@ -5,17 +5,25 @@
 
   <parent>
     <groupId>cn.moonnow</groupId>
-    <artifactId>tool</artifactId>
+    <artifactId>sign</artifactId>
     <version>9.9.6.ICU</version>
   </parent>
 
-  <artifactId>tool-entity</artifactId>
-  <packaging>jar</packaging>
+  <artifactId>sign-rely</artifactId>
+  <packaging>pom</packaging>
 
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>tool-util</artifactId>
+      <artifactId>sign-persistent</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>sign-service</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>sign-rest</artifactId>
     </dependency>
   </dependencies>
 

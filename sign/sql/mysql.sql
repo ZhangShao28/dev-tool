@@ -4,24 +4,29 @@ drop table if exists PRO_ACCOUNT_GRP_NEXUS;
 drop table if exists PRO_USR_GRP_NEXUS;
 drop table if exists PRO_GRP;
 drop table if exists PRO_ACCOUNT;
-drop table if exists PRO_USR;
+drop table if exists DEV_USR;
 /*==============================================================*/
-/* Name:<用户> Table: PRO_USR                                   */
+/* Name:<用户> Table: DEV_USR                                   */
 /*==============================================================*/
 /*
-mysqldump -hlocalhost -P3306 -uroot -pmoonnow -d cs PRO_USR > PRO_USR.sql
+mysqldump -hlocalhost -P3306 -uroot -pmoonnow -d cs DEV_USR > DEV_USR.sql
 */
-drop table if exists PRO_USR;
-create table PRO_USR (
+drop table if exists DEV_USR;
+create table DEV_USR (
   USR_ID                          varchar(36)         character set utf8 collate utf8_bin  not null comment '用户编号',
-  USR_KEY                         varchar(64)         character set utf8 collate utf8_bin  not null comment '用户标识',
-  USR_NAME                        varchar(64)         character set utf8 collate utf8_bin      null comment '用户名称',
-  GENDER                          varchar(1)          character set utf8 collate utf8_bin      null comment '性别',
-  PERMISSION_KEY                  varchar(64)         character set utf8 collate utf8_bin      null comment '权限标识',
-  REGISTER_TIMES                  bigint(20)                                                   null comment '注册时间',
-  DESCRIPTION                     varchar(255)        character set utf8 collate utf8_bin      null comment '描述',
+  USR_NO                          varchar(64)         character set utf8 collate utf8_bin  not null comment '用户序号',
+  USR_TYPE                        varchar(1)          character set utf8 collate utf8_bin  not null comment '用户类型',
+  USR_NAME                        varchar(64)         character set utf8 collate utf8_bin  not null comment '用户名称',
+
+  VERSION                         integer                                                  not null comment '版本号',
+  CREATE_ID                       varchar(36)         character set utf8 collate utf8_bin  not null comment '创建人编号',
+  CREATE_ACC                      varchar(64)         character set utf8 collate utf8_bin  not null comment '创建人账号',
+  CREATE_NAME                     varchar(64)         character set utf8 collate utf8_bin  not null comment '创建人名称',
+  MODIFY_ID                       varchar(36)         character set utf8 collate utf8_bin      null comment '修改人编号',
+  MODIFY_ACC                      varchar(64)         character set utf8 collate utf8_bin      null comment '修改人账号',
+  MODIFY_NAME                     varchar(64)         character set utf8 collate utf8_bin      null comment '修改人名称',
   primary key (USR_ID),
-  unique key (USR_KEY)
+  unique key (USR_NO)
 )ENGINE=INNODB DEFAULT CHARSET=utf8 comment '用户';
 
 /*==============================================================*/

@@ -28,7 +28,7 @@ public class UsrController extends ToolController {
   private IUsrService usrService;
 
   @GetMapping(value = { "cs" })
-  public Map<String, Object> cs() {
+  public Map<String, Object> cs() throws Exception {
     if (logger.isDebugEnabled()) {
       logger.debug("Staring call UsrController.cs ");
     }

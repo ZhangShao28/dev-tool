@@ -21,7 +21,7 @@ public class UsrServiceImpl implements IUsrService {
 
   @Override
   @org.springframework.transaction.annotation.Transactional(propagation = org.springframework.transaction.annotation.Propagation.REQUIRED, readOnly = false)
-  public void saveUsr(Usr usr) throws Exception {
+  public void saveUsr(Usr usr) {
     if (logger.isDebugEnabled()) {
       logger.debug("Staring call SignService.saveUsr ");
       logger.debug("parameter usr is : " + usr);
@@ -31,6 +31,7 @@ public class UsrServiceImpl implements IUsrService {
 //      152f36c8-5fdd-4ab5-96ba-b6e6dad8728c
 //      Usr aa = usrMapper.selectById("da8d6bca-6ac0-4278-8de3-844ac8be19f8");
 //      System.out.println(aa);
+      throw new Exception("qweqweqweqweqwe");
     } catch (Exception e) {
       if (logger.isErrorEnabled()) {
         logger.error(e.getMessage(), e);

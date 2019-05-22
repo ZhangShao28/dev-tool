@@ -31,8 +31,9 @@ public class UsrServiceImpl implements IUsrService {
 //      usrMapper.insert(usr);
 //      152f36c8-5fdd-4ab5-96ba-b6e6dad8728c
 //      Usr aa = usrMapper.selectById("da8d6bca-6ac0-4278-8de3-844ac8be19f8");
-      System.out.println();
+//      System.out.println();
 //      throw new ToolException(ToolException.E_PARAM_ERR);
+//      throw new ToolException("sadasdasd");
     } catch (Exception e) {
       if (logger.isErrorEnabled()) {
         logger.error(e.getMessage(), e);

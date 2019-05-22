@@ -1,7 +1,5 @@
 package cn.moonnow.tool.rest;
 
-import java.util.LinkedHashMap;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,14 +11,14 @@ import cn.moonnow.tool.exception.ToolException;
 public class ToolExceptionHandler {
 
   @ExceptionHandler(Exception.class)
-  public LinkedHashMap<String, Object> exceptionHandler(HttpServletRequest request, Exception e) {
-    LinkedHashMap<String, Object> r = new LinkedHashMap<String, Object>();
+  public Responses<?> exceptionHandler(HttpServletRequest request, Exception e) {
+    Responses<?> responses = new Responses<>();
     if (e instanceof ToolException) {
-      r.put("msg", ((ToolException) e).getErrMsg());
-      return r;
+      responses.setException(((ToolException) e).getErrMsg());
+      return responses;
     } else {
-      r.put("msg", ToolException.E_ERR);
-      return r;
+      responses.setException(ToolException.E_ERR);
+      return responses;
     }
   }
 

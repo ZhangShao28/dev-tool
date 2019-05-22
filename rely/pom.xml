@@ -131,6 +131,11 @@
 <!--       <groupId>org.aspectj</groupId> -->
 <!--       <artifactId>aspectjrt</artifactId> -->
 <!--     </dependency> -->
+<!--     解码 -->
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+    </dependency>
   </dependencies>
 
   <dependencyManagement>

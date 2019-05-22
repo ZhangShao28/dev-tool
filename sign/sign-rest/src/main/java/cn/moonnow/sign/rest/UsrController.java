@@ -1,8 +1,5 @@
 package cn.moonnow.sign.rest;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -14,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cn.moonnow.sign.entity.Usr;
 import cn.moonnow.sign.service.IUsrService;
+import cn.moonnow.tool.rest.Responses;
 import cn.moonnow.tool.rest.ToolController;
 import cn.moonnow.tool.util.ToolUtil;
 
@@ -28,11 +26,11 @@ public class UsrController extends ToolController {
   private IUsrService usrService;
 
   @GetMapping(value = { "cs" })
-  public Map<String, Object> cs() throws Exception {
+  public Responses<?> cs() throws Exception {
     if (logger.isDebugEnabled()) {
       logger.debug("Staring call UsrController.cs ");
     }
-    LinkedHashMap<String, Object> responses = new LinkedHashMap<String, Object>();
+    Responses<?> responses = new Responses<>();
     try {
       Usr usr = new Usr();
       usr.setUsrId(ToolUtil.getUUID());
@@ -44,7 +42,6 @@ public class UsrController extends ToolController {
       usr.setCreateAcc("1");
       usr.setCreateName("1");
       usrService.saveUsr(usr);
-      responses.put("msg", "成功");
     } catch (Exception e) {
       if (logger.isErrorEnabled()) {
         logger.error(e.getMessage(), e);

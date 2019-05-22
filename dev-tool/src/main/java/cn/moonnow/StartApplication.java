@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
-@ComponentScan(basePackages = { "cn.moonnow" })
+@ComponentScan
 @MapperScan("cn.moonnow.**.mapper")
 @EnableScheduling
 @EnableTransactionManagement

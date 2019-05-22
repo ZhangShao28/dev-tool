@@ -49,6 +49,7 @@ public class UsrController extends ToolController {
       if (logger.isErrorEnabled()) {
         logger.error(e.getMessage(), e);
       }
+      throw e;
     }
     return responses;
   }

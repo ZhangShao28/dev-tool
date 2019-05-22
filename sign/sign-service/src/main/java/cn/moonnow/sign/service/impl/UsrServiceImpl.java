@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.moonnow.sign.entity.Usr;
 import cn.moonnow.sign.mapper.UsrMapper;
 import cn.moonnow.sign.service.IUsrService;
+import cn.moonnow.tool.exception.ToolException;
 
 @Service("cn.moonnow.sign.UsrService")
 @Transactional(propagation = org.springframework.transaction.annotation.Propagation.NOT_SUPPORTED, readOnly = true, rollbackFor = java.lang.Exception.class)
@@ -21,21 +22,22 @@ public class UsrServiceImpl implements IUsrService {
 
   @Override
   @org.springframework.transaction.annotation.Transactional(propagation = org.springframework.transaction.annotation.Propagation.REQUIRED, readOnly = false)
-  public void saveUsr(Usr usr) {
+  public void saveUsr(Usr usr) throws Exception {
     if (logger.isDebugEnabled()) {
       logger.debug("Staring call SignService.saveUsr ");
       logger.debug("parameter usr is : " + usr);
     }
     try {
-      usrMapper.insert(usr);
+//      usrMapper.insert(usr);
 //      152f36c8-5fdd-4ab5-96ba-b6e6dad8728c
 //      Usr aa = usrMapper.selectById("da8d6bca-6ac0-4278-8de3-844ac8be19f8");
-//      System.out.println(aa);
-      throw new Exception("qweqweqweqweqwe");
+      System.out.println();
+//      throw new ToolException(ToolException.E_PARAM_ERR);
     } catch (Exception e) {
       if (logger.isErrorEnabled()) {
         logger.error(e.getMessage(), e);
       }
+      throw e;
     }
   }
 

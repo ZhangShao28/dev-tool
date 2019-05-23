@@ -4,12 +4,16 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.InvalidKeyException;
+import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -164,12 +168,54 @@ public final class ToolUtil {
       KeyPair keyPair = keyPairGenerator.generateKeyPair();
       RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
       RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
-      rHashMap.put("", "");
-      rHashMap.put("", "");
+      rHashMap.put("privateKey", new String(Base64.encodeBase64(privateKey.getEncoded())));
+      rHashMap.put("publicKey", new String(Base64.encodeBase64(publicKey.getEncoded())));
       return rHashMap;
-//      SecretKey secretKey = keyGenerator.generateKey();
-//      return new String(Base64.encodeBase64(secretKey.getEncoded()));
     } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public static String encodeRSAByPrivateKey(String str, String key) {
+    try {
+      Cipher cipher = Cipher.getInstance("RSA");
+      cipher.init(Cipher.ENCRYPT_MODE, (RSAPrivateKey) KeyFactory.getInstance("RSA").generatePrivate(new PKCS8EncodedKeySpec(Base64.decodeBase64(key.getBytes()))));
+      return new String(Base64.encodeBase64(cipher.doFinal(str.getBytes())));
+    } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | InvalidKeySpecException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public static String decodeRSAByPublicKey(String str, String key) {
+    try {
+      Cipher cipher = Cipher.getInstance("RSA");
+      cipher.init(Cipher.DECRYPT_MODE, (RSAPublicKey) KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(Base64.decodeBase64(key.getBytes()))));
+      return new String(cipher.doFinal(Base64.decodeBase64(str.getBytes())));
+    } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | InvalidKeySpecException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public static String encodeRSAByPublicKey(String str, String key) {
+    try {
+      Cipher cipher = Cipher.getInstance("RSA");
+      cipher.init(Cipher.ENCRYPT_MODE, (RSAPublicKey) KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(Base64.decodeBase64(key.getBytes()))));
+      return new String(Base64.encodeBase64(cipher.doFinal(str.getBytes())));
+    } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | InvalidKeySpecException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public static String decodeRSAByPrivateKey(String str, String key) {
+    try {
+      Cipher cipher = Cipher.getInstance("RSA");
+      cipher.init(Cipher.DECRYPT_MODE, (RSAPrivateKey) KeyFactory.getInstance("RSA").generatePrivate(new PKCS8EncodedKeySpec(Base64.decodeBase64(key.getBytes()))));
+      return new String(cipher.doFinal(Base64.decodeBase64(str.getBytes())));
+    } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | InvalidKeySpecException e) {
       e.printStackTrace();
       return null;
     }

@@ -3,11 +3,29 @@ package cn.moonnow.tool.util;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.security.InvalidKeyException;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.UUID;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+
+import org.apache.commons.codec.binary.Base64;
 
 public final class ToolUtil {
 
@@ -86,6 +104,75 @@ public final class ToolUtil {
       e.printStackTrace();
     }
     return true;
+  }
+
+  public static String encodeBase64(String str) {
+    return new String(Base64.encodeBase64(str.getBytes()));
+  }
+
+  public static String decodeBase64(String str) {
+    return new String(Base64.decodeBase64(str.getBytes()));
+  }
+
+  public static String getAESKey(String str) {
+    try {
+      KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
+      if (isNullStr(str)) {
+        keyGenerator.init(128);
+      } else {
+        keyGenerator.init(128, new SecureRandom(str.getBytes()));
+      }
+      SecretKey secretKey = keyGenerator.generateKey();
+      return new String(Base64.encodeBase64(secretKey.getEncoded()));
+    } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public static String encodeAES(String str, String key) {
+    try {
+      Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+      cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(Base64.decodeBase64(key.getBytes()), "AES"));
+      return new String(Base64.encodeBase64(cipher.doFinal(str.getBytes())));
+    } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public static String decodeAES(String str, String key) {
+    try {
+      Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+      cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(Base64.decodeBase64(key.getBytes()), "AES"));
+      return new String(cipher.doFinal(Base64.decodeBase64(str.getBytes())));
+    } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public static LinkedHashMap<String, String> getRSAKey(String str) {
+    try {
+      LinkedHashMap<String, String> rHashMap = new LinkedHashMap<String, String>();
+      KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+      if (isNullStr(str)) {
+        keyPairGenerator.initialize(4096, new SecureRandom());
+      } else {
+        keyPairGenerator.initialize(4096, new SecureRandom(str.getBytes()));
+      }
+      KeyPair keyPair = keyPairGenerator.generateKeyPair();
+      RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
+      RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+      rHashMap.put("", "");
+      rHashMap.put("", "");
+      return rHashMap;
+//      SecretKey secretKey = keyGenerator.generateKey();
+//      return new String(Base64.encodeBase64(secretKey.getEncoded()));
+    } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
+      return null;
+    }
   }
 
 }

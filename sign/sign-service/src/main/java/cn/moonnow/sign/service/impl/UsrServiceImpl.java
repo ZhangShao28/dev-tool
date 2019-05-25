@@ -1,7 +1,5 @@
 package cn.moonnow.sign.service.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,13 +7,12 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.moonnow.sign.entity.Usr;
 import cn.moonnow.sign.mapper.UsrMapper;
 import cn.moonnow.sign.service.IUsrService;
-import cn.moonnow.tool.exception.ToolException;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 @Service("cn.moonnow.sign.UsrService")
 @Transactional(propagation = org.springframework.transaction.annotation.Propagation.NOT_SUPPORTED, readOnly = true, rollbackFor = java.lang.Exception.class)
 public class UsrServiceImpl implements IUsrService {
-
-  private static final Logger logger = LoggerFactory.getLogger(UsrServiceImpl.class);
 
   @Autowired
   private UsrMapper usrMapper;
@@ -23,9 +20,9 @@ public class UsrServiceImpl implements IUsrService {
   @Override
   @org.springframework.transaction.annotation.Transactional(propagation = org.springframework.transaction.annotation.Propagation.REQUIRED, readOnly = false)
   public void saveUsr(Usr usr) throws Exception {
-    if (logger.isDebugEnabled()) {
-      logger.debug("Staring call SignService.saveUsr ");
-      logger.debug("parameter usr is : " + usr);
+    if (log.isDebugEnabled()) {
+      log.debug("Staring call SignService.saveUsr ");
+      log.debug("parameter usr is : " + usr);
     }
     try {
 //      usrMapper.insert(usr);
@@ -35,8 +32,8 @@ public class UsrServiceImpl implements IUsrService {
 //      throw new ToolException(ToolException.E_PARAM_ERR);
 //      throw new ToolException("sadasdasd");
     } catch (Exception e) {
-      if (logger.isErrorEnabled()) {
-        logger.error(e.getMessage(), e);
+      if (log.isErrorEnabled()) {
+        log.error(e.getMessage(), e);
       }
       throw e;
     }

@@ -1,5 +1,9 @@
 package cn.moonnow.tool.util;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -219,6 +223,28 @@ public final class ToolUtil {
       e.printStackTrace();
       return null;
     }
+  }
+
+  public static String getStrFromInputStream(InputStream inputStream) {
+    StringBuilder str1 = new StringBuilder();
+    String str2 = null;
+    BufferedReader reader = null;
+    try {
+      reader = new BufferedReader(new InputStreamReader(inputStream));
+      while ((str2 = reader.readLine()) != null) {
+        str1.append(str2).append("\n");
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    } finally {
+      if (reader != null) {
+        try {
+          reader.close();
+        } catch (IOException e1) {
+        }
+      }
+    }
+    return str1.toString();
   }
 
 }

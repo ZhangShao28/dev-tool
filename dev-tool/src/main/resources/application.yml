@@ -33,4 +33,6 @@ mybatis:
 
 proconfig:
   cookies-times-effect: 1800000
-  is-open-authorization-interceptor: true
+  authorization-interceptor: true
+  http-request-body-decode: true
+  http-response-body-encode: true

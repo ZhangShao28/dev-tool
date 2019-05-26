@@ -25,11 +25,11 @@ logging:
     root: DEBUG
     # root: INFO
 
-mybatis:
+
+mybatis-plus:
   mapper-locations: classpath*:cn/moonnow/**/mapping/*.xml
-  type-aliases-package: cn.moonnow.**.entity
   configuration:
-    map-underscore-to-camel-case: true
+    jdbc-type-for-null: NULL
 
 proconfig:
   cookies-times-effect: 1800000

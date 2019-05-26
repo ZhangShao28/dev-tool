@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -13,6 +14,7 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.security.Security;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
@@ -34,6 +36,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 public final class ToolUtil {
 
@@ -114,12 +117,12 @@ public final class ToolUtil {
     return true;
   }
 
-  public static String encodeBase64(String str) {
-    return new String(Base64.encodeBase64(str.getBytes()));
+  public static String encodeBase64(String str) throws UnsupportedEncodingException {
+    return new String(Base64.encodeBase64(str.getBytes("UTF-8")));
   }
 
-  public static String decodeBase64(String str) {
-    return new String(Base64.decodeBase64(str.getBytes()));
+  public static String decodeBase64(String str) throws UnsupportedEncodingException {
+    return new String(Base64.decodeBase64(str.getBytes("UTF-8")));
   }
 
   public static String getAESKey(String str) {
@@ -128,11 +131,11 @@ public final class ToolUtil {
       if (isNullStr(str)) {
         keyGenerator.init(128);
       } else {
-        keyGenerator.init(128, new SecureRandom(str.getBytes()));
+        keyGenerator.init(128, new SecureRandom(str.getBytes("UTF-8")));
       }
       SecretKey secretKey = keyGenerator.generateKey();
-      return new String(Base64.encodeBase64(secretKey.getEncoded()));
-    } catch (NoSuchAlgorithmException e) {
+      return new String(Base64.encodeBase64(secretKey.getEncoded()), "UTF-8");
+    } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
       e.printStackTrace();
       return null;
     }
@@ -140,10 +143,11 @@ public final class ToolUtil {
 
   public static String encodeAES(String str, String key) {
     try {
-      Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-      cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(Base64.decodeBase64(key.getBytes()), "AES"));
-      return new String(Base64.encodeBase64(cipher.doFinal(str.getBytes())));
-    } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
+      Security.addProvider(new BouncyCastleProvider());
+      Cipher cipher = Cipher.getInstance("AES/ECB/PKCS7Padding");
+      cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(Base64.decodeBase64(key.getBytes("UTF-8")), "AES"));
+      return new String(Base64.encodeBase64(cipher.doFinal(str.getBytes("UTF-8"))), "UTF-8");
+    } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | UnsupportedEncodingException e) {
       e.printStackTrace();
       return null;
     }
@@ -151,10 +155,11 @@ public final class ToolUtil {
 
   public static String decodeAES(String str, String key) {
     try {
-      Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-      cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(Base64.decodeBase64(key.getBytes()), "AES"));
-      return new String(cipher.doFinal(Base64.decodeBase64(str.getBytes())));
-    } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
+      Security.addProvider(new BouncyCastleProvider());
+      Cipher cipher = Cipher.getInstance("AES/ECB/PKCS7Padding");
+      cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(Base64.decodeBase64(key.getBytes("UTF-8")), "AES"));
+      return new String(cipher.doFinal(Base64.decodeBase64(str.getBytes("UTF-8"))), "UTF-8");
+    } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | UnsupportedEncodingException e) {
       e.printStackTrace();
       return null;
     }
@@ -167,15 +172,15 @@ public final class ToolUtil {
       if (isNullStr(str)) {
         keyPairGenerator.initialize(4096, new SecureRandom());
       } else {
-        keyPairGenerator.initialize(4096, new SecureRandom(str.getBytes()));
+        keyPairGenerator.initialize(4096, new SecureRandom(str.getBytes("UTF-8")));
       }
       KeyPair keyPair = keyPairGenerator.generateKeyPair();
       RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
       RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
-      rHashMap.put("privateKey", new String(Base64.encodeBase64(privateKey.getEncoded())));
-      rHashMap.put("publicKey", new String(Base64.encodeBase64(publicKey.getEncoded())));
+      rHashMap.put("privateKey", new String(Base64.encodeBase64(privateKey.getEncoded()), "UTF-8"));
+      rHashMap.put("publicKey", new String(Base64.encodeBase64(publicKey.getEncoded()), "UTF-8"));
       return rHashMap;
-    } catch (NoSuchAlgorithmException e) {
+    } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
       e.printStackTrace();
       return null;
     }
@@ -184,9 +189,9 @@ public final class ToolUtil {
   public static String encodeRSAByPrivateKey(String str, String key) {
     try {
       Cipher cipher = Cipher.getInstance("RSA");
-      cipher.init(Cipher.ENCRYPT_MODE, (RSAPrivateKey) KeyFactory.getInstance("RSA").generatePrivate(new PKCS8EncodedKeySpec(Base64.decodeBase64(key.getBytes()))));
-      return new String(Base64.encodeBase64(cipher.doFinal(str.getBytes())));
-    } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | InvalidKeySpecException e) {
+      cipher.init(Cipher.ENCRYPT_MODE, (RSAPrivateKey) KeyFactory.getInstance("RSA").generatePrivate(new PKCS8EncodedKeySpec(Base64.decodeBase64(key.getBytes("UTF-8")))));
+      return new String(Base64.encodeBase64(cipher.doFinal(str.getBytes("UTF-8"))), "UTF-8");
+    } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | InvalidKeySpecException | UnsupportedEncodingException e) {
       e.printStackTrace();
       return null;
     }
@@ -195,9 +200,9 @@ public final class ToolUtil {
   public static String decodeRSAByPublicKey(String str, String key) {
     try {
       Cipher cipher = Cipher.getInstance("RSA");
-      cipher.init(Cipher.DECRYPT_MODE, (RSAPublicKey) KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(Base64.decodeBase64(key.getBytes()))));
-      return new String(cipher.doFinal(Base64.decodeBase64(str.getBytes())));
-    } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | InvalidKeySpecException e) {
+      cipher.init(Cipher.DECRYPT_MODE, (RSAPublicKey) KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(Base64.decodeBase64(key.getBytes("UTF-8")))));
+      return new String(cipher.doFinal(Base64.decodeBase64(str.getBytes("UTF-8"))), "UTF-8");
+    } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | InvalidKeySpecException | UnsupportedEncodingException e) {
       e.printStackTrace();
       return null;
     }
@@ -206,9 +211,9 @@ public final class ToolUtil {
   public static String encodeRSAByPublicKey(String str, String key) {
     try {
       Cipher cipher = Cipher.getInstance("RSA");
-      cipher.init(Cipher.ENCRYPT_MODE, (RSAPublicKey) KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(Base64.decodeBase64(key.getBytes()))));
-      return new String(Base64.encodeBase64(cipher.doFinal(str.getBytes())));
-    } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | InvalidKeySpecException e) {
+      cipher.init(Cipher.ENCRYPT_MODE, (RSAPublicKey) KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(Base64.decodeBase64(key.getBytes("UTF-8")))));
+      return new String(Base64.encodeBase64(cipher.doFinal(str.getBytes("UTF-8"))), "UTF-8");
+    } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | InvalidKeySpecException | UnsupportedEncodingException e) {
       e.printStackTrace();
       return null;
     }
@@ -217,9 +222,9 @@ public final class ToolUtil {
   public static String decodeRSAByPrivateKey(String str, String key) {
     try {
       Cipher cipher = Cipher.getInstance("RSA");
-      cipher.init(Cipher.DECRYPT_MODE, (RSAPrivateKey) KeyFactory.getInstance("RSA").generatePrivate(new PKCS8EncodedKeySpec(Base64.decodeBase64(key.getBytes()))));
-      return new String(cipher.doFinal(Base64.decodeBase64(str.getBytes())));
-    } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | InvalidKeySpecException e) {
+      cipher.init(Cipher.DECRYPT_MODE, (RSAPrivateKey) KeyFactory.getInstance("RSA").generatePrivate(new PKCS8EncodedKeySpec(Base64.decodeBase64(key.getBytes("UTF-8")))));
+      return new String(cipher.doFinal(Base64.decodeBase64(str.getBytes("UTF-8"))), "UTF-8");
+    } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | InvalidKeySpecException | UnsupportedEncodingException e) {
       e.printStackTrace();
       return null;
     }

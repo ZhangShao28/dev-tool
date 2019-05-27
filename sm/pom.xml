@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>cn.moonnow</groupId>
+    <artifactId>rely</artifactId>
+    <version>9.9.6.ICU</version>
+  </parent>
+
+  <artifactId>sm</artifactId>
+  <packaging>jar</packaging>
+<!--   <packaging>war</packaging> -->
+
+  <dependencies>
+<!--     登录模块 -->
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>sign-rely</artifactId>
+      <version>${project.version}</version>
+      <type>pom</type>
+    </dependency>
+<!--     数据字典 -->
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>dict-rely</artifactId>
+      <version>${project.version}</version>
+      <type>pom</type>
+    </dependency>
+  </dependencies>
+
+  <build>
+<!--     war部署 需要指定项目名称 -->
+<!--     <finalName>sm</finalName> -->
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

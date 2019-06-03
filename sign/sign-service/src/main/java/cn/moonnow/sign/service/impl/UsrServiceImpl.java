@@ -4,7 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+import cn.moonnow.sign.entity.DataDict;
 import cn.moonnow.sign.entity.Usr;
+import cn.moonnow.sign.mapper.DataDictMapper;
 import cn.moonnow.sign.mapper.UsrMapper;
 import cn.moonnow.sign.service.IUsrService;
 import lombok.extern.log4j.Log4j2;
@@ -16,6 +22,9 @@ public class UsrServiceImpl implements IUsrService {
 
   @Autowired
   private UsrMapper usrMapper;
+  
+  @Autowired
+  private DataDictMapper dataDictMapper;
 
   @Override
   @org.springframework.transaction.annotation.Transactional(propagation = org.springframework.transaction.annotation.Propagation.REQUIRED, readOnly = false)
@@ -31,6 +40,10 @@ public class UsrServiceImpl implements IUsrService {
 //      System.out.println();
 //      throw new ToolException(ToolException.E_PARAM_ERR);
 //      throw new ToolException("sadasdasd");
+      System.out.println(System.currentTimeMillis());
+      IPage<DataDict> iPage = dataDictMapper.selectPage(new Page<>(90000,10), new QueryWrapper<DataDict>().orderByAsc("WEIGHT_ORDER"));
+      System.out.println(System.currentTimeMillis());
+      System.out.println(iPage.toString());
     } catch (Exception e) {
       if (log.isErrorEnabled()) {
         log.error(e.getMessage(), e);

@@ -38,46 +38,170 @@ import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.binary.Base64;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
+/**
+ * 工具类
+ */
 public final class ToolUtil {
 
-  // 判断是否是空字符串
-  // 字符串是null或空字符串或全空格字符串 返回true
-  // 返回true是无效字符串 反之返回false
+  /**
+   * 自定义条件查询 并且 等于
+   */
+  public static final String AND_EQ = "Andeq";
+
+  /**
+   * 自定义条件查询 并且 包含
+   */
+  public static final String AND_LIKE = "Andlike";
+
+  /**
+   * 自定义条件查询 并且 在列表
+   */
+  public static final String AND_IN = "Andin";
+
+  /**
+   * 自定义条件查询 并且 不等于
+   */
+  public static final String AND_NE = "Andne";
+
+  /**
+   * 自定义条件查询 并且 不在列表
+   */
+  public static final String AND_NIN = "Andnin";
+
+  /**
+   * 自定义条件查询 并且 大于
+   */
+  public static final String AND_G = "Andg";
+
+  /**
+   * 自定义条件查询 并且 小于
+   */
+  public static final String AND_L = "Andl";
+
+  /**
+   * 自定义条件查询 并且 大于等于
+   */
+  public static final String AND_GE = "Andge";
+
+  /**
+   * 自定义条件查询 并且 小于等于
+   */
+  public static final String AND_LE = "Andle";
+
+  /**
+   * 自定义条件查询 或 等于
+   */
+  public static final String OR_EQ = "Oreq";
+
+  /**
+   * 自定义条件查询 或 包含
+   */
+  public static final String OR_LIKE = "Orlike";
+
+  /**
+   * 自定义条件查询 或 在列表
+   */
+  public static final String OR_IN = "Orin";
+
+  /**
+   * 自定义条件查询 或 不等于
+   */
+  public static final String OR_NE = "Orne";
+
+  /**
+   * 自定义条件查询 或 不在列表
+   */
+  public static final String OR_NIN = "Ornin";
+
+  /**
+   * 自定义条件查询 或 大于
+   */
+  public static final String OR_G = "Org";
+
+  /**
+   * 自定义条件查询 或 小于
+   */
+  public static final String OR_L = "Orl";
+
+  /**
+   * 自定义条件查询 或 大于等于
+   */
+  public static final String OR_GE = "Orge";
+
+  /**
+   * 自定义条件查询 或 小于等于
+   */
+  public static final String OR_LE = "Orle";
+
+  /**
+   * 自定义条件查询(搜索专用) 并且 包含
+   */
+  public static final String AND_KEY_LIKE = "AndKeyLike";
+
+  /**
+   * 自定义条件查询(搜索专用) 或 包含
+   */
+  public static final String OR_KEY_LIKE = "OrKeyLike";
+
+  /**
+   * 字符串是null或空字符串或全空格字符串 返回true
+   */
   public static boolean isNullStr(String str) {
     return str == null ? true : (str.trim().length() == 0 ? true : false);
   }
 
+  /**
+   * 字符串非null或空字符串或全空格字符串 返回true
+   */
   public static boolean isNotNullStr(String str) {
     return str != null && str.trim().length() != 0;
   }
 
+  /**
+   * 36位uuid
+   */
   public static String getUUID() {
     return UUID.randomUUID().toString();
   }
 
+  /**
+   * 32位uuid
+   */
   public static String getUUID32() {
     return UUID.randomUUID().toString().replaceAll("-", "");
   }
 
+  /**
+   * 集合非null或空集合 返回true
+   */
   public static boolean isNotEmpty(Collection<?> arg) {
     return arg != null && (!arg.isEmpty());
   }
 
+  /**
+   * 集合是null或空集合 返回true
+   */
   public static boolean isEmpty(Collection<?> arg) {
     return arg == null ? true : arg.isEmpty();
   }
 
+  /**
+   * Map非null或空Map 返回true
+   */
   public static boolean isNotEmpty(Map<?, ? extends Object> map) {
     return map != null && (!map.isEmpty());
   }
 
+  /**
+   * Map是null或空Map 返回true
+   */
   public static boolean isEmpty(Map<?, ? extends Object> map) {
     return map == null ? true : map.isEmpty();
   }
 
-  // 传入目标对象
-  // 判断目标对象的成员变量值是否都为空
-  // 都为空返回true 否则返回false
+  /**
+   * 对象的成员变量值都是null 返回true
+   */
   public static boolean isNullEntityAllFieldValue(Object o) {
     try {
       // 取得目标对象的字段集合以及方法集合
@@ -117,14 +241,23 @@ public final class ToolUtil {
     return true;
   }
 
+  /**
+   * Base64加密
+   */
   public static String encodeBase64(String str) throws UnsupportedEncodingException {
     return new String(Base64.encodeBase64(str.getBytes("UTF-8")));
   }
 
+  /**
+   * Base64解密
+   */
   public static String decodeBase64(String str) throws UnsupportedEncodingException {
     return new String(Base64.decodeBase64(str.getBytes("UTF-8")));
   }
 
+  /**
+   * AES密钥
+   */
   public static String getAESKey(String str) {
     try {
       KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
@@ -141,6 +274,9 @@ public final class ToolUtil {
     }
   }
 
+  /**
+   * AES加密
+   */
   public static String encodeAES(String str, String key) {
     try {
       Security.addProvider(new BouncyCastleProvider());
@@ -153,6 +289,9 @@ public final class ToolUtil {
     }
   }
 
+  /**
+   * AES解密
+   */
   public static String decodeAES(String str, String key) {
     try {
       Security.addProvider(new BouncyCastleProvider());
@@ -165,6 +304,9 @@ public final class ToolUtil {
     }
   }
 
+  /**
+   * RSA密钥
+   */
   public static LinkedHashMap<String, String> getRSAKey(String str) {
     try {
       LinkedHashMap<String, String> rHashMap = new LinkedHashMap<String, String>();
@@ -186,6 +328,9 @@ public final class ToolUtil {
     }
   }
 
+  /**
+   * RSA私钥加密
+   */
   public static String encodeRSAByPrivateKey(String str, String key) {
     try {
       Cipher cipher = Cipher.getInstance("RSA");
@@ -197,6 +342,9 @@ public final class ToolUtil {
     }
   }
 
+  /**
+   * RSA公钥解密
+   */
   public static String decodeRSAByPublicKey(String str, String key) {
     try {
       Cipher cipher = Cipher.getInstance("RSA");
@@ -208,6 +356,9 @@ public final class ToolUtil {
     }
   }
 
+  /**
+   * RSA公钥加密
+   */
   public static String encodeRSAByPublicKey(String str, String key) {
     try {
       Cipher cipher = Cipher.getInstance("RSA");
@@ -219,6 +370,9 @@ public final class ToolUtil {
     }
   }
 
+  /**
+   * RSA私钥解密
+   */
   public static String decodeRSAByPrivateKey(String str, String key) {
     try {
       Cipher cipher = Cipher.getInstance("RSA");
@@ -230,6 +384,9 @@ public final class ToolUtil {
     }
   }
 
+  /**
+   * 字节输入流转字符串
+   */
   public static String getStrFromInputStream(InputStream inputStream) {
     StringBuilder str1 = new StringBuilder();
     String str2 = null;

@@ -9,6 +9,10 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
+import com.google.gson.Gson;
+
+import cn.moonnow.tool.util.ToolUtil;
+
 @RestControllerAdvice
 @ConditionalOnProperty(prefix = "proconfig", name = "http-response-body-encode", havingValue = "true")
 public class EncodeResponseBodyAdvice implements ResponseBodyAdvice<Object> {
@@ -20,7 +24,8 @@ public class EncodeResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
   @Override
   public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-//    return "qwert";
+//    String encodeBodyStr = new Gson().toJson(body);
+//    return ToolUtil.encodeAES(encodeBodyStr, ToolUtil.AES_KEY);
     return body;
   }
 

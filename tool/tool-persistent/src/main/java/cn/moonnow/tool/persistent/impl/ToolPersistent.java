@@ -1,9 +1,10 @@
-package cn.moonnow.tool.persistent.implement;
+package cn.moonnow.tool.persistent.impl;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -20,6 +21,11 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 
+import cn.moonnow.tool.entity.Columns;
+import cn.moonnow.tool.entity.Dt;
+import cn.moonnow.tool.entity.Pk;
+import cn.moonnow.tool.entity.Sort;
+import cn.moonnow.tool.entity.VirtualColumns;
 import cn.moonnow.tool.util.Paging;
 import cn.moonnow.tool.util.ToolUtil;
 import lombok.extern.log4j.Log4j2;
@@ -29,6 +35,8 @@ import lombok.extern.log4j.Log4j2;
  */
 @Log4j2
 public abstract class ToolPersistent {
+
+  public static final String LOG = "ToolPersistent";
 
   protected JdbcTemplate jdbcTemplate;
 
@@ -51,10 +59,10 @@ public abstract class ToolPersistent {
 
   protected static final StringBuilder getInsertSql(String tableName, Set<String> columns, Map<String, String> columnsParameter) {
     if (log.isDebugEnabled()) {
-      log.debug("Staring call ToolPersistent.getInsertSql .");
-      log.debug("parameter tableName is : " + tableName);
-      log.debug("parameter columns is : " + columns);
-      log.debug("parameter columnsParameter is : " + columnsParameter);
+      log.debug(ToolUtil.getLog(LOG));
+      log.debug(ToolUtil.LOG + tableName);
+      log.debug(ToolUtil.LOG + columns);
+      log.debug(ToolUtil.LOG + columnsParameter);
     }
     StringBuilder sql = new StringBuilder("INSERT INTO ").append(tableName).append(" ( ");
     StringBuilder value = new StringBuilder();
@@ -80,11 +88,11 @@ public abstract class ToolPersistent {
 
   protected static final StringBuilder getUpdateSql(String tableName, Set<String> columns, Map<String, String> columnsParameter, Set<String> primaryKey) {
     if (log.isDebugEnabled()) {
-      log.debug("Staring call ToolPersistent.getUpdateSql .");
-      log.debug("parameter tableName is : " + tableName);
-      log.debug("parameter columns is : " + columns);
-      log.debug("parameter columnsParameter is : " + columnsParameter);
-      log.debug("parameter primaryKey is : " + primaryKey);
+      log.debug(ToolUtil.getLog(LOG));
+      log.debug(ToolUtil.LOG + tableName);
+      log.debug(ToolUtil.LOG + columns);
+      log.debug(ToolUtil.LOG + columnsParameter);
+      log.debug(ToolUtil.LOG + primaryKey);
     }
     StringBuilder sql = new StringBuilder("UPDATE ").append(tableName).append(" SET ");
     boolean isFirst = true;
@@ -116,10 +124,10 @@ public abstract class ToolPersistent {
 
   protected static final StringBuilder getDelSql(String tableName, Map<String, String> columnsParameter, Set<String> primaryKey) {
     if (log.isDebugEnabled()) {
-      log.debug("Staring call ToolPersistent.getDelSql. ");
-      log.debug("parameter tableName is : " + tableName);
-      log.debug("parameter columnsParameter is : " + columnsParameter);
-      log.debug("parameter primaryKey is : " + primaryKey);
+      log.debug(ToolUtil.getLog(LOG));
+      log.debug(ToolUtil.LOG + tableName);
+      log.debug(ToolUtil.LOG + columnsParameter);
+      log.debug(ToolUtil.LOG + primaryKey);
     }
     StringBuilder sql = new StringBuilder("DELETE FROM ").append(tableName).append(" WHERE ");
     boolean isFirst = true;
@@ -153,13 +161,13 @@ public abstract class ToolPersistent {
 
   protected static final StringBuilder getSelectSql(String tableName, Set<String> columns, Map<String, String> columnsParameter, Set<String> virtualColumns, Set<String> primaryKey, String alias) {
     if (log.isDebugEnabled()) {
-      log.debug("Staring call ToolPersistent.getSelectSql.");
-      log.debug("parameter tableName is : " + tableName);
-      log.debug("parameter columns is : " + columns);
-      log.debug("parameter columnsParameter is : " + columnsParameter);
-      log.debug("parameter virtualColumns is : " + virtualColumns);
-      log.debug("parameter primaryKey is : " + primaryKey);
-      log.debug("parameter alias is : " + alias);
+      log.debug(ToolUtil.getLog(LOG));
+      log.debug(ToolUtil.LOG + tableName);
+      log.debug(ToolUtil.LOG + columns);
+      log.debug(ToolUtil.LOG + columnsParameter);
+      log.debug(ToolUtil.LOG + virtualColumns);
+      log.debug(ToolUtil.LOG + primaryKey);
+      log.debug(ToolUtil.LOG + alias);
     }
     StringBuilder sql = new StringBuilder("SELECT ");
     boolean isFirst = true;
@@ -220,11 +228,11 @@ public abstract class ToolPersistent {
 
   protected static final StringBuilder getCountSql(String tableName, Map<String, String> columnsParameter, Set<String> primaryKey, String alias) {
     if (log.isDebugEnabled()) {
-      log.debug("Staring call ToolPersistent.getCountSql.");
-      log.debug("parameter tableName is : " + tableName);
-      log.debug("parameter columnsParameter is : " + columnsParameter);
-      log.debug("parameter primaryKey is : " + primaryKey);
-      log.debug("parameter alias is : " + alias);
+      log.debug(ToolUtil.getLog(LOG));
+      log.debug(ToolUtil.LOG + tableName);
+      log.debug(ToolUtil.LOG + columnsParameter);
+      log.debug(ToolUtil.LOG + primaryKey);
+      log.debug(ToolUtil.LOG + alias);
     }
     StringBuilder sql = new StringBuilder("SELECT ");
     if (ToolUtil.isNotEmpty(primaryKey) && primaryKey.size() == 1) {
@@ -264,10 +272,10 @@ public abstract class ToolPersistent {
 
   protected StringBuilder getSortSql(Map<String, String> sort, Map<String, String> columnsParameter, String alias) {
     if (log.isDebugEnabled()) {
-      log.debug("Staring call ToolPersistent.getSortSql .");
-      log.debug("parameter sort is : " + sort);
-      log.debug("parameter columnsParameter is : " + columnsParameter);
-      log.debug("parameter alias is : " + alias);
+      log.debug(ToolUtil.getLog(LOG));
+      log.debug(ToolUtil.LOG + sort);
+      log.debug(ToolUtil.LOG + columnsParameter);
+      log.debug(ToolUtil.LOG + alias);
     }
     if (ToolUtil.isEmpty(sort)) {
       return new StringBuilder("");
@@ -293,11 +301,11 @@ public abstract class ToolPersistent {
 
   protected <T extends Serializable> StringBuilder getQuerySql(Set<String> columns, Map<String, String> columnsParameter, String alias, T o) {
     if (log.isDebugEnabled()) {
-      log.debug("Staring call ToolPersistent.getQuerySql .");
-      log.debug("parameter columns is : " + columns);
-      log.debug("parameter columnsParameter is : " + columnsParameter);
-      log.debug("parameter alias is : " + alias);
-      log.debug("parameter o is : " + o);
+      log.debug(ToolUtil.getLog(LOG));
+      log.debug(ToolUtil.LOG + columns);
+      log.debug(ToolUtil.LOG + columnsParameter);
+      log.debug(ToolUtil.LOG + alias);
+      log.debug(ToolUtil.LOG + o);
     }
     StringBuilder sql = new StringBuilder();
     try {
@@ -490,11 +498,11 @@ public abstract class ToolPersistent {
 
   protected StringBuilder getPagingSql(String tableName, Map<String, String> columnsParameter, Set<String> primaryKey, String alias) {
     if (log.isDebugEnabled()) {
-      log.debug("Staring call ToolPersistent.getPagingSql .");
-      log.debug("parameter tableName is : " + tableName);
-      log.debug("parameter columnsParameter is : " + columnsParameter);
-      log.debug("parameter primaryKey is : " + primaryKey);
-      log.debug("parameter alias is : " + alias);
+      log.debug(ToolUtil.getLog(LOG));
+      log.debug(ToolUtil.LOG + tableName);
+      log.debug(ToolUtil.LOG + columnsParameter);
+      log.debug(ToolUtil.LOG + primaryKey);
+      log.debug(ToolUtil.LOG + alias);
     }
     StringBuilder sql = new StringBuilder("SELECT ");
     if (MYSQL.equals(dataBaseType)) {
@@ -599,11 +607,11 @@ public abstract class ToolPersistent {
 
   protected <T> StringBuilder getPagingSql(Map<String, String> sort, Map<String, String> columnsParameter, String alias, Paging<T> paging) {
     if (log.isDebugEnabled()) {
-      log.debug("Staring call ToolPersistent.getPagingSql .");
-      log.debug("parameter sort is : " + sort);
-      log.debug("parameter columnsParameter is : " + columnsParameter);
-      log.debug("parameter alias is : " + alias);
-      log.debug("parameter paging is : " + paging);
+      log.debug(ToolUtil.getLog(LOG));
+      log.debug(ToolUtil.LOG + sort);
+      log.debug(ToolUtil.LOG + columnsParameter);
+      log.debug(ToolUtil.LOG + alias);
+      log.debug(ToolUtil.LOG + paging);
     }
     StringBuilder sql = new StringBuilder();
     if (MYSQL.equals(dataBaseType)) {
@@ -626,10 +634,10 @@ public abstract class ToolPersistent {
 
   protected StringBuilder getByPkSql(Map<String, String> columnsParameter, Set<String> primaryKey, String alias) {
     if (log.isDebugEnabled()) {
-      log.debug("Staring call ToolPersistent.getByPkSql.");
-      log.debug("parameter columnsParameter is : " + columnsParameter);
-      log.debug("parameter primaryKey is : " + primaryKey);
-      log.debug("parameter alias is : " + alias);
+      log.debug(ToolUtil.getLog(LOG));
+      log.debug(ToolUtil.LOG + columnsParameter);
+      log.debug(ToolUtil.LOG + primaryKey);
+      log.debug(ToolUtil.LOG + alias);
     }
     StringBuilder sql = new StringBuilder(" AND ");
     boolean isFirst = true;
@@ -684,7 +692,7 @@ public abstract class ToolPersistent {
     return this.namedParameterJdbcTemplate.query(querySql.toString(), new MapSqlParameterSource(), BeanPropertyRowMapper.newInstance(entityClass));
   }
 
-  protected <T extends Serializable, R extends Serializable> Collection<R> query(StringBuilder querySql, Class<R> entityClass, T o) {
+  protected <T extends Serializable, R extends Serializable> Collection<R> query(StringBuilder querySql, T o, Class<R> entityClass) {
     return this.namedParameterJdbcTemplate.query(querySql.toString(), new BeanPropertySqlParameterSource(o), BeanPropertyRowMapper.newInstance(entityClass));
   }
 
@@ -700,72 +708,72 @@ public abstract class ToolPersistent {
     return this.namedParameterJdbcTemplate.queryForObject(querySql.toString(), new MapSqlParameterSource(), longClass);
   }
 
-//  protected void init(String tableName, Set<String> primaryKey, Set<String> columns, Map<String, String> columnsParameter, Set<String> virtualColumns, Map<String, String> sort) {
-//    if (log.isDebugEnabled()) {
-//      log.debug("Staring call ToolPersistent.init .");
-//      log.debug("parameter tableName is : " + tableName);
-//      log.debug("parameter primaryKey is : " + primaryKey);
-//      log.debug("parameter columns is : " + columns);
-//      log.debug("parameter columnsParameter is : " + columnsParameter);
-//      log.debug("parameter virtualColumns is : " + virtualColumns);
-//      log.debug("parameter sort is : " + sort);
-//    }
-//    if (ToolUtil.isNotNullStr(tableName)) {
-//      MapSqlParameterSource dtMapSqlParameterSource = new MapSqlParameterSource();
-//      dtMapSqlParameterSource.addValue("dtName", tableName);
-//      Collection<Dt> dtSet = this.namedParameterJdbcTemplate.query("SELECT * FROM PRO_DT dt WHERE dt.DT_ID IS NOT NULL AND dt.DT_NAME = :dtName", dtMapSqlParameterSource, BeanPropertyRowMapper.newInstance(Dt.class));
-//      if (ToolUtil.isNotEmpty(dtSet)) {
-//        Dt dt = dtSet.iterator().next();
-//        MapSqlParameterSource pkMapSqlParameterSource = new MapSqlParameterSource();
-//        pkMapSqlParameterSource.addValue("dtId", dt.getDtId());
-//        Collection<Pk> pkSet = this.namedParameterJdbcTemplate.query("SELECT * FROM PRO_PK pk WHERE pk.PK_ID IS NOT NULL AND pk.DT_ID = :dtId", pkMapSqlParameterSource, BeanPropertyRowMapper.newInstance(Pk.class));
-//        if (ToolUtil.isNotEmpty(pkSet)) {
-//          Set<String> inColumnsId = new LinkedHashSet<>();
-//          for (Pk pk : pkSet) {
-//            inColumnsId.add(pk.getColumnsId());
-//          }
-//          MapSqlParameterSource columnsMapSqlParameterSource = new MapSqlParameterSource();
-//          columnsMapSqlParameterSource.addValue("inColumnsId", new ArrayList<>(inColumnsId));
-//          Collection<Columns> columnsSet = this.namedParameterJdbcTemplate.query("SELECT * FROM PRO_COLUMNS columns WHERE columns.COLUMNS_ID IS NOT NULL AND columns.COLUMNS_ID IN ( :inColumnsId )", columnsMapSqlParameterSource, BeanPropertyRowMapper.newInstance(Columns.class));
-//          if (ToolUtil.isNotEmpty(columnsSet)) {
-//            for (Columns pk : columnsSet) {
-//              primaryKey.add(pk.getInitialLowercaseColumnName());
-//            }
-//          }
-//        }
-//        MapSqlParameterSource columnsMapSqlParameterSource = new MapSqlParameterSource();
-//        columnsMapSqlParameterSource.addValue("dtId", dt.getDtId());
-//        Collection<Columns> columnsSet = this.namedParameterJdbcTemplate.query("SELECT * FROM PRO_COLUMNS columns WHERE columns.COLUMNS_ID IS NOT NULL AND columns.DT_ID = :dtId ORDER BY columns.WEIGHT_ORDER ASC", columnsMapSqlParameterSource, BeanPropertyRowMapper.newInstance(Columns.class));
-//        if (ToolUtil.isNotEmpty(columnsSet)) {
-//          for (Columns column : columnsSet) {
-//            columns.add(column.getInitialLowercaseColumnName());
-//            columnsParameter.put(column.getInitialLowercaseColumnName(), column.getColumnName());
-//          }
-//        }
-//        MapSqlParameterSource virtualColumnsMapSqlParameterSource = new MapSqlParameterSource();
-//        virtualColumnsMapSqlParameterSource.addValue("dtId", dt.getDtId());
-//        Collection<VirtualColumns> virtualColumnsSet = this.namedParameterJdbcTemplate.query("SELECT * FROM PRO_VIRTUAL_COLUMNS virtualColumns WHERE virtualColumns.VIRTUAL_COLUMNS_ID IS NOT NULL AND virtualColumns.SOURCE_DT_ID = :dtId ORDER BY virtualColumns.WEIGHT_ORDER ASC", virtualColumnsMapSqlParameterSource, BeanPropertyRowMapper.newInstance(VirtualColumns.class));
-//        if (ToolUtil.isNotEmpty(virtualColumnsSet)) {
-//          for (VirtualColumns virtualColumn : virtualColumnsSet) {
-//            virtualColumns.add(virtualColumn.getVirtualColumnsSql());
-//          }
-//        }
-//        MapSqlParameterSource sortMapSqlParameterSource = new MapSqlParameterSource();
-//        sortMapSqlParameterSource.addValue("dtId", dt.getDtId());
-//        Collection<Sort> sortSet = this.namedParameterJdbcTemplate.query("SELECT * FROM PRO_SORT sort WHERE sort.SORT_ID IS NOT NULL AND sort.DT_ID = :dtId", sortMapSqlParameterSource, BeanPropertyRowMapper.newInstance(Sort.class));
-//        if (ToolUtil.isNotEmpty(sortSet)) {
-//          for (Sort eachSort : sortSet) {
-//            MapSqlParameterSource sortColumnsMapSqlParameterSource = new MapSqlParameterSource();
-//            sortColumnsMapSqlParameterSource.addValue("columnsId", eachSort.getColumnsId());
-//            sortColumnsMapSqlParameterSource.addValue("dtId", dt.getDtId());
-//            Collection<Columns> sortColumnsSet = this.namedParameterJdbcTemplate.query("SELECT * FROM PRO_COLUMNS columns WHERE columns.COLUMNS_ID IS NOT NULL AND columns.COLUMNS_ID = :columnsId AND columns.DT_ID = :dtId", sortColumnsMapSqlParameterSource, BeanPropertyRowMapper.newInstance(Columns.class));
-//            if (ToolUtil.isNotEmpty(sortColumnsSet)) {
-//              sort.put(sortColumnsSet.iterator().next().getInitialLowercaseColumnName(), eachSort.getSortRule());
-//            }
-//          }
-//        }
-//      }
-//    }
-//  }
+  protected void init(String tableName, Set<String> primaryKey, Set<String> columns, Map<String, String> columnsParameter, Set<String> virtualColumns, Map<String, String> sort) {
+    if (log.isDebugEnabled()) {
+      log.debug(ToolUtil.getLog(LOG));
+      log.debug(ToolUtil.LOG + tableName);
+      log.debug(ToolUtil.LOG + primaryKey);
+      log.debug(ToolUtil.LOG + columns);
+      log.debug(ToolUtil.LOG + columnsParameter);
+      log.debug(ToolUtil.LOG + virtualColumns);
+      log.debug(ToolUtil.LOG + sort);
+    }
+    if (ToolUtil.isNotNullStr(tableName)) {
+      MapSqlParameterSource dtMapSqlParameterSource = new MapSqlParameterSource();
+      dtMapSqlParameterSource.addValue("dtName", tableName);
+      Collection<Dt> dtSet = this.namedParameterJdbcTemplate.query("SELECT dt.DT_ID, dt.DT_SQL, dt.DT_NAME, dt.DT_NAME_ANNOTATION, dt.DT_PREFIX, dt.INITIAL_CASE_ENTITY_NAME, dt.INITIAL_LOWERCASE_ENTITY_NAME, dt.PRO_PATH, dt.PRO_ALL_NAME FROM PRO_DT dt WHERE dt.DT_ID IS NOT NULL AND dt.DT_NAME = :dtName", dtMapSqlParameterSource, BeanPropertyRowMapper.newInstance(Dt.class));
+      if (ToolUtil.isNotEmpty(dtSet)) {
+        Dt dt = dtSet.iterator().next();
+        MapSqlParameterSource pkMapSqlParameterSource = new MapSqlParameterSource();
+        pkMapSqlParameterSource.addValue("dtId", dt.getDtId());
+        Collection<Pk> pkSet = this.namedParameterJdbcTemplate.query("SELECT pk.PK_ID, pk.DT_ID, pk.COLUMNS_ID FROM PRO_PK pk WHERE pk.PK_ID IS NOT NULL AND pk.DT_ID = :dtId", pkMapSqlParameterSource, BeanPropertyRowMapper.newInstance(Pk.class));
+        if (ToolUtil.isNotEmpty(pkSet)) {
+          Set<String> inColumnsId = new LinkedHashSet<>();
+          for (Pk pk : pkSet) {
+            inColumnsId.add(pk.getColumnsId());
+          }
+          MapSqlParameterSource columnsMapSqlParameterSource = new MapSqlParameterSource();
+          columnsMapSqlParameterSource.addValue("inColumnsId", new ArrayList<>(inColumnsId));
+          Collection<Columns> columnsSet = this.namedParameterJdbcTemplate.query("SELECT columns.COLUMNS_ID, columns.COLUMN_NAME, columns.COLUMN_NAME_ANNOTATION, columns.DATA_TYPE, columns.IS_NULL, columns.INITIAL_CASE_COLUMN_NAME, columns.INITIAL_LOWERCASE_COLUMN_NAME, columns.WEIGHT_ORDER, columns.DT_ID FROM PRO_COLUMNS columns WHERE columns.COLUMNS_ID IS NOT NULL AND columns.COLUMNS_ID IN ( :inColumnsId )", columnsMapSqlParameterSource, BeanPropertyRowMapper.newInstance(Columns.class));
+          if (ToolUtil.isNotEmpty(columnsSet)) {
+            for (Columns pk : columnsSet) {
+              primaryKey.add(pk.getInitialLowercaseColumnName());
+            }
+          }
+        }
+        MapSqlParameterSource columnsMapSqlParameterSource = new MapSqlParameterSource();
+        columnsMapSqlParameterSource.addValue("dtId", dt.getDtId());
+        Collection<Columns> columnsSet = this.namedParameterJdbcTemplate.query("SELECT columns.COLUMNS_ID, columns.COLUMN_NAME, columns.COLUMN_NAME_ANNOTATION, columns.DATA_TYPE, columns.IS_NULL, columns.INITIAL_CASE_COLUMN_NAME, columns.INITIAL_LOWERCASE_COLUMN_NAME, columns.WEIGHT_ORDER, columns.DT_ID FROM PRO_COLUMNS columns WHERE columns.COLUMNS_ID IS NOT NULL AND columns.DT_ID = :dtId ORDER BY columns.WEIGHT_ORDER ASC", columnsMapSqlParameterSource, BeanPropertyRowMapper.newInstance(Columns.class));
+        if (ToolUtil.isNotEmpty(columnsSet)) {
+          for (Columns column : columnsSet) {
+            columns.add(column.getInitialLowercaseColumnName());
+            columnsParameter.put(column.getInitialLowercaseColumnName(), column.getColumnName());
+          }
+        }
+        MapSqlParameterSource virtualColumnsMapSqlParameterSource = new MapSqlParameterSource();
+        virtualColumnsMapSqlParameterSource.addValue("dtId", dt.getDtId());
+        Collection<VirtualColumns> virtualColumnsSet = this.namedParameterJdbcTemplate.query("SELECT virtualColumns.VIRTUAL_COLUMNS_ID, virtualColumns.SOURCE_DT_ID, virtualColumns.TARGET_DT_ID, virtualColumns.SOURCE_COLUMNS_ID, virtualColumns.TARGET_COLUMNS_ID, virtualColumns.TARGET_DISPLAY_COLUMNS_ID, virtualColumns.DISPLAY_COLUMNS_ALIAS, virtualColumns.VIRTUAL_COLUMNS_SQL, virtualColumns.WEIGHT_ORDER FROM PRO_VIRTUAL_COLUMNS virtualColumns WHERE virtualColumns.VIRTUAL_COLUMNS_ID IS NOT NULL AND virtualColumns.SOURCE_DT_ID = :dtId ORDER BY virtualColumns.WEIGHT_ORDER ASC", virtualColumnsMapSqlParameterSource, BeanPropertyRowMapper.newInstance(VirtualColumns.class));
+        if (ToolUtil.isNotEmpty(virtualColumnsSet)) {
+          for (VirtualColumns virtualColumn : virtualColumnsSet) {
+            virtualColumns.add(virtualColumn.getVirtualColumnsSql());
+          }
+        }
+        MapSqlParameterSource sortMapSqlParameterSource = new MapSqlParameterSource();
+        sortMapSqlParameterSource.addValue("dtId", dt.getDtId());
+        Collection<Sort> sortSet = this.namedParameterJdbcTemplate.query("SELECT sort.SORT_ID, sort.SORT_RULE, sort.DT_ID, sort.COLUMNS_ID FROM PRO_SORT sort WHERE sort.SORT_ID IS NOT NULL AND sort.DT_ID = :dtId", sortMapSqlParameterSource, BeanPropertyRowMapper.newInstance(Sort.class));
+        if (ToolUtil.isNotEmpty(sortSet)) {
+          for (Sort eachSort : sortSet) {
+            MapSqlParameterSource sortColumnsMapSqlParameterSource = new MapSqlParameterSource();
+            sortColumnsMapSqlParameterSource.addValue("columnsId", eachSort.getColumnsId());
+            sortColumnsMapSqlParameterSource.addValue("dtId", dt.getDtId());
+            Collection<Columns> sortColumnsSet = this.namedParameterJdbcTemplate.query("SELECT columns.COLUMNS_ID, columns.COLUMN_NAME, columns.COLUMN_NAME_ANNOTATION, columns.DATA_TYPE, columns.IS_NULL, columns.INITIAL_CASE_COLUMN_NAME, columns.INITIAL_LOWERCASE_COLUMN_NAME, columns.WEIGHT_ORDER, columns.DT_ID FROM PRO_COLUMNS columns WHERE columns.COLUMNS_ID IS NOT NULL AND columns.COLUMNS_ID = :columnsId AND columns.DT_ID = :dtId", sortColumnsMapSqlParameterSource, BeanPropertyRowMapper.newInstance(Columns.class));
+            if (ToolUtil.isNotEmpty(sortColumnsSet)) {
+              sort.put(sortColumnsSet.iterator().next().getInitialLowercaseColumnName(), eachSort.getSortRule());
+            }
+          }
+        }
+      }
+    }
+  }
 
 }

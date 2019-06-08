@@ -65,7 +65,7 @@ export default [
           icon: '_qq',
           title: 'cs'
         },
-        component: () => import('@/view/cn/moonnow/sign/usr/usr.vue')
+        component: () => import('@/view/cn/moonnow/code/dt/dt.vue')
       }
     ]
   },

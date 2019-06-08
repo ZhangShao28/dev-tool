@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.Collections;
 
 import cn.moonnow.tool.context.ToolContextData;
+import cn.moonnow.tool.util.Paging;
+import cn.moonnow.tool.util.Param;
 import lombok.Data;
 
 @Data
@@ -32,6 +34,7 @@ public class Responses<T> implements Serializable {
   public Responses() {
     super();
     this.success = true;
+    this.msg = "";
     this.count = 0l;
     this.rows = 10l;
     this.page = 1l;
@@ -40,16 +43,17 @@ public class Responses<T> implements Serializable {
     this.cookiesExpireTimes = ToolContextData.getTokenTimesEffect() != null && ToolContextData.getTokenTimesEffect().getCookiesExpireTimes() != null ? ToolContextData.getTokenTimesEffect().getCookiesExpireTimes() : 0;
   }
 
-//  public Responses(Parameter parameter) {
-//    super();
-//    this.isSuccess = true;
-//    this.count = 0l;
-//    this.rows = parameter.getRows();
-//    this.page = parameter.getPage();
-//    this.data = Collections.emptyList();
-//    this.token = ToolContextData.getTokenTimesEffect() != null && ToolContextData.getTokenTimesEffect().getToken() != null ? ToolContextData.getTokenTimesEffect().getToken() : "token";
-//    this.cookiesExpireTimes = ToolContextData.getTokenTimesEffect() != null && ToolContextData.getTokenTimesEffect().getCookiesExpireTimes() != null ? ToolContextData.getTokenTimesEffect().getCookiesExpireTimes() : 0;
-//  }
+  public Responses(Param param) {
+    super();
+    this.success = true;
+    this.msg = "";
+    this.count = 0l;
+    this.rows = param.getRows();
+    this.page = param.getPage();
+    this.data = Collections.emptyList();
+    this.token = ToolContextData.getTokenTimesEffect() != null && ToolContextData.getTokenTimesEffect().getToken() != null ? ToolContextData.getTokenTimesEffect().getToken() : "token";
+    this.cookiesExpireTimes = ToolContextData.getTokenTimesEffect() != null && ToolContextData.getTokenTimesEffect().getCookiesExpireTimes() != null ? ToolContextData.getTokenTimesEffect().getCookiesExpireTimes() : 0;
+  }
 
   public void setData(Collection<T> data) {
     this.count = (long) data.size();
@@ -62,16 +66,16 @@ public class Responses<T> implements Serializable {
     this.data.add(data);
   }
 
-//  public void setData(Paging<T> paging) {
-//    this.count = paging.getCount();
-//    this.rows = paging.getRows();
-//    this.page = paging.getPage();
-//    if (paging.getData() == null) {
-//      this.data = Collections.emptyList();
-//    } else {
-//      this.data = paging.getData();
-//    }
-//  }
+  public void setData(Paging<T> paging) {
+    this.count = paging.getCount();
+    this.rows = paging.getRows();
+    this.page = paging.getPage();
+    if (paging.getData() == null) {
+      this.data = Collections.emptyList();
+    } else {
+      this.data = paging.getData();
+    }
+  }
 
   public final void setException(String errMsg) {
     success = false;

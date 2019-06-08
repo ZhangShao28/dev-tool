@@ -99,7 +99,7 @@ create table DEV_SESSION (
   ACCOUNT_ID                      varchar(36)         character set utf8 collate utf8_bin  not null comment '账号编号',
   LOGIN_KEY                       varchar(64)         character set utf8 collate utf8_bin  not null comment '登录标识',
   CURRENT_TIMES                   bigint(20)                                               not null comment '当前时间',
-  AES_KEY                         varchar(255)        character set utf8 collate utf8_bin  not null comment '登录标识',
+  AES_KEY                         varchar(255)        character set utf8 collate utf8_bin  not null comment 'AES密钥',
   primary key (SESSION_ID),
   unique key (ACCOUNT_ID, LOGIN_KEY)
 )ENGINE=INNODB DEFAULT CHARSET=utf8 comment '会话';

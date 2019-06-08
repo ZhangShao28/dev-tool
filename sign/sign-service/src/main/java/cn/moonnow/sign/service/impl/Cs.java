@@ -31,6 +31,9 @@ public class Cs {
 //    System.out.println(ToolUtil.encodeRSAByPublicKey("Iq93hoSYoxOB+RzRz00OIQ==", pu));
 //    String bb = "H38E35cE+1aMwrdc/rvY83u0kXWxqJA2DIQqSkcrGtrCwIHYBPwsi5tUGac/1oarnDqH89Sy0nDSvWxuVx6vw+xjBBq/TzCg/LgwWptXGN+DpFB/YuYFL9/pZRjylWFTf+6ZVnF+zyHb6h2fT7it/DcOCXrWbeAepfK1xIO//8U1/jg/1X0vrubXqtwDqpdj52fxljJsb11NO7BN+6bti0IvDy0YGdELDi4iq01O1j8zhdgpshf0aSU9YDrbGfp51qKg7ianwt6xIdiIkY7VIBYzMnQmjr3IiifJGZyF0x9vzCXYPVmrv9xTCckkUqSP0v1PqMBxqEAwOFNjizMq26lOa77d2v9eI2AjOTLBTRShLG+UlDNkxiDzN/1mrHvbvP3eqn8w8QjuwIsT7gS3Qk6dwb9XUK9sL6TizgR1R2hdpIyeSlenyY5LjN7qyHc4h7zD0OEPZVqjlSU3mkF9Qi7HUtpwWYar+DzJq8MhG/t3rl3O8b7lA05IztSHgcJIIYyDK04gcFQtKN1i8ifheyqolwg5k9uhqYv9LvjGiY2+DVWwZIyHXivfJ3u0PbRyH0XLhY5Icy1lE00CUej/MlcF73oqqaKFt12jAExKWwLgi+EP/8Uuhd9OYQf9cuoP9LEzVthKJgZNwXqvJnaaIgTjwu+eY8hpM0ETW40rr9w=";
 //    System.out.println(ToolUtil.decodeRSAByPrivateKey(aa, pr));
+//    System.out.println(ToolUtil.encodeAES("qwert", ToolUtil.AES_KEY));
+//    String aa = "mWaMsahIr+RM0QudkQ2jJw==";
+//    System.out.println(ToolUtil.decodeAES(aa, ToolUtil.AES_KEY));
   }
 
 //  /**

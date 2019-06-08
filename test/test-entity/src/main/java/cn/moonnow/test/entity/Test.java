@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 /**
- * [测试]实体类, 表名[TEST].
+ * [测试]实体类, 表名[TEST]
  */
 @Data
 @TableName(value = "TEST")

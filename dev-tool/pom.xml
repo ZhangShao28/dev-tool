@@ -21,6 +21,13 @@
       <version>${project.version}</version>
       <type>pom</type>
     </dependency>
+<!--     编码 -->
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>code-rely</artifactId>
+      <version>${project.version}</version>
+      <type>pom</type>
+    </dependency>
   </dependencies>
 
   <build>

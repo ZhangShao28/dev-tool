@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 /**
- * [用户]实体类, 表名[DEV_USR].
+ * [用户]实体类, 表名[DEV_USR]s
  */
 @Data
 @TableName(value = "DEV_USR")

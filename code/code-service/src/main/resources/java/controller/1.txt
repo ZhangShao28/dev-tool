@@ -1,0 +1,348 @@
+package ${controllerPackageName};
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import cn.moonnow.tool.exception.ToolException;
+import cn.moonnow.tool.rest.Responses;
+import cn.moonnow.tool.rest.ToolController;
+import cn.moonnow.tool.util.Param;
+import cn.moonnow.tool.util.ToolUtil;
+import ${entityPackageName}.${initialCaseEntityName};
+import ${queryPackageName}.${initialCaseEntityName}Query;
+import ${iServicePackageName}.I${initialCaseEntityName}Service;
+import ${VOPackageName}.${initialCaseEntityName}VO;
+import lombok.extern.log4j.Log4j2;
+
+/**
+ * ${dtNameAnnotation} REST API
+ */
+@Log4j2
+@RestController
+@Scope("prototype")
+@RequestMapping(value = { "${controllerUrl}${initialLowercaseEntityName}" })
+public class ${initialCaseEntityName}Controller extends ToolController {
+
+${ci}public static final String LOG = "${initialCaseEntityName}Controller";
+
+${ci}@Resource(name = "${serviceImplNamePrefix}${initialCaseEntityName}Service")
+${ci}private I${initialCaseEntityName}Service ${initialLowercaseEntityName}Service;
+
+${ci}/**
+${ci} * 保存 ${dtNameAnnotation} 信息
+${ci} */
+${ci}@PostMapping(params = { ToolUtil.ACTION + ToolUtil.ACTION_SAVE })
+${ci}public Responses<${initialCaseEntityName}> save(Param param, @RequestBody ${initialCaseEntityName} ${initialLowercaseEntityName}) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + param);
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName});
+${ci}${ci}}
+${ci}${ci}Responses<${initialCaseEntityName}> responses = new Responses<>();
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName})) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}responses.setData(${initialLowercaseEntityName}Service.save${initialCaseEntityName}(${initialLowercaseEntityName}));
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}${ci}return responses;
+${ci}}
+
+${ci}/**
+${ci} * 批量保存 ${dtNameAnnotation} 信息
+${ci} */
+${ci}@PostMapping(params = { ToolUtil.ACTION + ToolUtil.ACTION_BATCH_SAVE })
+${ci}public Responses<${initialCaseEntityName}> batchSave(Param param, @RequestBody List<${initialCaseEntityName}> ${initialLowercaseEntityName}s) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + param);
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName}s);
+${ci}${ci}}
+${ci}${ci}Responses<${initialCaseEntityName}> responses = new Responses<>();
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isEmpty(${initialLowercaseEntityName}s)) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}responses.setData(${initialLowercaseEntityName}Service.batchSave${initialCaseEntityName}(${initialLowercaseEntityName}s));
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}${ci}return responses;
+${ci}}
+
+${ci}/**
+${ci} * 修改 ${dtNameAnnotation} 信息
+${ci} */
+${ci}@PostMapping(params = { ToolUtil.ACTION + ToolUtil.ACTION_UPDATE })
+${ci}public Responses<${initialCaseEntityName}> update(Param param, @RequestBody ${initialCaseEntityName} ${initialLowercaseEntityName}) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + param);
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName});
+${ci}${ci}}
+${ci}${ci}Responses<${initialCaseEntityName}> responses = new Responses<>();
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName})) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}responses.setData(${initialLowercaseEntityName}Service.update${initialCaseEntityName}(${initialLowercaseEntityName}));
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}${ci}return responses;
+${ci}}
+
+${ci}/**
+${ci} * 批量修改 ${dtNameAnnotation} 信息
+${ci} */
+${ci}@PostMapping(params = { ToolUtil.ACTION + ToolUtil.ACTION_BATCH_UPDATE })
+${ci}public Responses<${initialCaseEntityName}> batchUpdate(Param param, @RequestBody List<${initialCaseEntityName}> ${initialLowercaseEntityName}s) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + param);
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName}s);
+${ci}${ci}}
+${ci}${ci}Responses<${initialCaseEntityName}> responses = new Responses<>();
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isEmpty(${initialLowercaseEntityName}s)) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}responses.setData(${initialLowercaseEntityName}Service.batchUpdate${initialCaseEntityName}(${initialLowercaseEntityName}s));
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}${ci}return responses;
+${ci}}
+
+${ci}/**
+${ci} * 删除 ${dtNameAnnotation} 信息
+${ci} */
+${ci}@PostMapping(params = { ToolUtil.ACTION + ToolUtil.ACTION_REMOVE })
+${ci}public Responses<${initialCaseEntityName}> remove(Param param, @RequestBody ${initialCaseEntityName} ${initialLowercaseEntityName}) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + param);
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName});
+${ci}${ci}}
+${ci}${ci}Responses<${initialCaseEntityName}> responses = new Responses<>();
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName})) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}${initialLowercaseEntityName}Service.remove${initialCaseEntityName}(${initialLowercaseEntityName});
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}${ci}return responses;
+${ci}}
+
+${ci}/**
+${ci} * 批量删除 ${dtNameAnnotation} 信息
+${ci} */
+${ci}@PostMapping(params = { ToolUtil.ACTION + ToolUtil.ACTION_BATCH_REMOVE })
+${ci}public Responses<${initialCaseEntityName}> batchRemove(Param param, @RequestBody List<${initialCaseEntityName}> ${initialLowercaseEntityName}s) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + param);
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName}s);
+${ci}${ci}}
+${ci}${ci}Responses<${initialCaseEntityName}> responses = new Responses<>();
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isEmpty(${initialLowercaseEntityName}s)) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}${initialLowercaseEntityName}Service.batchRemove${initialCaseEntityName}(${initialLowercaseEntityName}s);
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}${ci}return responses;
+${ci}}
+
+${ci}/**
+${ci} * 通过主键获取 ${dtNameAnnotation} 数据
+${ci} */
+${ci}@PostMapping(params = { ToolUtil.ACTION + ToolUtil.ACTION_GET_BY_PK })
+${ci}public Responses<${initialCaseEntityName}> getByPk(Param param, @RequestBody ${initialCaseEntityName} ${initialLowercaseEntityName}) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + param);
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName});
+${ci}${ci}}
+${ci}${ci}Responses<${initialCaseEntityName}> responses = new Responses<>();
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName})) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}if (ToolUtil.isNullStr(${initialLowercaseEntityName}.get${primaryKeyInitialCaseColumnName}())) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}responses.setData(${initialLowercaseEntityName}Service.get${initialCaseEntityName}ByPk(${initialLowercaseEntityName}.get${primaryKeyInitialCaseColumnName}()));
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}${ci}return responses;
+${ci}}
+
+${ci}/**
+${ci} * 获取 ${dtNameAnnotation} 数据
+${ci} */
+${ci}@PostMapping(params = { ToolUtil.ACTION + ToolUtil.ACTION_GET_ALL })
+${ci}public Responses<${initialCaseEntityName}> getAll(Param param, @RequestBody ${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + param);
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName}Query);
+${ci}${ci}}
+${ci}${ci}Responses<${initialCaseEntityName}> responses = new Responses<>();
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}responses.setData(${initialLowercaseEntityName}Service.getAll${initialCaseEntityName}());
+${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}responses.setData(${initialLowercaseEntityName}Service.query${initialCaseEntityName}(${initialLowercaseEntityName}Query));
+${ci}${ci}${ci}}
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}${ci}return responses;
+${ci}}
+
+${ci}/**
+${ci} * 分页获取 ${dtNameAnnotation} 数据
+${ci} */
+${ci}@PostMapping(params = { ToolUtil.ACTION + ToolUtil.ACTION_PAGING })
+${ci}public Responses<${initialCaseEntityName}> paging(Param param, @RequestBody ${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + param);
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName}Query);
+${ci}${ci}}
+${ci}${ci}Responses<${initialCaseEntityName}> responses = new Responses<>();
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}responses.setData(${initialLowercaseEntityName}Service.pagingQuery${initialCaseEntityName}(param, null));
+${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}responses.setData(${initialLowercaseEntityName}Service.pagingQuery${initialCaseEntityName}(param, ${initialLowercaseEntityName}Query));
+${ci}${ci}${ci}}
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}${ci}return responses;
+${ci}}
+
+${ci}/**
+${ci} * 通过主键获取 ${dtNameAnnotation} 展示数据
+${ci} */
+${ci}@PostMapping(params = { ToolUtil.ACTION + ToolUtil.ACTION_GET_VO_BY_PK })
+${ci}public Responses<${initialCaseEntityName}VO> getVOByPk(Param param, @RequestBody ${initialCaseEntityName} ${initialLowercaseEntityName}) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + param);
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName});
+${ci}${ci}}
+${ci}${ci}Responses<${initialCaseEntityName}VO> responses = new Responses<>();
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName})) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}if (ToolUtil.isNullStr(${initialLowercaseEntityName}.get${primaryKeyInitialCaseColumnName}())) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}responses.setData(${initialLowercaseEntityName}Service.get${initialCaseEntityName}VOByPk(${initialLowercaseEntityName}.get${primaryKeyInitialCaseColumnName}()));
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}${ci}return responses;
+${ci}}
+
+${ci}/**
+${ci} * 获取 ${dtNameAnnotation} 展示数据
+${ci} */
+${ci}@PostMapping(params = { ToolUtil.ACTION + ToolUtil.ACTION_GET_ALL_VO })
+${ci}public Responses<${initialCaseEntityName}VO> getAllVO(Param param, @RequestBody ${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + param);
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName}Query);
+${ci}${ci}}
+${ci}${ci}Responses<${initialCaseEntityName}VO> responses = new Responses<>();
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}responses.setData(${initialLowercaseEntityName}Service.getAll${initialCaseEntityName}VO());
+${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}responses.setData(${initialLowercaseEntityName}Service.query${initialCaseEntityName}VO(${initialLowercaseEntityName}Query));
+${ci}${ci}${ci}}
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}${ci}return responses;
+${ci}}
+
+${ci}/**
+${ci} * 分页获取 ${dtNameAnnotation} 展示数据
+${ci} */
+${ci}@PostMapping(params = { ToolUtil.ACTION + ToolUtil.ACTION_PAGING_VO })
+${ci}public Responses<${initialCaseEntityName}VO> pagingVO(Param param, @RequestBody ${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + param);
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName}Query);
+${ci}${ci}}
+${ci}${ci}Responses<${initialCaseEntityName}VO> responses = new Responses<>();
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}responses.setData(${initialLowercaseEntityName}Service.pagingQuery${initialCaseEntityName}VO(param, null));
+${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}responses.setData(${initialLowercaseEntityName}Service.pagingQuery${initialCaseEntityName}VO(param, ${initialLowercaseEntityName}Query));
+${ci}${ci}${ci}}
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}${ci}return responses;
+${ci}}
+
+}

@@ -1,0 +1,14 @@
+package ${queryPackageName};
+
+import java.io.Serializable;
+import java.util.List;
+
+import lombok.Data;
+
+/**
+ * ${dtNameAnnotation} ${dtName} 查询类
+ */
+@Data
+public class ${initialCaseEntityName}Query implements Serializable {
+
+${ci}private static final long serialVersionUID = 1L;

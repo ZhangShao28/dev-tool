@@ -25,8 +25,8 @@ public class PkQuery implements Serializable {
 
   protected String columnsIdAndeq; // 列编号Andeq查询
 
-  protected String dtIdAndKeyLike; // 数据库表编号搜索
+  protected String dtIdAndKeyLike; // 数据库表编号AndKeyLike查询
 
-  protected String columnsIdOrKeyLike; // 列编号搜索
+  protected String columnsIdOrKeyLike; // 列编号OrKeyLike查询
 
 }

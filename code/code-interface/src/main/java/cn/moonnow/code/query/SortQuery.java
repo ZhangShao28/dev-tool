@@ -27,10 +27,10 @@ public class SortQuery implements Serializable {
 
   protected String columnsIdAndeq; // 列编号Andeq查询
 
-  protected String sortRuleAndKeyLike; // 排序规则搜索
+  protected String sortRuleAndKeyLike; // 排序规则AndKeyLike查询
 
-  protected String dtIdOrKeyLike; // 数据库表编号搜索
+  protected String dtIdOrKeyLike; // 数据库表编号OrKeyLike查询
 
-  protected String columnsIdOrKeyLike; // 列编号搜索
+  protected String columnsIdOrKeyLike; // 列编号OrKeyLike查询
 
 }

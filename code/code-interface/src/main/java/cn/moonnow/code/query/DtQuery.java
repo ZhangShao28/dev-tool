@@ -35,18 +35,18 @@ public class DtQuery implements Serializable {
 
   protected String dtNameAndeq; // 表名Andeq查询
 
-  protected String dtNameAndKeyLike; // 表名搜索
+  protected String dtNameAndKeyLike; // 表名AndKeyLike查询
 
-  protected String dtNameAnnotationOrKeyLike; // 表名注释搜索
+  protected String dtNameAnnotationOrKeyLike; // 表名注释OrKeyLike查询
 
-  protected String dtPrefixOrKeyLike; // 数据库表前缀搜索
+  protected String dtPrefixOrKeyLike; // 数据库表前缀OrKeyLike查询
 
-  protected String initialCaseEntityNameOrKeyLike; // 首字母大写实体类名搜索
+  protected String initialCaseEntityNameOrKeyLike; // 首字母大写实体类名OrKeyLike查询
 
-  protected String initialLowercaseEntityNameOrKeyLike; // 首字母小写实体类名搜索
+  protected String initialLowercaseEntityNameOrKeyLike; // 首字母小写实体类名OrKeyLike查询
 
-  protected String proPathOrKeyLike; // 项目路径搜索
+  protected String proPathOrKeyLike; // 项目路径OrKeyLike查询
 
-  protected String proAllNameOrKeyLike; // 项目全称搜索
+  protected String proAllNameOrKeyLike; // 项目全称OrKeyLike查询
 
 }

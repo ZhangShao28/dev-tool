@@ -33,18 +33,18 @@ public class VirtualColumnsQuery implements Serializable {
 
   protected List<String> virtualColumnsIdAndin; // 虚拟列编号Andin查询
 
-  protected String sourceDtIdAndKeyLike; // 源表数据库表编号搜索
+  protected String sourceDtIdAndKeyLike; // 源表数据库表编号AndKeyLike查询
 
-  protected String targetDtIdOrKeyLike; // 目标表数据库表编号搜索
+  protected String targetDtIdOrKeyLike; // 目标表数据库表编号OrKeyLike查询
 
-  protected String sourceColumnsIdOrKeyLike; // 源表列编号搜索
+  protected String sourceColumnsIdOrKeyLike; // 源表列编号OrKeyLike查询
 
-  protected String targetColumnsIdOrKeyLike; // 目标表列编号搜索
+  protected String targetColumnsIdOrKeyLike; // 目标表列编号OrKeyLike查询
 
-  protected String targetDisplayColumnsIdOrKeyLike; // 目标表显示字段列编号搜索
+  protected String targetDisplayColumnsIdOrKeyLike; // 目标表显示字段列编号OrKeyLike查询
 
-  protected String displayColumnsAliasOrKeyLike; // 显示字段别名搜索
+  protected String displayColumnsAliasOrKeyLike; // 显示字段别名OrKeyLike查询
 
-  protected String virtualColumnsSqlOrKeyLike; // 虚拟列sql搜索
+  protected String virtualColumnsSqlOrKeyLike; // 虚拟列sqlOrKeyLike查询
 
 }

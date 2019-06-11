@@ -1,0 +1,14 @@
+package ${VOPackageName};
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+
+import lombok.Data;
+
+/**
+ * ${dtNameAnnotation} ${dtName} 展示类
+ */
+@Data
+public class ${initialCaseEntityName}VO implements Serializable {
+
+${ci}private static final long serialVersionUID = 1L;

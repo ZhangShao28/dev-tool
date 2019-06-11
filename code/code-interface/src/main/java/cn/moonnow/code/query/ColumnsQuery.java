@@ -37,18 +37,18 @@ public class ColumnsQuery implements Serializable {
 
   protected String dtIdAndeq; // 数据库表编号Andeq查询
 
-  protected String columnNameAndKeyLike; // 列名搜索
+  protected String columnNameAndKeyLike; // 列名AndKeyLike查询
 
-  protected String columnNameAnnotationOrKeyLike; // 列名注释搜索
+  protected String columnNameAnnotationOrKeyLike; // 列名注释OrKeyLike查询
 
-  protected String dataTypeOrKeyLike; // 数据类型搜索
+  protected String dataTypeOrKeyLike; // 数据类型OrKeyLike查询
 
-  protected String isNullOrKeyLike; // 是否为空搜索
+  protected String isNullOrKeyLike; // 是否为空OrKeyLike查询
 
-  protected String initialCaseColumnNameOrKeyLike; // 首字母大写列名搜索
+  protected String initialCaseColumnNameOrKeyLike; // 首字母大写列名OrKeyLike查询
 
-  protected String initialLowercaseColumnNameOrKeyLike; // 首字母小写列名搜索
+  protected String initialLowercaseColumnNameOrKeyLike; // 首字母小写列名OrKeyLike查询
 
-  protected String dtIdOrKeyLike; // 数据库表编号搜索
+  protected String dtIdOrKeyLike; // 数据库表编号OrKeyLike查询
 
 }

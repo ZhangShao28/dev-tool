@@ -31,10 +31,10 @@ public class QueryQuery implements Serializable {
 
   protected String columnsIdAndeq; // 列编号Andeq查询
 
-  protected String queryTypeAndKeyLike; // 查询类型搜索
+  protected String queryTypeAndKeyLike; // 查询类型AndKeyLike查询
 
-  protected String dtIdOrKeyLike; // 数据库表编号搜索
+  protected String dtIdOrKeyLike; // 数据库表编号OrKeyLike查询
 
-  protected String columnsIdOrKeyLike; // 列编号搜索
+  protected String columnsIdOrKeyLike; // 列编号OrKeyLike查询
 
 }

@@ -1,0 +1,483 @@
+package ${persistentImplPackageName};
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.stereotype.Repository;
+
+import cn.moonnow.tool.exception.ToolException;
+import cn.moonnow.tool.persistent.impl.ToolPersistent;
+import cn.moonnow.tool.util.Paging;
+import cn.moonnow.tool.util.Param;
+import cn.moonnow.tool.util.ToolUtil;
+import ${entityPackageName}.${initialCaseEntityName};
+import ${iPersistentPackageName}.I${initialCaseEntityName}Persistent;
+import ${queryPackageName}.${initialCaseEntityName}Query;
+import ${VOPackageName}.${initialCaseEntityName}VO;
+import lombok.extern.log4j.Log4j2;
+
+/**
+ * ${dtNameAnnotation} 持久化实现
+ */
+@Log4j2
+@Repository("${persistentImplNamePrefix}${initialCaseEntityName}Persistent")
+public class ${initialCaseEntityName}PersistentImpl extends ToolPersistent implements I${initialCaseEntityName}Persistent {
+
+${ci}public static final String LOG = "${initialCaseEntityName}Persistent";
+
+${ci}public static final String TABLE_ALIAS = "${initialLowercaseEntityName}";
+
+${ci}public static final LinkedHashSet<String> PRIMARY_KEY = new LinkedHashSet<>();
+${ci}public static final LinkedHashSet<String> COLUMNS = new LinkedHashSet<>();
+${ci}public static final LinkedHashMap<String, String> COLUMNS_PARAMETER = new LinkedHashMap<>();
+${ci}public static final LinkedHashSet<String> VIRTUAL_COLUMNS = new LinkedHashSet<>();
+${ci}public static final LinkedHashMap<String, String> SORT = new LinkedHashMap<>();
+
+${ci}private static StringBuilder INSERT_SQL = new StringBuilder();
+${ci}private static StringBuilder UPDATE_SQL = new StringBuilder();
+${ci}private static StringBuilder DEL_SQL_BY_PK = new StringBuilder();
+${ci}public static StringBuilder SELECT_SQL = new StringBuilder();
+${ci}public static StringBuilder SELECT_VO_SQL = new StringBuilder();
+${ci}public static StringBuilder COUNT_SQL = new StringBuilder();
+
+${ci}@PostConstruct
+${ci}private void init() {
+${ci}${ci}super.init(TABLE_NAME, PRIMARY_KEY, COLUMNS, COLUMNS_PARAMETER, VIRTUAL_COLUMNS, SORT);
+${ci}${ci}INSERT_SQL = getInsertSql(TABLE_NAME, COLUMNS, COLUMNS_PARAMETER);
+${ci}${ci}UPDATE_SQL = getUpdateSql(TABLE_NAME, COLUMNS, COLUMNS_PARAMETER, PRIMARY_KEY);
+${ci}${ci}DEL_SQL_BY_PK = getDelSql(TABLE_NAME, COLUMNS_PARAMETER, PRIMARY_KEY);
+${ci}${ci}SELECT_SQL = getSelectSql(TABLE_NAME, COLUMNS, COLUMNS_PARAMETER, PRIMARY_KEY, TABLE_ALIAS);
+${ci}${ci}SELECT_VO_SQL = getSelectSql(TABLE_NAME, COLUMNS, COLUMNS_PARAMETER, VIRTUAL_COLUMNS, PRIMARY_KEY, TABLE_ALIAS);
+${ci}${ci}COUNT_SQL = getCountSql(TABLE_NAME, COLUMNS_PARAMETER, PRIMARY_KEY, TABLE_ALIAS);
+${ci}}
+
+${ci}@Override
+${ci}public ${initialCaseEntityName} save${initialCaseEntityName}(${initialCaseEntityName} ${initialLowercaseEntityName}) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName});
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName})) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}if (ToolUtil.isNullStr(${initialLowercaseEntityName}.get${primaryKeyInitialCaseColumnName}())) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}this.insert(INSERT_SQL, ${initialLowercaseEntityName});
+${ci}${ci}${ci}return ${initialLowercaseEntityName};
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public Collection<${initialCaseEntityName}> batchSave${initialCaseEntityName}(Collection<${initialCaseEntityName}> ${initialLowercaseEntityName}s) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName}s);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isEmpty(${initialLowercaseEntityName}s)) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}this.insert(INSERT_SQL, ${initialLowercaseEntityName}s);
+${ci}${ci}${ci}return ${initialLowercaseEntityName}s;
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public ${initialCaseEntityName} update${initialCaseEntityName}(${initialCaseEntityName} ${initialLowercaseEntityName}) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName});
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName})) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}if (ToolUtil.isNullStr(${initialLowercaseEntityName}.get${primaryKeyInitialCaseColumnName}())) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}this.update(UPDATE_SQL, ${initialLowercaseEntityName});
+${ci}${ci}${ci}return ${initialLowercaseEntityName};
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public Collection<${initialCaseEntityName}> batchUpdate${initialCaseEntityName}(Collection<${initialCaseEntityName}> ${initialLowercaseEntityName}s) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName}s);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isEmpty(${initialLowercaseEntityName}s)) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}this.update(UPDATE_SQL, ${initialLowercaseEntityName}s);
+${ci}${ci}${ci}return ${initialLowercaseEntityName}s;
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public void remove${initialCaseEntityName}(${initialCaseEntityName} ${initialLowercaseEntityName}) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName});
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName})) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}if (ToolUtil.isNullStr(${initialLowercaseEntityName}.get${primaryKeyInitialCaseColumnName}())) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+${ci}${ci}${ci}if (ToolUtil.isNotEmpty(PRIMARY_KEY) && PRIMARY_KEY.size() == 1) {
+${ci}${ci}${ci}${ci}for (String pk : PRIMARY_KEY) {
+${ci}${ci}${ci}${ci}${ci}mapSqlParameterSource.addValue(pk, ${initialLowercaseEntityName}.get${primaryKeyInitialCaseColumnName}());
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}}
+${ci}${ci}${ci}this.del(DEL_SQL_BY_PK, mapSqlParameterSource);
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public void batchRemove${initialCaseEntityName}(Collection<${initialCaseEntityName}> ${initialLowercaseEntityName}s) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName}s);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isEmpty(${initialLowercaseEntityName}s)) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}this.del(DEL_SQL_BY_PK, ${initialLowercaseEntityName}s);
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public Long getCount${initialCaseEntityName}(${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName}Query);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}StringBuilder countSql = new StringBuilder(COUNT_SQL);
+${ci}${ci}${ci}if (!ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}countSql.append(this.getQuerySql(COLUMNS, COLUMNS_PARAMETER, TABLE_ALIAS, ${initialLowercaseEntityName}Query));
+${ci}${ci}${ci}}
+${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}return this.queryCount(countSql, Long.class);
+${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}return this.queryCount(countSql, ${initialLowercaseEntityName}Query, Long.class);
+${ci}${ci}${ci}}
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public ${initialCaseEntityName} get${initialCaseEntityName}ByPk(${primaryKeyDataType} ${primaryKeyInitialLowercaseColumnName}) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${primaryKeyInitialLowercaseColumnName});
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isNullStr(${primaryKeyInitialLowercaseColumnName})) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}StringBuilder querySql = new StringBuilder(SELECT_SQL);
+${ci}${ci}${ci}querySql.append(this.getByPkSql(COLUMNS_PARAMETER, PRIMARY_KEY, TABLE_ALIAS));
+${ci}${ci}${ci}MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+${ci}${ci}${ci}if (ToolUtil.isNotEmpty(PRIMARY_KEY) && PRIMARY_KEY.size() == 1) {
+${ci}${ci}${ci}${ci}for (String pk : PRIMARY_KEY) {
+${ci}${ci}${ci}${ci}${ci}mapSqlParameterSource.addValue(pk, ${primaryKeyInitialLowercaseColumnName});
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}}
+${ci}${ci}${ci}Collection<${initialCaseEntityName}> ${initialLowercaseEntityName}Set = this.query(querySql, mapSqlParameterSource, ${initialCaseEntityName}.class);
+${ci}${ci}${ci}return ToolUtil.isNotEmpty(${initialLowercaseEntityName}Set) ? ${initialLowercaseEntityName}Set.iterator().next() : null;
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public Collection<${initialCaseEntityName}> getAll${initialCaseEntityName}() throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}StringBuilder querySql = new StringBuilder(SELECT_SQL);
+${ci}${ci}${ci}querySql.append(this.getSortSql(SORT, COLUMNS_PARAMETER, TABLE_ALIAS));
+${ci}${ci}${ci}return this.query(querySql, ${initialCaseEntityName}.class);
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public Collection<${initialCaseEntityName}> query${initialCaseEntityName}(${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName}Query);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}StringBuilder querySql = new StringBuilder(SELECT_SQL);
+${ci}${ci}${ci}if (!ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}querySql.append(this.getQuerySql(COLUMNS, COLUMNS_PARAMETER, TABLE_ALIAS, ${initialLowercaseEntityName}Query));
+${ci}${ci}${ci}}
+${ci}${ci}${ci}querySql.append(this.getSortSql(SORT, COLUMNS_PARAMETER, TABLE_ALIAS));
+${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}return this.query(querySql, ${initialCaseEntityName}.class);
+${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}return this.query(querySql, ${initialLowercaseEntityName}Query, ${initialCaseEntityName}.class);
+${ci}${ci}${ci}}
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public Paging<${initialCaseEntityName}> pagingQuery${initialCaseEntityName}(Param param, ${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + param);
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName}Query);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(param)) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}if (param.getRows() < 0) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}if (param.getPage() < 1) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}Paging<${initialCaseEntityName}> paging = new Paging<>(param);
+${ci}${ci}${ci}StringBuilder countSql = new StringBuilder(COUNT_SQL);
+${ci}${ci}${ci}if (!ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}countSql.append(this.getQuerySql(COLUMNS, COLUMNS_PARAMETER, TABLE_ALIAS, ${initialLowercaseEntityName}Query));
+${ci}${ci}${ci}}
+${ci}${ci}${ci}Long count = null;
+${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}count = this.queryCount(countSql, Long.class);
+${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}count = this.queryCount(countSql, ${initialLowercaseEntityName}Query, Long.class);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}paging.setCount(count);
+${ci}${ci}${ci}if (count > 0) {
+${ci}${ci}${ci}${ci}StringBuilder querySql = new StringBuilder(this.getPagingSql(TABLE_NAME, COLUMNS_PARAMETER, PRIMARY_KEY, TABLE_ALIAS));
+${ci}${ci}${ci}${ci}if (!ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}${ci}querySql.append(this.getQuerySql(COLUMNS, COLUMNS_PARAMETER, TABLE_ALIAS, ${initialLowercaseEntityName}Query));
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}querySql.append(this.getPagingSql(SORT, COLUMNS_PARAMETER, TABLE_ALIAS, paging));
+${ci}${ci}${ci}${ci}Collection<${initialCaseEntityName}> ${initialLowercaseEntityName}Set = null;
+${ci}${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Set = this.query(querySql, ${initialCaseEntityName}.class);
+${ci}${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Set = this.query(querySql, ${initialLowercaseEntityName}Query, ${initialCaseEntityName}.class);
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}if (ToolUtil.isNotEmpty(${initialLowercaseEntityName}Set)) {
+${ci}${ci}${ci}${ci}${ci}Set<String> in${primaryKeyInitialCaseColumnName} = new LinkedHashSet<>();
+${ci}${ci}${ci}${ci}${ci}for (${initialCaseEntityName} ${initialLowercaseEntityName} : ${initialLowercaseEntityName}Set) {
+${ci}${ci}${ci}${ci}${ci}${ci}in${primaryKeyInitialCaseColumnName}.add(${initialLowercaseEntityName}.get${primaryKeyInitialCaseColumnName}());
+${ci}${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}${ci}${initialCaseEntityName}Query r${initialCaseEntityName}Query = new ${initialCaseEntityName}Query();
+${ci}${ci}${ci}${ci}${ci}r${initialCaseEntityName}Query.set${primaryKeyInitialCaseColumnName}Andin(new ArrayList<>(in${primaryKeyInitialCaseColumnName}));
+${ci}${ci}${ci}${ci}${ci}Collection<${initialCaseEntityName}> r${initialCaseEntityName}Set = this.query${initialCaseEntityName}(r${initialCaseEntityName}Query);
+${ci}${ci}${ci}${ci}${ci}if (ToolUtil.isNotEmpty(r${initialCaseEntityName}Set)) {
+${ci}${ci}${ci}${ci}${ci}${ci}paging.setData(r${initialCaseEntityName}Set);
+${ci}${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}}
+${ci}${ci}${ci}return paging;
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public ${initialCaseEntityName}VO get${initialCaseEntityName}VOByPk(${primaryKeyDataType} ${primaryKeyInitialLowercaseColumnName}) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${primaryKeyInitialLowercaseColumnName});
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isNullStr(${primaryKeyInitialLowercaseColumnName})) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}StringBuilder querySql = new StringBuilder(SELECT_VO_SQL);
+${ci}${ci}${ci}querySql.append(this.getByPkSql(COLUMNS_PARAMETER, PRIMARY_KEY, TABLE_ALIAS));
+${ci}${ci}${ci}MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+${ci}${ci}${ci}if (ToolUtil.isNotEmpty(PRIMARY_KEY) && PRIMARY_KEY.size() == 1) {
+${ci}${ci}${ci}${ci}for (String pk : PRIMARY_KEY) {
+${ci}${ci}${ci}${ci}${ci}mapSqlParameterSource.addValue(pk, ${primaryKeyInitialLowercaseColumnName});
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}}
+${ci}${ci}${ci}Collection<${initialCaseEntityName}VO> ${initialLowercaseEntityName}VOSet = this.query(querySql, mapSqlParameterSource, ${initialCaseEntityName}VO.class);
+${ci}${ci}${ci}return ToolUtil.isNotEmpty(${initialLowercaseEntityName}VOSet) ? ${initialLowercaseEntityName}VOSet.iterator().next() : null;
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public Collection<${initialCaseEntityName}VO> getAll${initialCaseEntityName}VO() throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}StringBuilder querySql = new StringBuilder(SELECT_VO_SQL);
+${ci}${ci}${ci}querySql.append(this.getSortSql(SORT, COLUMNS_PARAMETER, TABLE_ALIAS));
+${ci}${ci}${ci}return this.query(querySql, ${initialCaseEntityName}VO.class);
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public Collection<${initialCaseEntityName}VO> query${initialCaseEntityName}VO(${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName}Query);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}StringBuilder querySql = new StringBuilder(SELECT_VO_SQL);
+${ci}${ci}${ci}if (!ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}querySql.append(this.getQuerySql(COLUMNS, COLUMNS_PARAMETER, TABLE_ALIAS, ${initialLowercaseEntityName}Query));
+${ci}${ci}${ci}}
+${ci}${ci}${ci}querySql.append(this.getSortSql(SORT, COLUMNS_PARAMETER, TABLE_ALIAS));
+${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}return this.query(querySql, ${initialCaseEntityName}VO.class);
+${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}return this.query(querySql, ${initialLowercaseEntityName}Query, ${initialCaseEntityName}VO.class);
+${ci}${ci}${ci}}
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public Paging<${initialCaseEntityName}VO> pagingQuery${initialCaseEntityName}VO(Param param, ${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + param);
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName}Query);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(param)) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}if (param.getRows() < 0) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}if (param.getPage() < 1) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}Paging<${initialCaseEntityName}VO> paging = new Paging<>(param);
+${ci}${ci}${ci}StringBuilder countSql = new StringBuilder(COUNT_SQL);
+${ci}${ci}${ci}if (!ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}countSql.append(this.getQuerySql(COLUMNS, COLUMNS_PARAMETER, TABLE_ALIAS, ${initialLowercaseEntityName}Query));
+${ci}${ci}${ci}}
+${ci}${ci}${ci}Long count = null;
+${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}count = this.queryCount(countSql, Long.class);
+${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}count = this.queryCount(countSql, ${initialLowercaseEntityName}Query, Long.class);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}paging.setCount(count);
+${ci}${ci}${ci}if (count > 0) {
+${ci}${ci}${ci}${ci}StringBuilder querySql = new StringBuilder(this.getPagingSql(TABLE_NAME, COLUMNS_PARAMETER, PRIMARY_KEY, TABLE_ALIAS));
+${ci}${ci}${ci}${ci}if (!ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}${ci}querySql.append(this.getQuerySql(COLUMNS, COLUMNS_PARAMETER, TABLE_ALIAS, ${initialLowercaseEntityName}Query));
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}querySql.append(this.getPagingSql(SORT, COLUMNS_PARAMETER, TABLE_ALIAS, paging));
+${ci}${ci}${ci}${ci}Collection<${initialCaseEntityName}> ${initialLowercaseEntityName}Set = null;
+${ci}${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Set = this.query(querySql, ${initialCaseEntityName}.class);
+${ci}${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Set = this.query(querySql, ${initialLowercaseEntityName}Query, ${initialCaseEntityName}.class);
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}if (ToolUtil.isNotEmpty(${initialLowercaseEntityName}Set)) {
+${ci}${ci}${ci}${ci}${ci}Set<String> in${primaryKeyInitialCaseColumnName} = new LinkedHashSet<>();
+${ci}${ci}${ci}${ci}${ci}for (${initialCaseEntityName} ${initialLowercaseEntityName} : ${initialLowercaseEntityName}Set) {
+${ci}${ci}${ci}${ci}${ci}${ci}in${primaryKeyInitialCaseColumnName}.add(${initialLowercaseEntityName}.get${primaryKeyInitialCaseColumnName}());
+${ci}${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}${ci}${initialCaseEntityName}Query r${initialCaseEntityName}Query = new ${initialCaseEntityName}Query();
+${ci}${ci}${ci}${ci}${ci}r${initialCaseEntityName}Query.set${primaryKeyInitialCaseColumnName}Andin(new ArrayList<>(in${primaryKeyInitialCaseColumnName}));
+${ci}${ci}${ci}${ci}${ci}Collection<${initialCaseEntityName}VO> r${initialCaseEntityName}VOSet = this.query${initialCaseEntityName}VO(r${initialCaseEntityName}Query);
+${ci}${ci}${ci}${ci}${ci}if (ToolUtil.isNotEmpty(r${initialCaseEntityName}VOSet)) {
+${ci}${ci}${ci}${ci}${ci}${ci}paging.setData(r${initialCaseEntityName}VOSet);
+${ci}${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}}
+${ci}${ci}${ci}return paging;
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+}

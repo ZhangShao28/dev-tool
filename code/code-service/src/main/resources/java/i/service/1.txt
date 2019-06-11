@@ -1,0 +1,91 @@
+package ${iServicePackageName};
+
+import java.util.Collection;
+
+import cn.moonnow.tool.util.Paging;
+import cn.moonnow.tool.util.Param;
+import ${entityPackageName}.${initialCaseEntityName};
+import ${queryPackageName}.${initialCaseEntityName}Query;
+import ${VOPackageName}.${initialCaseEntityName}VO;
+
+/**
+ * ${dtNameAnnotation} 服务接口
+ */
+public interface I${initialCaseEntityName}Service {
+
+${ci}/**
+${ci} * 保存 ${dtNameAnnotation} 信息
+${ci} */
+${ci}public ${initialCaseEntityName} save${initialCaseEntityName}(${initialCaseEntityName} ${initialLowercaseEntityName}) throws Exception;
+
+${ci}/**
+${ci} * 批量保存 ${dtNameAnnotation} 信息
+${ci} */
+${ci}public Collection<${initialCaseEntityName}> batchSave${initialCaseEntityName}(Collection<${initialCaseEntityName}> ${initialLowercaseEntityName}s) throws Exception;
+
+${ci}/**
+${ci} * 修改 ${dtNameAnnotation} 信息
+${ci} */
+${ci}public ${initialCaseEntityName} update${initialCaseEntityName}(${initialCaseEntityName} ${initialLowercaseEntityName}) throws Exception;
+
+${ci}/**
+${ci} * 批量修改 ${dtNameAnnotation} 信息
+${ci} */
+${ci}public Collection<${initialCaseEntityName}> batchUpdate${initialCaseEntityName}(Collection<${initialCaseEntityName}> ${initialLowercaseEntityName}s) throws Exception;
+
+${ci}/**
+${ci} * 删除 ${dtNameAnnotation} 信息
+${ci} */
+${ci}public void remove${initialCaseEntityName}(${initialCaseEntityName} ${initialLowercaseEntityName}) throws Exception;
+
+${ci}/**
+${ci} * 批量删除 ${dtNameAnnotation} 信息
+${ci} */
+${ci}public void batchRemove${initialCaseEntityName}(Collection<${initialCaseEntityName}> ${initialLowercaseEntityName}s) throws Exception;
+
+${ci}/**
+${ci} * 获取 ${dtNameAnnotation} 数据量
+${ci} */
+${ci}public Long getCount${initialCaseEntityName}(${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws Exception;
+
+${ci}/**
+${ci} * 通过主键获取 ${dtNameAnnotation} 数据
+${ci} */
+${ci}public ${initialCaseEntityName} get${initialCaseEntityName}ByPk(${primaryKeyDataType} ${primaryKeyInitialLowercaseColumnName}) throws Exception;
+
+${ci}/**
+${ci} * 获取 ${dtNameAnnotation} 所有数据
+${ci} */
+${ci}public Collection<${initialCaseEntityName}> getAll${initialCaseEntityName}() throws Exception;
+
+${ci}/**
+${ci} * 查询 ${dtNameAnnotation} 数据
+${ci} */
+${ci}public Collection<${initialCaseEntityName}> query${initialCaseEntityName}(${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws Exception;
+
+${ci}/**
+${ci} * 分页查询 ${dtNameAnnotation} 数据
+${ci} */
+${ci}public Paging<${initialCaseEntityName}> pagingQuery${initialCaseEntityName}(Param param, ${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws Exception;
+
+${ci}/**
+${ci} * 通过主键获取 ${dtNameAnnotation} 展示数据
+${ci} */
+${ci}public ${initialCaseEntityName}VO get${initialCaseEntityName}VOByPk(${primaryKeyDataType} ${primaryKeyInitialLowercaseColumnName}) throws Exception;
+
+${ci}/**
+${ci} * 获取 ${dtNameAnnotation} 所有展示数据
+${ci} */
+${ci}public Collection<${initialCaseEntityName}VO> getAll${initialCaseEntityName}VO() throws Exception;
+
+${ci}/**
+${ci} * 查询 ${dtNameAnnotation} 展示数据
+${ci} */
+${ci}public Collection<${initialCaseEntityName}VO> query${initialCaseEntityName}VO(${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws Exception;
+
+${ci}/**
+${ci} * 分页查询 ${dtNameAnnotation} 展示数据
+${ci} */
+${ci}public Paging<${initialCaseEntityName}VO> pagingQuery${initialCaseEntityName}VO(Param param, ${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws Exception;
+
+}

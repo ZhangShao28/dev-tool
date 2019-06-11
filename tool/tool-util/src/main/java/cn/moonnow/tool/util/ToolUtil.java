@@ -2,10 +2,12 @@ package cn.moonnow.tool.util;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -27,7 +29,11 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -44,6 +50,16 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
  * 工具类
  */
 public final class ToolUtil {
+
+  /**
+   * 代码生成全局配置
+   */
+  public static final LinkedHashMap<String, String> CONFIG_MAP = new LinkedHashMap<String, String>();
+
+  static {
+    // 配置代码生成全局缩进
+    CONFIG_MAP.put("ci", "  ");
+  }
 
   /**
    * 自定义条件查询</br>
@@ -755,6 +771,788 @@ public final class ToolUtil {
     } else {
       return "String";
     }
+  }
+
+  /**
+   * 从配置参数得到jdbc实体类文件路径
+   */
+  public static String getJdbcEntityFilePathStrFromConfig(String proPath, String proAllName, String initialCaseEntityName) {
+    if (ToolUtil.isNotNullStr(proPath) && ToolUtil.isNotNullStr(proAllName) && ToolUtil.isNotNullStr(initialCaseEntityName)) {
+      LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
+      int proAllNameSort = 1;
+      while (-1 != proAllName.indexOf("-")) {
+        proAllNameList.put(proAllNameSort, proAllName.substring(0, proAllName.indexOf("-")));
+        proAllName = proAllName.substring(proAllName.indexOf("-") + 1);
+        proAllNameSort++;
+      }
+      proAllNameList.put(proAllNameSort, proAllName);
+      if (!"/".equals(proPath.substring(proPath.length() - 1, proPath.length()))) {
+        proPath = proPath + "/";
+      }
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "-";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath.substring(0, proPath.length() - 1);
+      proPath = proPath + "/";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "-";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath + "entity/src/main/java/cn/moonnow/";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "/";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath + "entity/" + initialCaseEntityName + ".java";
+      return proPath;
+    }
+    return "";
+  }
+
+  /**
+   * 从配置参数得到持久化接口类文件路径
+   */
+  public static String getIPersistentFilePathStrFromConfig(String proPath, String proAllName, String initialCaseEntityName) {
+    if (ToolUtil.isNotNullStr(proPath) && ToolUtil.isNotNullStr(proAllName) && ToolUtil.isNotNullStr(initialCaseEntityName)) {
+      LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
+      int proAllNameSort = 1;
+      while (-1 != proAllName.indexOf("-")) {
+        proAllNameList.put(proAllNameSort, proAllName.substring(0, proAllName.indexOf("-")));
+        proAllName = proAllName.substring(proAllName.indexOf("-") + 1);
+        proAllNameSort++;
+      }
+      proAllNameList.put(proAllNameSort, proAllName);
+      if (!"/".equals(proPath.substring(proPath.length() - 1, proPath.length()))) {
+        proPath = proPath + "/";
+      }
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "-";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath.substring(0, proPath.length() - 1);
+      proPath = proPath + "/";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "-";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath + "interface/src/main/java/cn/moonnow/";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "/";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath + "persistent/I" + initialCaseEntityName + "Persistent.java";
+      return proPath;
+    }
+    return "";
+  }
+
+  /**
+   * 从配置参数得到jdbc持久化实现类文件路径
+   */
+  public static String getJdbcPersistentImplFilePathStrFromConfig(String proPath, String proAllName, String initialCaseEntityName) {
+    if (ToolUtil.isNotNullStr(proPath) && ToolUtil.isNotNullStr(proAllName) && ToolUtil.isNotNullStr(initialCaseEntityName)) {
+      LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
+      int proAllNameSort = 1;
+      while (-1 != proAllName.indexOf("-")) {
+        proAllNameList.put(proAllNameSort, proAllName.substring(0, proAllName.indexOf("-")));
+        proAllName = proAllName.substring(proAllName.indexOf("-") + 1);
+        proAllNameSort++;
+      }
+      proAllNameList.put(proAllNameSort, proAllName);
+      if (!"/".equals(proPath.substring(proPath.length() - 1, proPath.length()))) {
+        proPath = proPath + "/";
+      }
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "-";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath.substring(0, proPath.length() - 1);
+      proPath = proPath + "/";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "-";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath + "persistent/src/main/java/cn/moonnow/";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "/";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath + "persistent/impl/" + initialCaseEntityName + "PersistentImpl.java";
+      return proPath;
+    }
+    return "";
+  }
+
+  /**
+   * 从配置参数得到服务接口类文件路径
+   */
+  public static String getIServiceFilePathStrFromConfig(String proPath, String proAllName, String initialCaseEntityName) {
+    if (ToolUtil.isNotNullStr(proPath) && ToolUtil.isNotNullStr(proAllName) && ToolUtil.isNotNullStr(initialCaseEntityName)) {
+      LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
+      int proAllNameSort = 1;
+      while (-1 != proAllName.indexOf("-")) {
+        proAllNameList.put(proAllNameSort, proAllName.substring(0, proAllName.indexOf("-")));
+        proAllName = proAllName.substring(proAllName.indexOf("-") + 1);
+        proAllNameSort++;
+      }
+      proAllNameList.put(proAllNameSort, proAllName);
+      if (!"/".equals(proPath.substring(proPath.length() - 1, proPath.length()))) {
+        proPath = proPath + "/";
+      }
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "-";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath.substring(0, proPath.length() - 1);
+      proPath = proPath + "/";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "-";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath + "interface/src/main/java/cn/moonnow/";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "/";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath + "service/I" + initialCaseEntityName + "Service.java";
+      return proPath;
+    }
+    return "";
+  }
+
+  /**
+   * 从配置参数得到服务实现类文件路径
+   */
+  public static String getServiceImplFilePathStrFromConfig(String proPath, String proAllName, String initialCaseEntityName) {
+    if (ToolUtil.isNotNullStr(proPath) && ToolUtil.isNotNullStr(proAllName) && ToolUtil.isNotNullStr(initialCaseEntityName)) {
+      LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
+      int proAllNameSort = 1;
+      while (-1 != proAllName.indexOf("-")) {
+        proAllNameList.put(proAllNameSort, proAllName.substring(0, proAllName.indexOf("-")));
+        proAllName = proAllName.substring(proAllName.indexOf("-") + 1);
+        proAllNameSort++;
+      }
+      proAllNameList.put(proAllNameSort, proAllName);
+      if (!"/".equals(proPath.substring(proPath.length() - 1, proPath.length()))) {
+        proPath = proPath + "/";
+      }
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "-";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath.substring(0, proPath.length() - 1);
+      proPath = proPath + "/";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "-";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath + "service/src/main/java/cn/moonnow/";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "/";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath + "service/impl/" + initialCaseEntityName + "ServiceImpl.java";
+      return proPath;
+    }
+    return "";
+  }
+
+  /**
+   * 从配置参数得到控制器类文件路径
+   */
+  public static String getControllerFilePathStrFromConfig(String proPath, String proAllName, String initialCaseEntityName) {
+    if (ToolUtil.isNotNullStr(proPath) && ToolUtil.isNotNullStr(proAllName) && ToolUtil.isNotNullStr(initialCaseEntityName)) {
+      LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
+      int proAllNameSort = 1;
+      while (-1 != proAllName.indexOf("-")) {
+        proAllNameList.put(proAllNameSort, proAllName.substring(0, proAllName.indexOf("-")));
+        proAllName = proAllName.substring(proAllName.indexOf("-") + 1);
+        proAllNameSort++;
+      }
+      proAllNameList.put(proAllNameSort, proAllName);
+      if (!"/".equals(proPath.substring(proPath.length() - 1, proPath.length()))) {
+        proPath = proPath + "/";
+      }
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "-";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath.substring(0, proPath.length() - 1);
+      proPath = proPath + "/";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "-";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath + "rest/src/main/java/cn/moonnow/";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "/";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath + "rest/" + initialCaseEntityName + "Controller.java";
+      return proPath;
+    }
+    return "";
+  }
+
+  /**
+   * 从配置参数得到查询类文件路径
+   */
+  public static String getQueryFilePathStrFromConfig(String proPath, String proAllName, String initialCaseEntityName) {
+    if (ToolUtil.isNotNullStr(proPath) && ToolUtil.isNotNullStr(proAllName) && ToolUtil.isNotNullStr(initialCaseEntityName)) {
+      LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
+      int proAllNameSort = 1;
+      while (-1 != proAllName.indexOf("-")) {
+        proAllNameList.put(proAllNameSort, proAllName.substring(0, proAllName.indexOf("-")));
+        proAllName = proAllName.substring(proAllName.indexOf("-") + 1);
+        proAllNameSort++;
+      }
+      proAllNameList.put(proAllNameSort, proAllName);
+      if (!"/".equals(proPath.substring(proPath.length() - 1, proPath.length()))) {
+        proPath = proPath + "/";
+      }
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "-";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath.substring(0, proPath.length() - 1);
+      proPath = proPath + "/";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "-";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath + "interface/src/main/java/cn/moonnow/";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "/";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath + "query/" + initialCaseEntityName + "Query.java";
+      return proPath;
+    }
+    return "";
+  }
+
+  /**
+   * 从配置参数得到VO类文件路径
+   */
+  public static String getVoFilePathStrFromConfig(String proPath, String proAllName, String initialCaseEntityName) {
+    if (ToolUtil.isNotNullStr(proPath) && ToolUtil.isNotNullStr(proAllName) && ToolUtil.isNotNullStr(initialCaseEntityName)) {
+      LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
+      int proAllNameSort = 1;
+      while (-1 != proAllName.indexOf("-")) {
+        proAllNameList.put(proAllNameSort, proAllName.substring(0, proAllName.indexOf("-")));
+        proAllName = proAllName.substring(proAllName.indexOf("-") + 1);
+        proAllNameSort++;
+      }
+      proAllNameList.put(proAllNameSort, proAllName);
+      if (!"/".equals(proPath.substring(proPath.length() - 1, proPath.length()))) {
+        proPath = proPath + "/";
+      }
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "-";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath.substring(0, proPath.length() - 1);
+      proPath = proPath + "/";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "-";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath + "interface/src/main/java/cn/moonnow/";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "/";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath + "vo/" + initialCaseEntityName + "VO.java";
+      return proPath;
+    }
+    return "";
+  }
+
+  /**
+   * 从配置参数得到jdbc实体类包名
+   */
+  public static String getEntityPackageNameStrFromConfig(String proAllName) {
+    if (ToolUtil.isNotNullStr(proAllName)) {
+      LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
+      int proAllNameSort = 1;
+      while (-1 != proAllName.indexOf("-")) {
+        proAllNameList.put(proAllNameSort, proAllName.substring(0, proAllName.indexOf("-")));
+        proAllName = proAllName.substring(proAllName.indexOf("-") + 1);
+        proAllNameSort++;
+      }
+      proAllNameList.put(proAllNameSort, proAllName);
+      proAllName = "cn.moonnow.";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proAllName = proAllName + proAllNameList.get(i) + ".";
+        } else {
+          break;
+        }
+      }
+      proAllName = proAllName + "entity";
+      return proAllName;
+    }
+    return "";
+  }
+
+  /**
+   * 模板字符串替换
+   */
+  public static String renderString(String content, Map<String, String> map) {
+    Set<Entry<String, String>> sets = map.entrySet();
+    for (Entry<String, String> entry : sets) {
+      String regex = "\\$\\{" + entry.getKey() + "\\}";
+      Pattern pattern = Pattern.compile(regex);
+      Matcher matcher = pattern.matcher(content);
+      content = matcher.replaceAll(entry.getValue());
+    }
+    return content;
+  }
+
+  /**
+   * 从资源文件路径获取文件内容字符串
+   */
+  public static String getStrFromFileResourcesPath(String str) {
+    StringBuilder str1 = new StringBuilder();
+    String str2 = null;
+    BufferedReader reader = null;
+    try {
+      reader = new BufferedReader(new InputStreamReader(ToolUtil.class.getResourceAsStream(str)));
+      while ((str2 = reader.readLine()) != null) {
+        str1.append(str2).append("\n");
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    } finally {
+      if (reader != null) {
+        try {
+          reader.close();
+        } catch (IOException e1) {
+        }
+      }
+    }
+    return str1.toString();
+  }
+
+  /**
+   * 传入数据库表sql 判断是否需要导入BigDecimal包
+   */
+  public static boolean getIsImportBigDecimalFromDtSqlStr(String str) {
+    if (-1 != str.indexOf("decimal")) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * 传入文件内容字符串和文件绝对路径 生成文件
+   */
+  public static void getFileFromContentStrAndPath(String content, String path) {
+    try {
+      File f = new File(path);
+      if (!f.exists()) {
+        new File(path.substring(0, path.lastIndexOf("/"))).mkdirs();
+      }
+      FileOutputStream fop = new FileOutputStream(f);
+      OutputStreamWriter writer = new OutputStreamWriter(fop, "UTF-8");
+      writer.append(content);
+      writer.close();
+      fop.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * 从文件路径获取文件内容字符串
+   */
+  public static String getStrFromFilePath(String str) {
+    StringBuilder str1 = new StringBuilder();
+    String str2 = null;
+    File file = new File(str);
+    BufferedReader reader = null;
+    try {
+      reader = new BufferedReader(new FileReader(file));
+      while ((str2 = reader.readLine()) != null) {
+        str1.append(str2).append("\n");
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    } finally {
+      if (reader != null) {
+        try {
+          reader.close();
+        } catch (IOException e1) {
+        }
+      }
+    }
+    return str1.toString();
+  }
+
+  /**
+   * 从配置参数得到查询类包名
+   */
+  public static String getQueryPackageNameStrFromConfig(String proAllName) {
+    if (ToolUtil.isNotNullStr(proAllName)) {
+      LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
+      int proAllNameSort = 1;
+      while (-1 != proAllName.indexOf("-")) {
+        proAllNameList.put(proAllNameSort, proAllName.substring(0, proAllName.indexOf("-")));
+        proAllName = proAllName.substring(proAllName.indexOf("-") + 1);
+        proAllNameSort++;
+      }
+      proAllNameList.put(proAllNameSort, proAllName);
+      proAllName = "cn.moonnow.";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proAllName = proAllName + proAllNameList.get(i) + ".";
+        } else {
+          break;
+        }
+      }
+      proAllName = proAllName + "query";
+      return proAllName;
+    }
+    return "";
+  }
+
+  /**
+   * 从配置参数得到数据展示(VO)类包名
+   */
+  public static String getVOPackageNameStrFromConfig(String proAllName) {
+    if (ToolUtil.isNotNullStr(proAllName)) {
+      LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
+      int proAllNameSort = 1;
+      while (-1 != proAllName.indexOf("-")) {
+        proAllNameList.put(proAllNameSort, proAllName.substring(0, proAllName.indexOf("-")));
+        proAllName = proAllName.substring(proAllName.indexOf("-") + 1);
+        proAllNameSort++;
+      }
+      proAllNameList.put(proAllNameSort, proAllName);
+      proAllName = "cn.moonnow.";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proAllName = proAllName + proAllNameList.get(i) + ".";
+        } else {
+          break;
+        }
+      }
+      proAllName = proAllName + "vo";
+      return proAllName;
+    }
+    return "";
+  }
+
+  /**
+   * 从配置参数得到持久化接口类包名
+   */
+  public static String getIPersistentPackageNameStrFromConfig(String proAllName) {
+    if (ToolUtil.isNotNullStr(proAllName)) {
+      LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
+      int proAllNameSort = 1;
+      while (-1 != proAllName.indexOf("-")) {
+        proAllNameList.put(proAllNameSort, proAllName.substring(0, proAllName.indexOf("-")));
+        proAllName = proAllName.substring(proAllName.indexOf("-") + 1);
+        proAllNameSort++;
+      }
+      proAllNameList.put(proAllNameSort, proAllName);
+      proAllName = "cn.moonnow.";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proAllName = proAllName + proAllNameList.get(i) + ".";
+        } else {
+          break;
+        }
+      }
+      proAllName = proAllName + "persistent";
+      return proAllName;
+    }
+    return "";
+  }
+
+  /**
+   * 从配置参数得到jdbc持久化实现类包名
+   */
+  public static String getJdbcPersistentImplPackageNameStrFromConfig(String proAllName) {
+    if (ToolUtil.isNotNullStr(proAllName)) {
+      LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
+      int proAllNameSort = 1;
+      while (-1 != proAllName.indexOf("-")) {
+        proAllNameList.put(proAllNameSort, proAllName.substring(0, proAllName.indexOf("-")));
+        proAllName = proAllName.substring(proAllName.indexOf("-") + 1);
+        proAllNameSort++;
+      }
+      proAllNameList.put(proAllNameSort, proAllName);
+      proAllName = "cn.moonnow.";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proAllName = proAllName + proAllNameList.get(i) + ".";
+        } else {
+          break;
+        }
+      }
+      proAllName = proAllName + "persistent.impl";
+      return proAllName;
+    }
+    return "";
+  }
+
+  /**
+   * 从配置参数得到持久化实现类名称前缀
+   */
+  public static String getPersistentImplNamePrefixStrFromConfig(String proAllName) {
+    if (ToolUtil.isNotNullStr(proAllName)) {
+      LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
+      int proAllNameSort = 1;
+      while (-1 != proAllName.indexOf("-")) {
+        proAllNameList.put(proAllNameSort, proAllName.substring(0, proAllName.indexOf("-")));
+        proAllName = proAllName.substring(proAllName.indexOf("-") + 1);
+        proAllNameSort++;
+      }
+      proAllNameList.put(proAllNameSort, proAllName);
+      proAllName = "cn.moonnow.";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proAllName = proAllName + proAllNameList.get(i) + ".";
+        } else {
+          break;
+        }
+      }
+      return proAllName;
+    }
+    return "";
+  }
+
+  /**
+   * 从配置参数得到服务接口类包名
+   */
+  public static String getIServicePackageNameStrFromConfig(String proAllName) {
+    if (ToolUtil.isNotNullStr(proAllName)) {
+      LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
+      int proAllNameSort = 1;
+      while (-1 != proAllName.indexOf("-")) {
+        proAllNameList.put(proAllNameSort, proAllName.substring(0, proAllName.indexOf("-")));
+        proAllName = proAllName.substring(proAllName.indexOf("-") + 1);
+        proAllNameSort++;
+      }
+      proAllNameList.put(proAllNameSort, proAllName);
+      proAllName = "cn.moonnow.";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proAllName = proAllName + proAllNameList.get(i) + ".";
+        } else {
+          break;
+        }
+      }
+      proAllName = proAllName + "service";
+      return proAllName;
+    }
+    return "";
+  }
+
+  /**
+   * 从配置参数得到服务实现类包名
+   */
+  public static String getServiceImplPackageNameStrFromConfig(String proAllName) {
+    if (ToolUtil.isNotNullStr(proAllName)) {
+      LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
+      int proAllNameSort = 1;
+      while (-1 != proAllName.indexOf("-")) {
+        proAllNameList.put(proAllNameSort, proAllName.substring(0, proAllName.indexOf("-")));
+        proAllName = proAllName.substring(proAllName.indexOf("-") + 1);
+        proAllNameSort++;
+      }
+      proAllNameList.put(proAllNameSort, proAllName);
+      proAllName = "cn.moonnow.";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proAllName = proAllName + proAllNameList.get(i) + ".";
+        } else {
+          break;
+        }
+      }
+      proAllName = proAllName + "service.impl";
+      return proAllName;
+    }
+    return "";
+  }
+
+  /**
+   * 从配置参数得到服务实现类名称前缀
+   */
+  public static String getServiceImplNamePrefixStrFromConfig(String proAllName) {
+    if (ToolUtil.isNotNullStr(proAllName)) {
+      LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
+      int proAllNameSort = 1;
+      while (-1 != proAllName.indexOf("-")) {
+        proAllNameList.put(proAllNameSort, proAllName.substring(0, proAllName.indexOf("-")));
+        proAllName = proAllName.substring(proAllName.indexOf("-") + 1);
+        proAllNameSort++;
+      }
+      proAllNameList.put(proAllNameSort, proAllName);
+      proAllName = "cn.moonnow.";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proAllName = proAllName + proAllNameList.get(i) + ".";
+        } else {
+          break;
+        }
+      }
+      return proAllName;
+    }
+    return "";
+  }
+
+  /**
+   * 从配置参数得到控制器类包名
+   */
+  public static String getControllerPackageNameStrFromConfig(String proAllName) {
+    if (ToolUtil.isNotNullStr(proAllName)) {
+      LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
+      int proAllNameSort = 1;
+      while (-1 != proAllName.indexOf("-")) {
+        proAllNameList.put(proAllNameSort, proAllName.substring(0, proAllName.indexOf("-")));
+        proAllName = proAllName.substring(proAllName.indexOf("-") + 1);
+        proAllNameSort++;
+      }
+      proAllNameList.put(proAllNameSort, proAllName);
+      proAllName = "cn.moonnow.";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proAllName = proAllName + proAllNameList.get(i) + ".";
+        } else {
+          break;
+        }
+      }
+      proAllName = proAllName + "rest";
+      return proAllName;
+    }
+    return "";
+  }
+
+  /**
+   * 从配置参数得到控制器url
+   */
+  public static String getControllerUrlStrFromConfig(String proAllName) {
+    if (ToolUtil.isNotNullStr(proAllName)) {
+      LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
+      int proAllNameSort = 1;
+      while (-1 != proAllName.indexOf("-")) {
+        proAllNameList.put(proAllNameSort, proAllName.substring(0, proAllName.indexOf("-")));
+        proAllName = proAllName.substring(proAllName.indexOf("-") + 1);
+        proAllNameSort++;
+      }
+      proAllNameList.put(proAllNameSort, proAllName);
+      proAllName = "";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proAllName = proAllName + proAllNameList.get(i) + "/";
+        } else {
+          break;
+        }
+      }
+      return proAllName;
+    }
+    return "";
+  }
+
+  /**
+   * 从配置参数得到业务类路径
+   */
+  public static String getBusinessPathStrFromConfig(String proAllName) {
+    if (ToolUtil.isNotNullStr(proAllName)) {
+      LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
+      int proAllNameSort = 1;
+      while (-1 != proAllName.indexOf("-")) {
+        proAllNameList.put(proAllNameSort, proAllName.substring(0, proAllName.indexOf("-")));
+        proAllName = proAllName.substring(proAllName.indexOf("-") + 1);
+        proAllNameSort++;
+      }
+      proAllNameList.put(proAllNameSort, proAllName);
+      proAllName = "";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proAllName = proAllName + proAllNameList.get(i) + "/";
+        } else {
+          break;
+        }
+      }
+      return proAllName;
+    }
+    return "";
   }
 
 }

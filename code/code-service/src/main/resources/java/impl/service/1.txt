@@ -1,0 +1,373 @@
+package ${serviceImplPackageName};
+
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+import javax.annotation.Resource;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import cn.moonnow.tool.exception.ToolException;
+import cn.moonnow.tool.util.Paging;
+import cn.moonnow.tool.util.Param;
+import cn.moonnow.tool.util.ToolUtil;
+import ${entityPackageName}.${initialCaseEntityName};
+import ${iPersistentPackageName}.I${initialCaseEntityName}Persistent;
+import ${queryPackageName}.${initialCaseEntityName}Query;
+import ${iServicePackageName}.I${initialCaseEntityName}Service;
+import ${VOPackageName}.${initialCaseEntityName}VO;
+import lombok.extern.log4j.Log4j2;
+
+/**
+ * ${dtNameAnnotation} 服务实现
+ */
+@Log4j2
+@Service("${serviceImplNamePrefix}${initialCaseEntityName}Service")
+@Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true, rollbackFor = Exception.class)
+public class ${initialCaseEntityName}ServiceImpl implements I${initialCaseEntityName}Service {
+
+${ci}public static final String LOG = "${initialCaseEntityName}Service";
+
+${ci}@Resource(name = "${persistentImplNamePrefix}${initialCaseEntityName}Persistent")
+${ci}private I${initialCaseEntityName}Persistent ${initialLowercaseEntityName}Persistent;
+
+${ci}@Override
+${ci}@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+${ci}public ${initialCaseEntityName} save${initialCaseEntityName}(${initialCaseEntityName} ${initialLowercaseEntityName}) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName});
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName})) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}${initialLowercaseEntityName}.set${primaryKeyInitialCaseColumnName}(ToolUtil.getUUID());
+${ci}${ci}${ci}return ${initialLowercaseEntityName}Persistent.save${initialCaseEntityName}(${initialLowercaseEntityName});
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+${ci}public Collection<${initialCaseEntityName}> batchSave${initialCaseEntityName}(Collection<${initialCaseEntityName}> ${initialLowercaseEntityName}s) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName}s);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isEmpty(${initialLowercaseEntityName}s)) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}for (${initialCaseEntityName} ${initialLowercaseEntityName} : ${initialLowercaseEntityName}s) {
+${ci}${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName})) {
+${ci}${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}${initialLowercaseEntityName}.set${primaryKeyInitialCaseColumnName}(ToolUtil.getUUID());
+${ci}${ci}${ci}}
+${ci}${ci}${ci}return ${initialLowercaseEntityName}Persistent.batchSave${initialCaseEntityName}(${initialLowercaseEntityName}s);
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+${ci}public ${initialCaseEntityName} update${initialCaseEntityName}(${initialCaseEntityName} ${initialLowercaseEntityName}) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName});
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName})) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}if (ToolUtil.isNullStr(${initialLowercaseEntityName}.get${primaryKeyInitialCaseColumnName}())) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}${initialCaseEntityName} old${initialCaseEntityName} = ${initialLowercaseEntityName}Persistent.get${initialCaseEntityName}ByPk(${initialLowercaseEntityName}.get${primaryKeyInitialCaseColumnName}());
+${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(old${initialCaseEntityName})) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}return ${initialLowercaseEntityName}Persistent.update${initialCaseEntityName}(${initialLowercaseEntityName});
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+${ci}public Collection<${initialCaseEntityName}> batchUpdate${initialCaseEntityName}(Collection<${initialCaseEntityName}> ${initialLowercaseEntityName}s) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName}s);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isEmpty(${initialLowercaseEntityName}s)) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}for (${initialCaseEntityName} ${initialLowercaseEntityName} : ${initialLowercaseEntityName}s) {
+${ci}${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName})) {
+${ci}${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}if (ToolUtil.isNullStr(${initialLowercaseEntityName}.get${primaryKeyInitialCaseColumnName}())) {
+${ci}${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}${initialCaseEntityName} old${initialCaseEntityName} = ${initialLowercaseEntityName}Persistent.get${initialCaseEntityName}ByPk(${initialLowercaseEntityName}.get${primaryKeyInitialCaseColumnName}());
+${ci}${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(old${initialCaseEntityName})) {
+${ci}${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}}
+${ci}${ci}${ci}return ${initialLowercaseEntityName}Persistent.batchUpdate${initialCaseEntityName}(${initialLowercaseEntityName}s);
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+${ci}public void remove${initialCaseEntityName}(${initialCaseEntityName} ${initialLowercaseEntityName}) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName});
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName})) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}Set<${initialCaseEntityName}> ${initialLowercaseEntityName}Set = new LinkedHashSet<>();
+${ci}${ci}${ci}if (ToolUtil.isNullStr(${initialLowercaseEntityName}.get${primaryKeyInitialCaseColumnName}())) {
+${ci}${ci}${ci}${ci}${initialCaseEntityName}Query ${initialLowercaseEntityName}Query = new ${initialCaseEntityName}Query();
+${ci}${ci}${ci}${ci}BeanUtils.copyProperties(${initialLowercaseEntityName}, ${initialLowercaseEntityName}Query);
+${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Set.addAll(${initialLowercaseEntityName}Persistent.query${initialCaseEntityName}(${initialLowercaseEntityName}Query));
+${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}${initialCaseEntityName} old${initialCaseEntityName} = ${initialLowercaseEntityName}Persistent.get${initialCaseEntityName}ByPk(${initialLowercaseEntityName}.get${primaryKeyInitialCaseColumnName}());
+${ci}${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(old${initialCaseEntityName})) {
+${ci}${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Set.add(old${initialCaseEntityName});
+${ci}${ci}${ci}}
+${ci}${ci}${ci}if (ToolUtil.isNotEmpty(${initialLowercaseEntityName}Set)) {
+${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Persistent.batchRemove${initialCaseEntityName}(${initialLowercaseEntityName}Set);
+${ci}${ci}${ci}}
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+${ci}public void batchRemove${initialCaseEntityName}(Collection<${initialCaseEntityName}> ${initialLowercaseEntityName}s) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName}s);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isEmpty(${initialLowercaseEntityName}s)) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}Set<${initialCaseEntityName}> ${initialLowercaseEntityName}Set = new LinkedHashSet<>();
+${ci}${ci}${ci}for (${initialCaseEntityName} ${initialLowercaseEntityName} : ${initialLowercaseEntityName}s) {
+${ci}${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName})) {
+${ci}${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}if (ToolUtil.isNullStr(${initialLowercaseEntityName}.get${primaryKeyInitialCaseColumnName}())) {
+${ci}${ci}${ci}${ci}${ci}${initialCaseEntityName}Query ${initialLowercaseEntityName}Query = new ${initialCaseEntityName}Query();
+${ci}${ci}${ci}${ci}${ci}BeanUtils.copyProperties(${initialLowercaseEntityName}, ${initialLowercaseEntityName}Query);
+${ci}${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Set.addAll(${initialLowercaseEntityName}Persistent.query${initialCaseEntityName}(${initialLowercaseEntityName}Query));
+${ci}${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}${ci}${initialCaseEntityName} old${initialCaseEntityName} = ${initialLowercaseEntityName}Persistent.get${initialCaseEntityName}ByPk(${initialLowercaseEntityName}.get${primaryKeyInitialCaseColumnName}());
+${ci}${ci}${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(old${initialCaseEntityName})) {
+${ci}${ci}${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Set.add(old${initialCaseEntityName});
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}}
+${ci}${ci}${ci}if (ToolUtil.isNotEmpty(${initialLowercaseEntityName}Set)) {
+${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Persistent.batchRemove${initialCaseEntityName}(${initialLowercaseEntityName}Set);
+${ci}${ci}${ci}}
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public Long getCount${initialCaseEntityName}(${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName}Query);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}return ${initialLowercaseEntityName}Persistent.getCount${initialCaseEntityName}(${initialLowercaseEntityName}Query);
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public ${initialCaseEntityName} get${initialCaseEntityName}ByPk(${primaryKeyDataType} ${primaryKeyInitialLowercaseColumnName}) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${primaryKeyInitialLowercaseColumnName});
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isNullStr(${primaryKeyInitialLowercaseColumnName})) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}return ${initialLowercaseEntityName}Persistent.get${initialCaseEntityName}ByPk(${primaryKeyInitialLowercaseColumnName});
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public Collection<${initialCaseEntityName}> getAll${initialCaseEntityName}() throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}return ${initialLowercaseEntityName}Persistent.getAll${initialCaseEntityName}();
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public Collection<${initialCaseEntityName}> query${initialCaseEntityName}(${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName}Query);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}return ${initialLowercaseEntityName}Persistent.query${initialCaseEntityName}(${initialLowercaseEntityName}Query);
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public Paging<${initialCaseEntityName}> pagingQuery${initialCaseEntityName}(Param param, ${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + param);
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName}Query);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(param)) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}return ${initialLowercaseEntityName}Persistent.pagingQuery${initialCaseEntityName}(param, ${initialLowercaseEntityName}Query);
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public ${initialCaseEntityName}VO get${initialCaseEntityName}VOByPk(${primaryKeyDataType} ${primaryKeyInitialLowercaseColumnName}) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${primaryKeyInitialLowercaseColumnName});
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isNullStr(${primaryKeyInitialLowercaseColumnName})) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}return ${initialLowercaseEntityName}Persistent.get${initialCaseEntityName}VOByPk(${primaryKeyInitialLowercaseColumnName});
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public Collection<${initialCaseEntityName}VO> getAll${initialCaseEntityName}VO() throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}return ${initialLowercaseEntityName}Persistent.getAll${initialCaseEntityName}VO();
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public Collection<${initialCaseEntityName}VO> query${initialCaseEntityName}VO(${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName}Query);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}return ${initialLowercaseEntityName}Persistent.query${initialCaseEntityName}VO(${initialLowercaseEntityName}Query);
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public Paging<${initialCaseEntityName}VO> pagingQuery${initialCaseEntityName}VO(Param param, ${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug(ToolUtil.getLog(LOG));
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + param);
+${ci}${ci}${ci}log.debug(ToolUtil.LOG + ${initialLowercaseEntityName}Query);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(param)) {
+${ci}${ci}${ci}${ci}throw new ToolException(ToolException.E_PARAM_ERR);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}return ${initialLowercaseEntityName}Persistent.pagingQuery${initialCaseEntityName}VO(param, ${initialLowercaseEntityName}Query);
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+}

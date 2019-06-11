@@ -1,0 +1,19 @@
+package ${entityPackageName};
+
+import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+
+import lombok.Data;
+
+/**
+ * ${dtNameAnnotation} ${dtName} 实体类
+ */
+@Data
+@TableName(value = "${dtName}")
+public class ${initialCaseEntityName} implements Serializable {
+
+${ci}private static final long serialVersionUID = 1L;
+
+${ci}@TableId

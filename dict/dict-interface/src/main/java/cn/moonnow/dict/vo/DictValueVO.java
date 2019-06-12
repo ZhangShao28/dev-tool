@@ -1,22 +1,17 @@
-package cn.moonnow.dict.entity;
+package cn.moonnow.dict.vo;
 
 import java.io.Serializable;
-
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 
 import lombok.Data;
 
 /**
- * 数据字典值 DEV_DICT_VALUE 实体类
+ * 数据字典值 DEV_DICT_VALUE 展示类
  */
 @Data
-@TableName(value = "DEV_DICT_VALUE")
-public class DictValue implements Serializable {
+public class DictValueVO implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  @TableId
   protected String dictValueId; // 数据字典值编号
 
   protected String code; // 代码

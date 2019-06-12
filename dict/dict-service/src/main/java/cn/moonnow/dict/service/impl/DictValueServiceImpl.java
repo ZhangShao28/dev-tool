@@ -15,39 +15,39 @@ import cn.moonnow.tool.exception.ToolException;
 import cn.moonnow.tool.util.Paging;
 import cn.moonnow.tool.util.Param;
 import cn.moonnow.tool.util.ToolUtil;
-import cn.moonnow.dict.entity.Dict;
-import cn.moonnow.dict.persistent.IDictPersistent;
-import cn.moonnow.dict.query.DictQuery;
-import cn.moonnow.dict.service.IDictService;
-import cn.moonnow.dict.vo.DictVO;
+import cn.moonnow.dict.entity.DictValue;
+import cn.moonnow.dict.persistent.IDictValuePersistent;
+import cn.moonnow.dict.query.DictValueQuery;
+import cn.moonnow.dict.service.IDictValueService;
+import cn.moonnow.dict.vo.DictValueVO;
 import lombok.extern.log4j.Log4j2;
 
 /**
- * 数据字典 服务实现
+ * 数据字典值 服务实现
  */
 @Log4j2
-@Service("cn.moonnow.dict.DictService")
+@Service("cn.moonnow.dict.DictValueService")
 @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true, rollbackFor = Exception.class)
-public class DictServiceImpl implements IDictService {
+public class DictValueServiceImpl implements IDictValueService {
 
-  public static final String LOG = "DictService";
+  public static final String LOG = "DictValueService";
 
-  @Resource(name = "cn.moonnow.dict.DictPersistent")
-  private IDictPersistent dictPersistent;
+  @Resource(name = "cn.moonnow.dict.DictValuePersistent")
+  private IDictValuePersistent dictValuePersistent;
 
   @Override
   @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-  public Dict saveDict(Dict dict) throws Exception {
+  public DictValue saveDictValue(DictValue dictValue) throws Exception {
     if (log.isDebugEnabled()) {
       log.debug(ToolUtil.getLog(LOG));
-      log.debug(ToolUtil.LOG + dict);
+      log.debug(ToolUtil.LOG + dictValue);
     }
     try {
-      if (ToolUtil.isNullEntityAllFieldValue(dict)) {
+      if (ToolUtil.isNullEntityAllFieldValue(dictValue)) {
         throw new ToolException(ToolException.E_PARAM_ERR);
       }
-      dict.setDictId(ToolUtil.getUUID());
-      return dictPersistent.saveDict(dict);
+      dictValue.setDictValueId(ToolUtil.getUUID());
+      return dictValuePersistent.saveDictValue(dictValue);
     } catch (Exception e) {
       if (log.isErrorEnabled()) {
         log.error(e.getMessage(), e);
@@ -58,22 +58,22 @@ public class DictServiceImpl implements IDictService {
 
   @Override
   @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-  public Collection<Dict> batchSaveDict(Collection<Dict> dicts) throws Exception {
+  public Collection<DictValue> batchSaveDictValue(Collection<DictValue> dictValues) throws Exception {
     if (log.isDebugEnabled()) {
       log.debug(ToolUtil.getLog(LOG));
-      log.debug(ToolUtil.LOG + dicts);
+      log.debug(ToolUtil.LOG + dictValues);
     }
     try {
-      if (ToolUtil.isEmpty(dicts)) {
+      if (ToolUtil.isEmpty(dictValues)) {
         throw new ToolException(ToolException.E_PARAM_ERR);
       }
-      for (Dict dict : dicts) {
-        if (ToolUtil.isNullEntityAllFieldValue(dict)) {
+      for (DictValue dictValue : dictValues) {
+        if (ToolUtil.isNullEntityAllFieldValue(dictValue)) {
           throw new ToolException(ToolException.E_PARAM_ERR);
         }
-        dict.setDictId(ToolUtil.getUUID());
+        dictValue.setDictValueId(ToolUtil.getUUID());
       }
-      return dictPersistent.batchSaveDict(dicts);
+      return dictValuePersistent.batchSaveDictValue(dictValues);
     } catch (Exception e) {
       if (log.isErrorEnabled()) {
         log.error(e.getMessage(), e);
@@ -84,23 +84,23 @@ public class DictServiceImpl implements IDictService {
 
   @Override
   @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-  public Dict updateDict(Dict dict) throws Exception {
+  public DictValue updateDictValue(DictValue dictValue) throws Exception {
     if (log.isDebugEnabled()) {
       log.debug(ToolUtil.getLog(LOG));
-      log.debug(ToolUtil.LOG + dict);
+      log.debug(ToolUtil.LOG + dictValue);
     }
     try {
-      if (ToolUtil.isNullEntityAllFieldValue(dict)) {
+      if (ToolUtil.isNullEntityAllFieldValue(dictValue)) {
         throw new ToolException(ToolException.E_PARAM_ERR);
       }
-      if (ToolUtil.isNullStr(dict.getDictId())) {
+      if (ToolUtil.isNullStr(dictValue.getDictValueId())) {
         throw new ToolException(ToolException.E_PARAM_ERR);
       }
-      Dict oldDict = dictPersistent.getDictByPk(dict.getDictId());
-      if (ToolUtil.isNullEntityAllFieldValue(oldDict)) {
+      DictValue oldDictValue = dictValuePersistent.getDictValueByPk(dictValue.getDictValueId());
+      if (ToolUtil.isNullEntityAllFieldValue(oldDictValue)) {
         throw new ToolException(ToolException.E_PARAM_ERR);
       }
-      return dictPersistent.updateDict(dict);
+      return dictValuePersistent.updateDictValue(dictValue);
     } catch (Exception e) {
       if (log.isErrorEnabled()) {
         log.error(e.getMessage(), e);
@@ -111,28 +111,28 @@ public class DictServiceImpl implements IDictService {
 
   @Override
   @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-  public Collection<Dict> batchUpdateDict(Collection<Dict> dicts) throws Exception {
+  public Collection<DictValue> batchUpdateDictValue(Collection<DictValue> dictValues) throws Exception {
     if (log.isDebugEnabled()) {
       log.debug(ToolUtil.getLog(LOG));
-      log.debug(ToolUtil.LOG + dicts);
+      log.debug(ToolUtil.LOG + dictValues);
     }
     try {
-      if (ToolUtil.isEmpty(dicts)) {
+      if (ToolUtil.isEmpty(dictValues)) {
         throw new ToolException(ToolException.E_PARAM_ERR);
       }
-      for (Dict dict : dicts) {
-        if (ToolUtil.isNullEntityAllFieldValue(dict)) {
+      for (DictValue dictValue : dictValues) {
+        if (ToolUtil.isNullEntityAllFieldValue(dictValue)) {
           throw new ToolException(ToolException.E_PARAM_ERR);
         }
-        if (ToolUtil.isNullStr(dict.getDictId())) {
+        if (ToolUtil.isNullStr(dictValue.getDictValueId())) {
           throw new ToolException(ToolException.E_PARAM_ERR);
         }
-        Dict oldDict = dictPersistent.getDictByPk(dict.getDictId());
-        if (ToolUtil.isNullEntityAllFieldValue(oldDict)) {
+        DictValue oldDictValue = dictValuePersistent.getDictValueByPk(dictValue.getDictValueId());
+        if (ToolUtil.isNullEntityAllFieldValue(oldDictValue)) {
           throw new ToolException(ToolException.E_PARAM_ERR);
         }
       }
-      return dictPersistent.batchUpdateDict(dicts);
+      return dictValuePersistent.batchUpdateDictValue(dictValues);
     } catch (Exception e) {
       if (log.isErrorEnabled()) {
         log.error(e.getMessage(), e);
@@ -143,29 +143,29 @@ public class DictServiceImpl implements IDictService {
 
   @Override
   @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-  public void removeDict(Dict dict) throws Exception {
+  public void removeDictValue(DictValue dictValue) throws Exception {
     if (log.isDebugEnabled()) {
       log.debug(ToolUtil.getLog(LOG));
-      log.debug(ToolUtil.LOG + dict);
+      log.debug(ToolUtil.LOG + dictValue);
     }
     try {
-      if (ToolUtil.isNullEntityAllFieldValue(dict)) {
+      if (ToolUtil.isNullEntityAllFieldValue(dictValue)) {
         throw new ToolException(ToolException.E_PARAM_ERR);
       }
-      Set<Dict> dictSet = new LinkedHashSet<>();
-      if (ToolUtil.isNullStr(dict.getDictId())) {
-        DictQuery dictQuery = new DictQuery();
-        BeanUtils.copyProperties(dict, dictQuery);
-        dictSet.addAll(dictPersistent.queryDict(dictQuery));
+      Set<DictValue> dictValueSet = new LinkedHashSet<>();
+      if (ToolUtil.isNullStr(dictValue.getDictValueId())) {
+        DictValueQuery dictValueQuery = new DictValueQuery();
+        BeanUtils.copyProperties(dictValue, dictValueQuery);
+        dictValueSet.addAll(dictValuePersistent.queryDictValue(dictValueQuery));
       } else {
-        Dict oldDict = dictPersistent.getDictByPk(dict.getDictId());
-        if (ToolUtil.isNullEntityAllFieldValue(oldDict)) {
+        DictValue oldDictValue = dictValuePersistent.getDictValueByPk(dictValue.getDictValueId());
+        if (ToolUtil.isNullEntityAllFieldValue(oldDictValue)) {
           throw new ToolException(ToolException.E_PARAM_ERR);
         }
-        dictSet.add(oldDict);
+        dictValueSet.add(oldDictValue);
       }
-      if (ToolUtil.isNotEmpty(dictSet)) {
-        dictPersistent.batchRemoveDict(dictSet);
+      if (ToolUtil.isNotEmpty(dictValueSet)) {
+        dictValuePersistent.batchRemoveDictValue(dictValueSet);
       }
     } catch (Exception e) {
       if (log.isErrorEnabled()) {
@@ -177,34 +177,34 @@ public class DictServiceImpl implements IDictService {
 
   @Override
   @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-  public void batchRemoveDict(Collection<Dict> dicts) throws Exception {
+  public void batchRemoveDictValue(Collection<DictValue> dictValues) throws Exception {
     if (log.isDebugEnabled()) {
       log.debug(ToolUtil.getLog(LOG));
-      log.debug(ToolUtil.LOG + dicts);
+      log.debug(ToolUtil.LOG + dictValues);
     }
     try {
-      if (ToolUtil.isEmpty(dicts)) {
+      if (ToolUtil.isEmpty(dictValues)) {
         throw new ToolException(ToolException.E_PARAM_ERR);
       }
-      Set<Dict> dictSet = new LinkedHashSet<>();
-      for (Dict dict : dicts) {
-        if (ToolUtil.isNullEntityAllFieldValue(dict)) {
+      Set<DictValue> dictValueSet = new LinkedHashSet<>();
+      for (DictValue dictValue : dictValues) {
+        if (ToolUtil.isNullEntityAllFieldValue(dictValue)) {
           throw new ToolException(ToolException.E_PARAM_ERR);
         }
-        if (ToolUtil.isNullStr(dict.getDictId())) {
-          DictQuery dictQuery = new DictQuery();
-          BeanUtils.copyProperties(dict, dictQuery);
-          dictSet.addAll(dictPersistent.queryDict(dictQuery));
+        if (ToolUtil.isNullStr(dictValue.getDictValueId())) {
+          DictValueQuery dictValueQuery = new DictValueQuery();
+          BeanUtils.copyProperties(dictValue, dictValueQuery);
+          dictValueSet.addAll(dictValuePersistent.queryDictValue(dictValueQuery));
         } else {
-          Dict oldDict = dictPersistent.getDictByPk(dict.getDictId());
-          if (ToolUtil.isNullEntityAllFieldValue(oldDict)) {
+          DictValue oldDictValue = dictValuePersistent.getDictValueByPk(dictValue.getDictValueId());
+          if (ToolUtil.isNullEntityAllFieldValue(oldDictValue)) {
             throw new ToolException(ToolException.E_PARAM_ERR);
           }
-          dictSet.add(oldDict);
+          dictValueSet.add(oldDictValue);
         }
       }
-      if (ToolUtil.isNotEmpty(dictSet)) {
-        dictPersistent.batchRemoveDict(dictSet);
+      if (ToolUtil.isNotEmpty(dictValueSet)) {
+        dictValuePersistent.batchRemoveDictValue(dictValueSet);
       }
     } catch (Exception e) {
       if (log.isErrorEnabled()) {
@@ -215,13 +215,13 @@ public class DictServiceImpl implements IDictService {
   }
 
   @Override
-  public Long getCountDict(DictQuery dictQuery) throws Exception {
+  public Long getCountDictValue(DictValueQuery dictValueQuery) throws Exception {
     if (log.isDebugEnabled()) {
       log.debug(ToolUtil.getLog(LOG));
-      log.debug(ToolUtil.LOG + dictQuery);
+      log.debug(ToolUtil.LOG + dictValueQuery);
     }
     try {
-      return dictPersistent.getCountDict(dictQuery);
+      return dictValuePersistent.getCountDictValue(dictValueQuery);
     } catch (Exception e) {
       if (log.isErrorEnabled()) {
         log.error(e.getMessage(), e);
@@ -231,16 +231,16 @@ public class DictServiceImpl implements IDictService {
   }
 
   @Override
-  public Dict getDictByPk(String dictId) throws Exception {
+  public DictValue getDictValueByPk(String dictValueId) throws Exception {
     if (log.isDebugEnabled()) {
       log.debug(ToolUtil.getLog(LOG));
-      log.debug(ToolUtil.LOG + dictId);
+      log.debug(ToolUtil.LOG + dictValueId);
     }
     try {
-      if (ToolUtil.isNullStr(dictId)) {
+      if (ToolUtil.isNullStr(dictValueId)) {
         throw new ToolException(ToolException.E_PARAM_ERR);
       }
-      return dictPersistent.getDictByPk(dictId);
+      return dictValuePersistent.getDictValueByPk(dictValueId);
     } catch (Exception e) {
       if (log.isErrorEnabled()) {
         log.error(e.getMessage(), e);
@@ -250,12 +250,12 @@ public class DictServiceImpl implements IDictService {
   }
 
   @Override
-  public Collection<Dict> getAllDict() throws Exception {
+  public Collection<DictValue> getAllDictValue() throws Exception {
     if (log.isDebugEnabled()) {
       log.debug(ToolUtil.getLog(LOG));
     }
     try {
-      return dictPersistent.getAllDict();
+      return dictValuePersistent.getAllDictValue();
     } catch (Exception e) {
       if (log.isErrorEnabled()) {
         log.error(e.getMessage(), e);
@@ -265,13 +265,13 @@ public class DictServiceImpl implements IDictService {
   }
 
   @Override
-  public Collection<Dict> queryDict(DictQuery dictQuery) throws Exception {
+  public Collection<DictValue> queryDictValue(DictValueQuery dictValueQuery) throws Exception {
     if (log.isDebugEnabled()) {
       log.debug(ToolUtil.getLog(LOG));
-      log.debug(ToolUtil.LOG + dictQuery);
+      log.debug(ToolUtil.LOG + dictValueQuery);
     }
     try {
-      return dictPersistent.queryDict(dictQuery);
+      return dictValuePersistent.queryDictValue(dictValueQuery);
     } catch (Exception e) {
       if (log.isErrorEnabled()) {
         log.error(e.getMessage(), e);
@@ -281,17 +281,17 @@ public class DictServiceImpl implements IDictService {
   }
 
   @Override
-  public Paging<Dict> pagingQueryDict(Param param, DictQuery dictQuery) throws Exception {
+  public Paging<DictValue> pagingQueryDictValue(Param param, DictValueQuery dictValueQuery) throws Exception {
     if (log.isDebugEnabled()) {
       log.debug(ToolUtil.getLog(LOG));
       log.debug(ToolUtil.LOG + param);
-      log.debug(ToolUtil.LOG + dictQuery);
+      log.debug(ToolUtil.LOG + dictValueQuery);
     }
     try {
       if (ToolUtil.isNullEntityAllFieldValue(param)) {
         throw new ToolException(ToolException.E_PARAM_ERR);
       }
-      return dictPersistent.pagingQueryDict(param, dictQuery);
+      return dictValuePersistent.pagingQueryDictValue(param, dictValueQuery);
     } catch (Exception e) {
       if (log.isErrorEnabled()) {
         log.error(e.getMessage(), e);
@@ -301,16 +301,16 @@ public class DictServiceImpl implements IDictService {
   }
 
   @Override
-  public DictVO getDictVOByPk(String dictId) throws Exception {
+  public DictValueVO getDictValueVOByPk(String dictValueId) throws Exception {
     if (log.isDebugEnabled()) {
       log.debug(ToolUtil.getLog(LOG));
-      log.debug(ToolUtil.LOG + dictId);
+      log.debug(ToolUtil.LOG + dictValueId);
     }
     try {
-      if (ToolUtil.isNullStr(dictId)) {
+      if (ToolUtil.isNullStr(dictValueId)) {
         throw new ToolException(ToolException.E_PARAM_ERR);
       }
-      return dictPersistent.getDictVOByPk(dictId);
+      return dictValuePersistent.getDictValueVOByPk(dictValueId);
     } catch (Exception e) {
       if (log.isErrorEnabled()) {
         log.error(e.getMessage(), e);
@@ -320,12 +320,12 @@ public class DictServiceImpl implements IDictService {
   }
 
   @Override
-  public Collection<DictVO> getAllDictVO() throws Exception {
+  public Collection<DictValueVO> getAllDictValueVO() throws Exception {
     if (log.isDebugEnabled()) {
       log.debug(ToolUtil.getLog(LOG));
     }
     try {
-      return dictPersistent.getAllDictVO();
+      return dictValuePersistent.getAllDictValueVO();
     } catch (Exception e) {
       if (log.isErrorEnabled()) {
         log.error(e.getMessage(), e);
@@ -335,13 +335,13 @@ public class DictServiceImpl implements IDictService {
   }
 
   @Override
-  public Collection<DictVO> queryDictVO(DictQuery dictQuery) throws Exception {
+  public Collection<DictValueVO> queryDictValueVO(DictValueQuery dictValueQuery) throws Exception {
     if (log.isDebugEnabled()) {
       log.debug(ToolUtil.getLog(LOG));
-      log.debug(ToolUtil.LOG + dictQuery);
+      log.debug(ToolUtil.LOG + dictValueQuery);
     }
     try {
-      return dictPersistent.queryDictVO(dictQuery);
+      return dictValuePersistent.queryDictValueVO(dictValueQuery);
     } catch (Exception e) {
       if (log.isErrorEnabled()) {
         log.error(e.getMessage(), e);
@@ -351,17 +351,17 @@ public class DictServiceImpl implements IDictService {
   }
 
   @Override
-  public Paging<DictVO> pagingQueryDictVO(Param param, DictQuery dictQuery) throws Exception {
+  public Paging<DictValueVO> pagingQueryDictValueVO(Param param, DictValueQuery dictValueQuery) throws Exception {
     if (log.isDebugEnabled()) {
       log.debug(ToolUtil.getLog(LOG));
       log.debug(ToolUtil.LOG + param);
-      log.debug(ToolUtil.LOG + dictQuery);
+      log.debug(ToolUtil.LOG + dictValueQuery);
     }
     try {
       if (ToolUtil.isNullEntityAllFieldValue(param)) {
         throw new ToolException(ToolException.E_PARAM_ERR);
       }
-      return dictPersistent.pagingQueryDictVO(param, dictQuery);
+      return dictValuePersistent.pagingQueryDictValueVO(param, dictValueQuery);
     } catch (Exception e) {
       if (log.isErrorEnabled()) {
         log.error(e.getMessage(), e);

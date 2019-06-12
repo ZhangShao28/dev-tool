@@ -1,4 +1,4 @@
-package cn.moonnow.dict.service;
+package cn.moonnow.dict.persistent;
 
 import java.util.Collection;
 
@@ -9,9 +9,11 @@ import cn.moonnow.dict.query.DictQuery;
 import cn.moonnow.dict.vo.DictVO;
 
 /**
- * 数据字典 服务接口
+ * 数据字典 持久化接口
  */
-public interface IDictService {
+public interface IDictPersistent {
+
+  public static final String TABLE_NAME = "DEV_DICT";
 
   /**
    * 保存 数据字典 信息

@@ -1,0 +1,17 @@
+<style lang="less" scoped>
+${ci}@import './${initialLowercaseEntityName}.less';
+</style>
+
+<template>
+${ci}<div>
+${ci}${ci}<Card>
+${ci}${ci}${ci}<Row>
+${ci}${ci}${ci}${ci}<Col :xs="16" :sm="14" :md="10" :lg="6">
+${ci}${ci}${ci}${ci}${ci}<Input placeholder="关键字搜索" search enter-button :disabled="${initialLowercaseEntityName}KeySearchSubmitting" @on-search="keySearch${initialCaseEntityName}($event)" />
+${ci}${ci}${ci}${ci}</Col>
+${ci}${ci}${ci}${ci}<Col :xs="8" :sm="10" :md="14" :lg="18">
+${ci}${ci}${ci}${ci}${ci}<Poptip class="pro-float-right" title="精准查询" placement="left-start" width="900" v-model="${initialLowercaseEntityName}QueryPoptipShow">
+${ci}${ci}${ci}${ci}${ci}${ci}<Button icon="ios-locate-outline">精准查询</Button>
+${ci}${ci}${ci}${ci}${ci}${ci}<div slot="content">
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}<Form class="pro-margin-top-10" ref="${initialLowercaseEntityName}QueryForm" :model="${initialLowercaseEntityName}Query" :label-width="120">
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}<Row>

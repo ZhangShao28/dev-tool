@@ -1,0 +1,4 @@
+${ci}${ci}${ci}${ci}${ci}<Col :xs="24" :sm="24" :md="24" :lg="24">
+${ci}${ci}${ci}${ci}${ci}${ci}<p>${columnNameAnnotation}：{{ ${initialLowercaseEntityName}.${initialLowercaseColumnName} }}</p>
+${ci}${ci}${ci}${ci}${ci}${ci}<Divider dashed />
+${ci}${ci}${ci}${ci}${ci}</Col>

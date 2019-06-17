@@ -1,0 +1,139 @@
+import ${initialLowercaseEntityName}Service from '@/api/cn/moonnow/${controllerUrl}${initialLowercaseEntityName}/${initialLowercaseEntityName}Service'
+
+export default {
+${ci}namespaced: true,
+${ci}state: {
+${ci}},
+${ci}mutations: {
+${ci}},
+${ci}actions: {
+${ci}${ci}save${initialCaseEntityName} ({ commit, state }, ${initialLowercaseEntityName}) {
+${ci}${ci}${ci}return new Promise((resolve, reject) => {
+${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Service.save(${initialLowercaseEntityName}).then(res => {
+${ci}${ci}${ci}${ci}${ci}resolve(res)
+${ci}${ci}${ci}${ci}}).catch(err => {
+${ci}${ci}${ci}${ci}${ci}reject(err)
+${ci}${ci}${ci}${ci}})
+${ci}${ci}${ci}})
+${ci}${ci}},
+${ci}${ci}batchSave${initialCaseEntityName} ({ commit, state }, ${initialLowercaseEntityName}s) {
+${ci}${ci}${ci}return new Promise((resolve, reject) => {
+${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Service.batchSave(${initialLowercaseEntityName}s).then(res => {
+${ci}${ci}${ci}${ci}${ci}resolve(res)
+${ci}${ci}${ci}${ci}}).catch(err => {
+${ci}${ci}${ci}${ci}${ci}reject(err)
+${ci}${ci}${ci}${ci}})
+${ci}${ci}${ci}})
+${ci}${ci}},
+${ci}${ci}update${initialCaseEntityName} ({ commit, state }, ${initialLowercaseEntityName}) {
+${ci}${ci}${ci}return new Promise((resolve, reject) => {
+${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Service.update(${initialLowercaseEntityName}).then(res => {
+${ci}${ci}${ci}${ci}${ci}resolve(res)
+${ci}${ci}${ci}${ci}}).catch(err => {
+${ci}${ci}${ci}${ci}${ci}reject(err)
+${ci}${ci}${ci}${ci}})
+${ci}${ci}${ci}})
+${ci}${ci}},
+${ci}${ci}batchUpdate${initialCaseEntityName} ({ commit, state }, ${initialLowercaseEntityName}s) {
+${ci}${ci}${ci}return new Promise((resolve, reject) => {
+${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Service.batchUpdate(${initialLowercaseEntityName}s).then(res => {
+${ci}${ci}${ci}${ci}${ci}resolve(res)
+${ci}${ci}${ci}${ci}}).catch(err => {
+${ci}${ci}${ci}${ci}${ci}reject(err)
+${ci}${ci}${ci}${ci}})
+${ci}${ci}${ci}})
+${ci}${ci}},
+${ci}${ci}remove${initialCaseEntityName} ({ commit, state }, ${initialLowercaseEntityName}) {
+${ci}${ci}${ci}return new Promise((resolve, reject) => {
+${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Service.remove(${initialLowercaseEntityName}).then(res => {
+${ci}${ci}${ci}${ci}${ci}resolve(res)
+${ci}${ci}${ci}${ci}}).catch(err => {
+${ci}${ci}${ci}${ci}${ci}reject(err)
+${ci}${ci}${ci}${ci}})
+${ci}${ci}${ci}})
+${ci}${ci}},
+${ci}${ci}batchRemove${initialCaseEntityName} ({ commit, state }, ${initialLowercaseEntityName}s) {
+${ci}${ci}${ci}return new Promise((resolve, reject) => {
+${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Service.batchRemove(${initialLowercaseEntityName}s).then(res => {
+${ci}${ci}${ci}${ci}${ci}resolve(res)
+${ci}${ci}${ci}${ci}}).catch(err => {
+${ci}${ci}${ci}${ci}${ci}reject(err)
+${ci}${ci}${ci}${ci}})
+${ci}${ci}${ci}})
+${ci}${ci}},
+${ci}${ci}get${initialCaseEntityName}ByPk ({ commit, state }, ${initialLowercaseEntityName}) {
+${ci}${ci}${ci}return new Promise((resolve, reject) => {
+${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Service.getByPk(${initialLowercaseEntityName}).then(res => {
+${ci}${ci}${ci}${ci}${ci}resolve(res)
+${ci}${ci}${ci}${ci}}).catch(err => {
+${ci}${ci}${ci}${ci}${ci}reject(err)
+${ci}${ci}${ci}${ci}})
+${ci}${ci}${ci}})
+${ci}${ci}},
+${ci}${ci}getAll${initialCaseEntityName} ({ commit, state }) {
+${ci}${ci}${ci}return new Promise((resolve, reject) => {
+${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Service.getAll({}).then(res => {
+${ci}${ci}${ci}${ci}${ci}resolve(res)
+${ci}${ci}${ci}${ci}}).catch(err => {
+${ci}${ci}${ci}${ci}${ci}reject(err)
+${ci}${ci}${ci}${ci}})
+${ci}${ci}${ci}})
+${ci}${ci}},
+${ci}${ci}query${initialCaseEntityName} ({ commit, state }, ${initialLowercaseEntityName}Query) {
+${ci}${ci}${ci}return new Promise((resolve, reject) => {
+${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Service.getAll(${initialLowercaseEntityName}Query).then(res => {
+${ci}${ci}${ci}${ci}${ci}resolve(res)
+${ci}${ci}${ci}${ci}}).catch(err => {
+${ci}${ci}${ci}${ci}${ci}reject(err)
+${ci}${ci}${ci}${ci}})
+${ci}${ci}${ci}})
+${ci}${ci}},
+${ci}${ci}pagingQuery${initialCaseEntityName} ({ commit, state }, { ${initialLowercaseEntityName}Query, rows, page }) {
+${ci}${ci}${ci}return new Promise((resolve, reject) => {
+${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Service.paging(${initialLowercaseEntityName}Query, rows, page).then(res => {
+${ci}${ci}${ci}${ci}${ci}resolve(res)
+${ci}${ci}${ci}${ci}}).catch(err => {
+${ci}${ci}${ci}${ci}${ci}reject(err)
+${ci}${ci}${ci}${ci}})
+${ci}${ci}${ci}})
+${ci}${ci}},
+${ci}${ci}get${initialCaseEntityName}VOByPk ({ commit, state }, ${initialLowercaseEntityName}) {
+${ci}${ci}${ci}return new Promise((resolve, reject) => {
+${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Service.getVOByPk(${initialLowercaseEntityName}).then(res => {
+${ci}${ci}${ci}${ci}${ci}resolve(res)
+${ci}${ci}${ci}${ci}}).catch(err => {
+${ci}${ci}${ci}${ci}${ci}reject(err)
+${ci}${ci}${ci}${ci}})
+${ci}${ci}${ci}})
+${ci}${ci}},
+${ci}${ci}getAll${initialCaseEntityName}VO ({ commit, state }) {
+${ci}${ci}${ci}return new Promise((resolve, reject) => {
+${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Service.getAllVO({}).then(res => {
+${ci}${ci}${ci}${ci}${ci}resolve(res)
+${ci}${ci}${ci}${ci}}).catch(err => {
+${ci}${ci}${ci}${ci}${ci}reject(err)
+${ci}${ci}${ci}${ci}})
+${ci}${ci}${ci}})
+${ci}${ci}},
+${ci}${ci}query${initialCaseEntityName}VO ({ commit, state }, ${initialLowercaseEntityName}Query) {
+${ci}${ci}${ci}return new Promise((resolve, reject) => {
+${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Service.getAllVO(${initialLowercaseEntityName}Query).then(res => {
+${ci}${ci}${ci}${ci}${ci}resolve(res)
+${ci}${ci}${ci}${ci}}).catch(err => {
+${ci}${ci}${ci}${ci}${ci}reject(err)
+${ci}${ci}${ci}${ci}})
+${ci}${ci}${ci}})
+${ci}${ci}},
+${ci}${ci}pagingQuery${initialCaseEntityName}VO ({ commit, state }, { ${initialLowercaseEntityName}Query, rows, page }) {
+${ci}${ci}${ci}return new Promise((resolve, reject) => {
+${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Service.pagingVO(${initialLowercaseEntityName}Query, rows, page).then(res => {
+${ci}${ci}${ci}${ci}${ci}resolve(res)
+${ci}${ci}${ci}${ci}}).catch(err => {
+${ci}${ci}${ci}${ci}${ci}reject(err)
+${ci}${ci}${ci}${ci}})
+${ci}${ci}${ci}})
+${ci}${ci}}
+${ci}},
+${ci}getters: {
+${ci}}
+}

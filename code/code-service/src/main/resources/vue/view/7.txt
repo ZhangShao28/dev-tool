@@ -1,0 +1,19 @@
+${ci}${ci}${ci}${ci}${ci}${ci}<Col :xs="24" :sm="20" :md="18" :lg="14">
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}<FormItem>
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}<Button class="pro-margin-right-8" @click="to${initialCaseEntityName}List()">取消</Button>
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}<Button class="pro-margin-right-8" @click="reset${initialCaseEntityName}Form()">重置</Button>
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}<Button class="pro-margin-right-8" type="primary" :loading="${initialLowercaseEntityName}Submitting" @click="save${initialCaseEntityName}Form()">保存</Button>
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}<Button class="pro-margin-right-8" type="primary" :loading="${initialLowercaseEntityName}Submitting" @click="saveAdd${initialCaseEntityName}Form()">继续录入</Button>
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}</FormItem>
+${ci}${ci}${ci}${ci}${ci}${ci}</Col>
+${ci}${ci}${ci}${ci}${ci}</Row>
+${ci}${ci}${ci}${ci}</Form>
+${ci}${ci}${ci}</Card>
+${ci}${ci}</Modal>
+${ci}${ci}<Drawer width="45" v-model="${initialLowercaseEntityName}DetailDrawerShow" :closable="false">
+${ci}${ci}${ci}<Card>
+${ci}${ci}${ci}${ci}<p slot="title">
+${ci}${ci}${ci}${ci}${ci}<Icon type="md-bulb"></Icon>
+${ci}${ci}${ci}${ci}${ci}${dtNameAnnotation}详情
+${ci}${ci}${ci}${ci}</p>
+${ci}${ci}${ci}${ci}<Row>

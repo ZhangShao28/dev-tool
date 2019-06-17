@@ -1,0 +1,2 @@
+export default class ${initialCaseEntityName}VO {
+${ci}constructor () {

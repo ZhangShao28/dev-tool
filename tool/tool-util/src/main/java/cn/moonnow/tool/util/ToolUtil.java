@@ -1555,4 +1555,295 @@ public final class ToolUtil {
     return "";
   }
 
+  /**
+   * 传入数据库表数据类型字符串返回Angular数据类型
+   */
+  public static String getAngularDataTypeFromDtDataTypeStr(String str) {
+    if (str.indexOf("varchar") != -1) {
+      return "string";
+    } else if (str.indexOf("char") != -1) {
+      return "string";
+    } else if (str.indexOf("bigint") != -1) {
+      return "number";
+    } else if (str.indexOf("integer") != -1) {
+      return "number";
+    } else if (str.indexOf("int") != -1) {
+      return "number";
+    } else if (str.indexOf("decimal") != -1) {
+      return "number";
+    } else if (str.indexOf("text") != -1) {
+      return "string";
+    } else if (str.indexOf("date") != -1) {
+      return "string";
+    } else {
+      return "string";
+    }
+  }
+
+  /**
+   * 从配置参数得到Vue服务类文件路径
+   */
+  public static String getVueServiceFilePathStrFromConfig(String proPath, String proAllName, String initialLowercaseEntityName) {
+    if (ToolUtil.isNotNullStr(proPath) && ToolUtil.isNotNullStr(proAllName) && ToolUtil.isNotNullStr(initialLowercaseEntityName)) {
+      LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
+      int proAllNameSort = 1;
+      while (-1 != proAllName.indexOf("-")) {
+        proAllNameList.put(proAllNameSort, proAllName.substring(0, proAllName.indexOf("-")));
+        proAllName = proAllName.substring(proAllName.indexOf("-") + 1);
+        proAllNameSort++;
+      }
+      proAllNameList.put(proAllNameSort, proAllName);
+      if (!"/".equals(proPath.substring(proPath.length() - 1, proPath.length()))) {
+        proPath = proPath + "/";
+      }
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "-";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath.substring(0, proPath.length() - 1);
+      proPath = proPath + "/vue/src/api/cn/moonnow/";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "/";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath + initialLowercaseEntityName + "/" + initialLowercaseEntityName + "Service.js";
+      return proPath;
+    }
+    return "";
+  }
+
+  /**
+   * 从配置参数得到VueStore文件路径
+   */
+  public static String getVueStoreFilePathStrFromConfig(String proPath, String proAllName, String initialLowercaseEntityName) {
+    if (ToolUtil.isNotNullStr(proPath) && ToolUtil.isNotNullStr(proAllName) && ToolUtil.isNotNullStr(initialLowercaseEntityName)) {
+      LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
+      int proAllNameSort = 1;
+      while (-1 != proAllName.indexOf("-")) {
+        proAllNameList.put(proAllNameSort, proAllName.substring(0, proAllName.indexOf("-")));
+        proAllName = proAllName.substring(proAllName.indexOf("-") + 1);
+        proAllNameSort++;
+      }
+      proAllNameList.put(proAllNameSort, proAllName);
+      if (!"/".equals(proPath.substring(proPath.length() - 1, proPath.length()))) {
+        proPath = proPath + "/";
+      }
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "-";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath.substring(0, proPath.length() - 1);
+      proPath = proPath + "/vue/src/store/cn/moonnow/";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "/";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath + initialLowercaseEntityName + "/" + initialLowercaseEntityName + "Store.js";
+      return proPath;
+    }
+    return "";
+  }
+
+  /**
+   * 从配置参数得到Vue实体类文件路径
+   */
+  public static String getVueEntityFilePathStrFromConfig(String proPath, String proAllName, String initialLowercaseEntityName, String initialCaseEntityName) {
+    if (ToolUtil.isNotNullStr(proPath) && ToolUtil.isNotNullStr(proAllName) && ToolUtil.isNotNullStr(initialLowercaseEntityName) && ToolUtil.isNotNullStr(initialCaseEntityName)) {
+      LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
+      int proAllNameSort = 1;
+      while (-1 != proAllName.indexOf("-")) {
+        proAllNameList.put(proAllNameSort, proAllName.substring(0, proAllName.indexOf("-")));
+        proAllName = proAllName.substring(proAllName.indexOf("-") + 1);
+        proAllNameSort++;
+      }
+      proAllNameList.put(proAllNameSort, proAllName);
+      if (!"/".equals(proPath.substring(proPath.length() - 1, proPath.length()))) {
+        proPath = proPath + "/";
+      }
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "-";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath.substring(0, proPath.length() - 1);
+      proPath = proPath + "/vue/src/view/cn/moonnow/";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "/";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath + initialLowercaseEntityName + "/" + initialCaseEntityName + ".js";
+      return proPath;
+    }
+    return "";
+  }
+
+  /**
+   * 从配置参数得到Vue查询类文件路径
+   */
+  public static String getVueQueryFilePathStrFromConfig(String proPath, String proAllName, String initialLowercaseEntityName, String initialCaseEntityName) {
+    if (ToolUtil.isNotNullStr(proPath) && ToolUtil.isNotNullStr(proAllName) && ToolUtil.isNotNullStr(initialLowercaseEntityName) && ToolUtil.isNotNullStr(initialCaseEntityName)) {
+      LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
+      int proAllNameSort = 1;
+      while (-1 != proAllName.indexOf("-")) {
+        proAllNameList.put(proAllNameSort, proAllName.substring(0, proAllName.indexOf("-")));
+        proAllName = proAllName.substring(proAllName.indexOf("-") + 1);
+        proAllNameSort++;
+      }
+      proAllNameList.put(proAllNameSort, proAllName);
+      if (!"/".equals(proPath.substring(proPath.length() - 1, proPath.length()))) {
+        proPath = proPath + "/";
+      }
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "-";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath.substring(0, proPath.length() - 1);
+      proPath = proPath + "/vue/src/view/cn/moonnow/";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "/";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath + initialLowercaseEntityName + "/" + initialCaseEntityName + "Query.js";
+      return proPath;
+    }
+    return "";
+  }
+
+  /**
+   * 从配置参数得到VueVO类文件路径
+   */
+  public static String getVueVoFilePathStrFromConfig(String proPath, String proAllName, String initialLowercaseEntityName, String initialCaseEntityName) {
+    if (ToolUtil.isNotNullStr(proPath) && ToolUtil.isNotNullStr(proAllName) && ToolUtil.isNotNullStr(initialLowercaseEntityName) && ToolUtil.isNotNullStr(initialCaseEntityName)) {
+      LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
+      int proAllNameSort = 1;
+      while (-1 != proAllName.indexOf("-")) {
+        proAllNameList.put(proAllNameSort, proAllName.substring(0, proAllName.indexOf("-")));
+        proAllName = proAllName.substring(proAllName.indexOf("-") + 1);
+        proAllNameSort++;
+      }
+      proAllNameList.put(proAllNameSort, proAllName);
+      if (!"/".equals(proPath.substring(proPath.length() - 1, proPath.length()))) {
+        proPath = proPath + "/";
+      }
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "-";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath.substring(0, proPath.length() - 1);
+      proPath = proPath + "/vue/src/view/cn/moonnow/";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "/";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath + initialLowercaseEntityName + "/" + initialCaseEntityName + "VO.js";
+      return proPath;
+    }
+    return "";
+  }
+
+  /**
+   * 从配置参数得到VueView文件路径
+   */
+  public static String getVueViewFilePathStrFromConfig(String proPath, String proAllName, String initialLowercaseEntityName) {
+    if (ToolUtil.isNotNullStr(proPath) && ToolUtil.isNotNullStr(proAllName) && ToolUtil.isNotNullStr(initialLowercaseEntityName)) {
+      LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
+      int proAllNameSort = 1;
+      while (-1 != proAllName.indexOf("-")) {
+        proAllNameList.put(proAllNameSort, proAllName.substring(0, proAllName.indexOf("-")));
+        proAllName = proAllName.substring(proAllName.indexOf("-") + 1);
+        proAllNameSort++;
+      }
+      proAllNameList.put(proAllNameSort, proAllName);
+      if (!"/".equals(proPath.substring(proPath.length() - 1, proPath.length()))) {
+        proPath = proPath + "/";
+      }
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "-";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath.substring(0, proPath.length() - 1);
+      proPath = proPath + "/vue/src/view/cn/moonnow/";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "/";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath + initialLowercaseEntityName + "/" + initialLowercaseEntityName + ".vue";
+      return proPath;
+    }
+    return "";
+  }
+
+  /**
+   * 从配置参数得到VueView样式文件路径
+   */
+  public static String getVueViewCssFilePathStrFromConfig(String proPath, String proAllName, String initialLowercaseEntityName) {
+    if (ToolUtil.isNotNullStr(proPath) && ToolUtil.isNotNullStr(proAllName) && ToolUtil.isNotNullStr(initialLowercaseEntityName)) {
+      LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
+      int proAllNameSort = 1;
+      while (-1 != proAllName.indexOf("-")) {
+        proAllNameList.put(proAllNameSort, proAllName.substring(0, proAllName.indexOf("-")));
+        proAllName = proAllName.substring(proAllName.indexOf("-") + 1);
+        proAllNameSort++;
+      }
+      proAllNameList.put(proAllNameSort, proAllName);
+      if (!"/".equals(proPath.substring(proPath.length() - 1, proPath.length()))) {
+        proPath = proPath + "/";
+      }
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "-";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath.substring(0, proPath.length() - 1);
+      proPath = proPath + "/vue/src/view/cn/moonnow/";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "/";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath + initialLowercaseEntityName + "/" + initialLowercaseEntityName + ".less";
+      return proPath;
+    }
+    return "";
+  }
+
 }

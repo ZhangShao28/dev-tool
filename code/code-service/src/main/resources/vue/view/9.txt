@@ -1,0 +1,16 @@
+${ci}${ci}${ci}${ci}</Row>
+${ci}${ci}${ci}</Card>
+${ci}${ci}</Drawer>
+${ci}</div>
+</template>
+
+<script>
+import { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
+import ${initialCaseEntityName} from '@/view/cn/moonnow/${controllerUrl}${initialLowercaseEntityName}/${initialCaseEntityName}'
+import ${initialCaseEntityName}Query from '@/view/cn/moonnow/${controllerUrl}${initialLowercaseEntityName}/${initialCaseEntityName}Query'
+
+export default {
+${ci}data () {
+${ci}${ci}return {
+${ci}${ci}${ci}${initialLowercaseEntityName}Columns: [
+${ci}${ci}${ci}${ci}{ type: 'selection', width: 50, align: 'center', fixed: 'left' },

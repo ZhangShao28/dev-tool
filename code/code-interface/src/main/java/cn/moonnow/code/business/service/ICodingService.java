@@ -77,4 +77,39 @@ public interface ICodingService {
    */
   public void codingProject(ConfigVO configVo) throws Exception;
 
+  /**
+   * 生成 vue请求服务 代码
+   */
+  public void codingVueService(ConfigVO configVo) throws Exception;
+
+  /**
+   * 生成 vue数据仓库 代码
+   */
+  public void codingVueStore(ConfigVO configVo) throws Exception;
+
+  /**
+   * 生成 vue实体类 代码
+   */
+  public void codingVueEntity(ConfigVO configVo) throws Exception;
+
+  /**
+   * 生成 vue查询类 代码
+   */
+  public void codingVueQuery(ConfigVO configVo) throws Exception;
+
+  /**
+   * 生成 vue展示类 代码
+   */
+  public void codingVueVo(ConfigVO configVo) throws Exception;
+
+  /**
+   * 生成 vue页面 代码
+   */
+  public void codingVueView(ConfigVO configVo) throws Exception;
+
+  /**
+   * 生成 vue页面样式 代码
+   */
+  public void codingVueViewCss(ConfigVO configVo) throws Exception;
+
 }

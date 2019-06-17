@@ -419,4 +419,200 @@ public class CodingController extends ToolController {
     return responses;
   }
 
+  /**
+   * 生成 vue请求服务 代码
+   */
+  @PostMapping(params = { ToolUtil.ACTION + "coding_vue_service" })
+  public Responses<?> codingVueService(Param param, @RequestBody ConfigVO configVo) throws Exception {
+    if (log.isDebugEnabled()) {
+      log.debug(ToolUtil.getLog(LOG));
+      log.debug(ToolUtil.LOG + param);
+      log.debug(ToolUtil.LOG + configVo);
+    }
+    Responses<?> responses = new Responses<>();
+    try {
+      if (ToolUtil.isNullEntityAllFieldValue(configVo)) {
+        throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      if (ToolUtil.isNullStr(configVo.getDtId())) {
+        throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      codingService.codingVueService(configVo);
+    } catch (Exception e) {
+      if (log.isErrorEnabled()) {
+        log.error(e.getMessage(), e);
+      }
+      throw e;
+    }
+    return responses;
+  }
+
+  /**
+   * 生成 vue数据仓库 代码
+   */
+  @PostMapping(params = { ToolUtil.ACTION + "coding_vue_store" })
+  public Responses<?> codingVueStore(Param param, @RequestBody ConfigVO configVo) throws Exception {
+    if (log.isDebugEnabled()) {
+      log.debug(ToolUtil.getLog(LOG));
+      log.debug(ToolUtil.LOG + param);
+      log.debug(ToolUtil.LOG + configVo);
+    }
+    Responses<?> responses = new Responses<>();
+    try {
+      if (ToolUtil.isNullEntityAllFieldValue(configVo)) {
+        throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      if (ToolUtil.isNullStr(configVo.getDtId())) {
+        throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      codingService.codingVueStore(configVo);
+    } catch (Exception e) {
+      if (log.isErrorEnabled()) {
+        log.error(e.getMessage(), e);
+      }
+      throw e;
+    }
+    return responses;
+  }
+
+  /**
+   * 生成 vue实体类 代码
+   */
+  @PostMapping(params = { ToolUtil.ACTION + "coding_vue_entity" })
+  public Responses<?> codingVueEntity(Param param, @RequestBody ConfigVO configVo) throws Exception {
+    if (log.isDebugEnabled()) {
+      log.debug(ToolUtil.getLog(LOG));
+      log.debug(ToolUtil.LOG + param);
+      log.debug(ToolUtil.LOG + configVo);
+    }
+    Responses<?> responses = new Responses<>();
+    try {
+      if (ToolUtil.isNullEntityAllFieldValue(configVo)) {
+        throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      if (ToolUtil.isNullStr(configVo.getDtId())) {
+        throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      codingService.codingVueEntity(configVo);
+    } catch (Exception e) {
+      if (log.isErrorEnabled()) {
+        log.error(e.getMessage(), e);
+      }
+      throw e;
+    }
+    return responses;
+  }
+
+  /**
+   * 生成 vue查询类 代码
+   */
+  @PostMapping(params = { ToolUtil.ACTION + "coding_vue_query" })
+  public Responses<?> codingVueQuery(Param param, @RequestBody ConfigVO configVo) throws Exception {
+    if (log.isDebugEnabled()) {
+      log.debug(ToolUtil.getLog(LOG));
+      log.debug(ToolUtil.LOG + param);
+      log.debug(ToolUtil.LOG + configVo);
+    }
+    Responses<?> responses = new Responses<>();
+    try {
+      if (ToolUtil.isNullEntityAllFieldValue(configVo)) {
+        throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      if (ToolUtil.isNullStr(configVo.getDtId())) {
+        throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      codingService.codingVueQuery(configVo);
+    } catch (Exception e) {
+      if (log.isErrorEnabled()) {
+        log.error(e.getMessage(), e);
+      }
+      throw e;
+    }
+    return responses;
+  }
+
+  /**
+   * 生成 vue展示类 代码
+   */
+  @PostMapping(params = { ToolUtil.ACTION + "coding_vue_vo" })
+  public Responses<?> codingVueVo(Param param, @RequestBody ConfigVO configVo) throws Exception {
+    if (log.isDebugEnabled()) {
+      log.debug(ToolUtil.getLog(LOG));
+      log.debug(ToolUtil.LOG + param);
+      log.debug(ToolUtil.LOG + configVo);
+    }
+    Responses<?> responses = new Responses<>();
+    try {
+      if (ToolUtil.isNullEntityAllFieldValue(configVo)) {
+        throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      if (ToolUtil.isNullStr(configVo.getDtId())) {
+        throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      codingService.codingVueVo(configVo);
+    } catch (Exception e) {
+      if (log.isErrorEnabled()) {
+        log.error(e.getMessage(), e);
+      }
+      throw e;
+    }
+    return responses;
+  }
+
+  /**
+   * 生成 vue页面 代码
+   */
+  @PostMapping(params = { ToolUtil.ACTION + "coding_vue_view" })
+  public Responses<?> codingVueView(Param param, @RequestBody ConfigVO configVo) throws Exception {
+    if (log.isDebugEnabled()) {
+      log.debug(ToolUtil.getLog(LOG));
+      log.debug(ToolUtil.LOG + param);
+      log.debug(ToolUtil.LOG + configVo);
+    }
+    Responses<?> responses = new Responses<>();
+    try {
+      if (ToolUtil.isNullEntityAllFieldValue(configVo)) {
+        throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      if (ToolUtil.isNullStr(configVo.getDtId())) {
+        throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      codingService.codingVueView(configVo);
+    } catch (Exception e) {
+      if (log.isErrorEnabled()) {
+        log.error(e.getMessage(), e);
+      }
+      throw e;
+    }
+    return responses;
+  }
+
+  /**
+   * 生成 vue页面样式 代码
+   */
+  @PostMapping(params = { ToolUtil.ACTION + "coding_vue_view_css" })
+  public Responses<?> codingVueViewCss(Param param, @RequestBody ConfigVO configVo) throws Exception {
+    if (log.isDebugEnabled()) {
+      log.debug(ToolUtil.getLog(LOG));
+      log.debug(ToolUtil.LOG + param);
+      log.debug(ToolUtil.LOG + configVo);
+    }
+    Responses<?> responses = new Responses<>();
+    try {
+      if (ToolUtil.isNullEntityAllFieldValue(configVo)) {
+        throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      if (ToolUtil.isNullStr(configVo.getDtId())) {
+        throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      codingService.codingVueViewCss(configVo);
+    } catch (Exception e) {
+      if (log.isErrorEnabled()) {
+        log.error(e.getMessage(), e);
+      }
+      throw e;
+    }
+    return responses;
+  }
+
 }

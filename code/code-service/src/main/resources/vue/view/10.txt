@@ -1,0 +1,1 @@
+${ci}${ci}${ci}${ci}{ title: '${columnNameAnnotation}', key: '${initialLowercaseColumnName}', minWidth: 200 },

@@ -1,0 +1,185 @@
+${ci}${ci}${ci}},
+${ci}${ci}${ci}${initialLowercaseEntityName}Set: [],
+${ci}${ci}${ci}${initialLowercaseEntityName}Count: 0,
+${ci}${ci}${ci}${initialLowercaseEntityName}Rows: 10,
+${ci}${ci}${ci}${initialLowercaseEntityName}Page: 1,
+${ci}${ci}${ci}${initialLowercaseEntityName}SelectRow: [],
+${ci}${ci}${ci}${initialLowercaseEntityName}SelectRowLength: 0,
+${ci}${ci}${ci}${initialLowercaseEntityName}: new ${initialCaseEntityName}(),
+${ci}${ci}${ci}${initialLowercaseEntityName}Query: new ${initialCaseEntityName}Query(),
+${ci}${ci}${ci}${initialLowercaseEntityName}SpinShow: false,
+${ci}${ci}${ci}${initialLowercaseEntityName}PageShow: true,
+${ci}${ci}${ci}${initialLowercaseEntityName}EditModalShow: false,
+${ci}${ci}${ci}${initialLowercaseEntityName}Submitting: false,
+${ci}${ci}${ci}${initialLowercaseEntityName}Continue: false,
+${ci}${ci}${ci}${initialLowercaseEntityName}DetailDrawerShow: false,
+${ci}${ci}${ci}${initialLowercaseEntityName}QueryPoptipShow: false,
+${ci}${ci}${ci}${initialLowercaseEntityName}QuerySubmitting: false,
+${ci}${ci}${ci}${initialLowercaseEntityName}KeySearchSubmitting: false,
+${ci}${ci}${ci}${initialLowercaseEntityName}KeySearchClickRate: 0
+${ci}${ci}}
+${ci}},
+${ci}computed: {
+${ci}${ci}...mapState('${initialLowercaseEntityName}Store', [
+${ci}${ci}]),
+${ci}${ci}...mapGetters('${initialLowercaseEntityName}Store', [
+${ci}${ci}])
+${ci}},
+${ci}methods: {
+${ci}${ci}...mapMutations('${initialLowercaseEntityName}Store', [
+${ci}${ci}]),
+${ci}${ci}...mapActions('${initialLowercaseEntityName}Store', [
+${ci}${ci}${ci}'save${initialCaseEntityName}',
+${ci}${ci}${ci}'update${initialCaseEntityName}',
+${ci}${ci}${ci}'batchRemove${initialCaseEntityName}',
+${ci}${ci}${ci}'get${initialCaseEntityName}ByPk',
+${ci}${ci}${ci}'query${initialCaseEntityName}',
+${ci}${ci}${ci}'pagingQuery${initialCaseEntityName}'
+${ci}${ci}]),
+${ci}${ci}add${initialCaseEntityName} () {
+${ci}${ci}${ci}this.${initialLowercaseEntityName}EditModalShow = true
+${ci}${ci}${ci}this.${initialLowercaseEntityName} = new ${initialCaseEntityName}()
+${ci}${ci}},
+${ci}${ci}up${initialCaseEntityName} () {
+${ci}${ci}${ci}this.${initialLowercaseEntityName}EditModalShow = true
+${ci}${ci}${ci}let ${initialLowercaseEntityName}Edit = new ${initialCaseEntityName}()
+${ci}${ci}${ci}${initialLowercaseEntityName}Edit.${primaryKeyInitialLowercaseColumnName} = this.${initialLowercaseEntityName}SelectRow[0].${primaryKeyInitialLowercaseColumnName}
+${ci}${ci}${ci}this.get${initialCaseEntityName}ByPk(${initialLowercaseEntityName}Edit).then(res => {
+${ci}${ci}${ci}${ci}if (res.data.success) {
+${ci}${ci}${ci}${ci}${ci}Object.assign(this.${initialLowercaseEntityName}, res.data.data[0])
+${ci}${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}${ci}this.$Message.error({ content: res.data.msg, duration: 6 })
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}}).catch(result => {
+${ci}${ci}${ci}${ci}this.$Message.error({ content: result.response.statusText, duration: 6 })
+${ci}${ci}${ci}})
+${ci}${ci}},
+${ci}${ci}to${initialCaseEntityName}List () {
+${ci}${ci}${ci}this.${initialLowercaseEntityName}EditModalShow = false
+${ci}${ci}${ci}this.get${initialCaseEntityName}Set()
+${ci}${ci}},
+${ci}${ci}reset${initialCaseEntityName}Form () {
+${ci}${ci}${ci}this.$refs.${initialLowercaseEntityName}Form.resetFields()
+${ci}${ci}},
+${ci}${ci}save${initialCaseEntityName}Form () {
+${ci}${ci}${ci}this.${initialLowercaseEntityName}Continue = false
+${ci}${ci}${ci}this.submit${initialCaseEntityName}Form()
+${ci}${ci}},
+${ci}${ci}saveAdd${initialCaseEntityName}Form () {
+${ci}${ci}${ci}this.${initialLowercaseEntityName}Continue = true
+${ci}${ci}${ci}this.submit${initialCaseEntityName}Form()
+${ci}${ci}},
+${ci}${ci}submit${initialCaseEntityName}Form () {
+${ci}${ci}${ci}this.${initialLowercaseEntityName}Submitting = true
+${ci}${ci}${ci}this.$refs.${initialLowercaseEntityName}Form.validate((valid) => {
+${ci}${ci}${ci}${ci}if (valid) {
+${ci}${ci}${ci}${ci}${ci}if (this.${initialLowercaseEntityName}.${primaryKeyInitialLowercaseColumnName} !== null && this.${initialLowercaseEntityName}.${primaryKeyInitialLowercaseColumnName} !== '') {
+${ci}${ci}${ci}${ci}${ci}${ci}this.update${initialCaseEntityName}(this.${initialLowercaseEntityName}).then(res => {
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}if (res.data.success) {
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.$Message.success({ content: '${dtNameAnnotation}信息修改成功.', duration: 3 })
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.reset${initialCaseEntityName}Form()
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.${initialLowercaseEntityName} = new ${initialCaseEntityName}()
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.${initialLowercaseEntityName}Submitting = false
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}if (!this.${initialLowercaseEntityName}Continue) {
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.to${initialCaseEntityName}List()
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.$Message.error({ content: res.data.msg, duration: 6 })
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}setTimeout(() => { this.${initialLowercaseEntityName}Submitting = false }, 3000)
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}${ci}${ci}}).catch(result => {
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.$Message.error({ content: result.response.statusText, duration: 6 })
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}setTimeout(() => { this.${initialLowercaseEntityName}Submitting = false }, 3000)
+${ci}${ci}${ci}${ci}${ci}${ci}})
+${ci}${ci}${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}${ci}${ci}this.save${initialCaseEntityName}(this.${initialLowercaseEntityName}).then(res => {
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}if (res.data.success) {
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.$Message.success({ content: '${dtNameAnnotation}信息保存成功.', duration: 3 })
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.reset${initialCaseEntityName}Form()
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.${initialLowercaseEntityName} = new ${initialCaseEntityName}()
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.${initialLowercaseEntityName}Submitting = false
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}if (!this.${initialLowercaseEntityName}Continue) {
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.to${initialCaseEntityName}List()
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.$Message.error({ content: res.data.msg, duration: 6 })
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}setTimeout(() => { this.${initialLowercaseEntityName}Submitting = false }, 3000)
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}${ci}${ci}}).catch(result => {
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.$Message.error({ content: result.response.statusText, duration: 6 })
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}setTimeout(() => { this.${initialLowercaseEntityName}Submitting = false }, 3000)
+${ci}${ci}${ci}${ci}${ci}${ci}})
+${ci}${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}${ci}setTimeout(() => { this.${initialLowercaseEntityName}Submitting = false }, 3000)
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}})
+${ci}${ci}},
+${ci}${ci}del${initialCaseEntityName} () {
+${ci}${ci}${ci}this.${initialLowercaseEntityName}SpinShow = true
+${ci}${ci}${ci}this.batchRemove${initialCaseEntityName}(this.${initialLowercaseEntityName}SelectRow).then(res => {
+${ci}${ci}${ci}${ci}if (res.data.success) {
+${ci}${ci}${ci}${ci}${ci}this.$Message.success({ content: '${dtNameAnnotation}信息删除成功.', duration: 3 })
+${ci}${ci}${ci}${ci}${ci}this.set${initialCaseEntityName}SelectRow([])
+${ci}${ci}${ci}${ci}${ci}this.get${initialCaseEntityName}Set()
+${ci}${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}${ci}this.$Message.error({ content: res.data.msg, duration: 6 })
+${ci}${ci}${ci}${ci}${ci}setTimeout(() => { this.${initialLowercaseEntityName}SpinShow = false }, 700)
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}}).catch(result => {
+${ci}${ci}${ci}${ci}this.$Message.error({ content: result.response.statusText, duration: 6 })
+${ci}${ci}${ci}${ci}setTimeout(() => { this.${initialLowercaseEntityName}SpinShow = false }, 700)
+${ci}${ci}${ci}})
+${ci}${ci}},
+${ci}${ci}detail${initialCaseEntityName} () {
+${ci}${ci}${ci}this.${initialLowercaseEntityName}DetailDrawerShow = true
+${ci}${ci}${ci}let ${initialLowercaseEntityName}Detail = new ${initialCaseEntityName}()
+${ci}${ci}${ci}${initialLowercaseEntityName}Detail.${primaryKeyInitialLowercaseColumnName} = this.${initialLowercaseEntityName}SelectRow[0].${primaryKeyInitialLowercaseColumnName}
+${ci}${ci}${ci}this.get${initialCaseEntityName}ByPk(${initialLowercaseEntityName}Detail).then(res => {
+${ci}${ci}${ci}${ci}if (res.data.success) {
+${ci}${ci}${ci}${ci}${ci}Object.assign(this.${initialLowercaseEntityName}, res.data.data[0])
+${ci}${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}${ci}this.$Message.error({ content: res.data.msg, duration: 6 })
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}}).catch(result => {
+${ci}${ci}${ci}${ci}this.$Message.error({ content: result.response.statusText, duration: 6 })
+${ci}${ci}${ci}})
+${ci}${ci}},
+${ci}${ci}dblclickDetail${initialCaseEntityName} (rowData) {
+${ci}${ci}${ci}this.${initialLowercaseEntityName}DetailDrawerShow = true
+${ci}${ci}${ci}let ${initialLowercaseEntityName}Detail = new ${initialCaseEntityName}()
+${ci}${ci}${ci}${initialLowercaseEntityName}Detail.${primaryKeyInitialLowercaseColumnName} = rowData.${primaryKeyInitialLowercaseColumnName}
+${ci}${ci}${ci}this.get${initialCaseEntityName}ByPk(${initialLowercaseEntityName}Detail).then(res => {
+${ci}${ci}${ci}${ci}if (res.data.success) {
+${ci}${ci}${ci}${ci}${ci}Object.assign(this.${initialLowercaseEntityName}, res.data.data[0])
+${ci}${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}${ci}this.$Message.error({ content: res.data.msg, duration: 6 })
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}}).catch(result => {
+${ci}${ci}${ci}${ci}this.$Message.error({ content: result.response.statusText, duration: 6 })
+${ci}${ci}${ci}})
+${ci}${ci}},
+${ci}${ci}get${initialCaseEntityName}Set () {
+${ci}${ci}${ci}this.${initialLowercaseEntityName}SpinShow = true
+${ci}${ci}${ci}this.${initialLowercaseEntityName}PageShow = true
+${ci}${ci}${ci}this.pagingQuery${initialCaseEntityName}({ ${initialLowercaseEntityName}Query: {}, rows: this.${initialLowercaseEntityName}Rows, page: this.${initialLowercaseEntityName}Page }).then(res => {
+${ci}${ci}${ci}${ci}if (res.data.success) {
+${ci}${ci}${ci}${ci}${ci}this.${initialLowercaseEntityName}Set = res.data.data
+${ci}${ci}${ci}${ci}${ci}this.${initialLowercaseEntityName}Count = res.data.count
+${ci}${ci}${ci}${ci}${ci}this.set${initialCaseEntityName}SelectRow([])
+${ci}${ci}${ci}${ci}${ci}setTimeout(() => { this.${initialLowercaseEntityName}SpinShow = false }, 700)
+${ci}${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}${ci}this.$Message.error({ content: res.data.msg, duration: 6 })
+${ci}${ci}${ci}${ci}${ci}setTimeout(() => { this.${initialLowercaseEntityName}SpinShow = false }, 700)
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}}).catch(result => {
+${ci}${ci}${ci}${ci}this.$Message.error({ content: result.response.statusText, duration: 6 })
+${ci}${ci}${ci}${ci}setTimeout(() => { this.${initialLowercaseEntityName}SpinShow = false }, 700)
+${ci}${ci}${ci}})
+${ci}${ci}},
+${ci}${ci}keySearch${initialCaseEntityName} (keyLikeValue) {
+${ci}${ci}${ci}if (keyLikeValue !== '') {
+${ci}${ci}${ci}${ci}this.${initialLowercaseEntityName}KeySearchSubmitting = true
+${ci}${ci}${ci}${ci}this.${initialLowercaseEntityName}PageShow = false
+${ci}${ci}${ci}${ci}this.${initialLowercaseEntityName}SpinShow = true
+${ci}${ci}${ci}${ci}let ${initialLowercaseEntityName}QueryKeySearch = new ${initialCaseEntityName}Query()

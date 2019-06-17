@@ -367,6 +367,13 @@ public class CodingServiceImpl implements ICodingService {
       configVo.setControllerFilePath(ToolUtil.getControllerFilePathStrFromConfig(dt.getProPath(), dt.getProAllName(), dt.getInitialCaseEntityName()));
       configVo.setQueryFilePath(ToolUtil.getQueryFilePathStrFromConfig(dt.getProPath(), dt.getProAllName(), dt.getInitialCaseEntityName()));
       configVo.setVoFilePath(ToolUtil.getVoFilePathStrFromConfig(dt.getProPath(), dt.getProAllName(), dt.getInitialCaseEntityName()));
+      configVo.setVueServiceFilePath(ToolUtil.getVueServiceFilePathStrFromConfig(dt.getProPath(), dt.getProAllName(), dt.getInitialLowercaseEntityName()));
+      configVo.setVueStoreFilePath(ToolUtil.getVueStoreFilePathStrFromConfig(dt.getProPath(), dt.getProAllName(), dt.getInitialLowercaseEntityName()));
+      configVo.setVueEntityFilePath(ToolUtil.getVueEntityFilePathStrFromConfig(dt.getProPath(), dt.getProAllName(), dt.getInitialLowercaseEntityName(), dt.getInitialCaseEntityName()));
+      configVo.setVueQueryFilePath(ToolUtil.getVueQueryFilePathStrFromConfig(dt.getProPath(), dt.getProAllName(), dt.getInitialLowercaseEntityName(), dt.getInitialCaseEntityName()));
+      configVo.setVueVoFilePath(ToolUtil.getVueVoFilePathStrFromConfig(dt.getProPath(), dt.getProAllName(), dt.getInitialLowercaseEntityName(), dt.getInitialCaseEntityName()));
+      configVo.setVueViewFilePath(ToolUtil.getVueViewFilePathStrFromConfig(dt.getProPath(), dt.getProAllName(), dt.getInitialLowercaseEntityName()));
+      configVo.setVueViewCssFilePath(ToolUtil.getVueViewCssFilePathStrFromConfig(dt.getProPath(), dt.getProAllName(), dt.getInitialLowercaseEntityName()));
       return configVo;
     } catch (Exception e) {
       if (log.isErrorEnabled()) {
@@ -881,6 +888,368 @@ public class CodingServiceImpl implements ICodingService {
       ToolUtil.getFileFromContentStrAndPath(name, proPath + "rest/src/main/java/cn/moonnow/" + ToolUtil.getBusinessPathStrFromConfig(dt.getProAllName()) + "business/rest/README.md");
       ToolUtil.getFileFromContentStrAndPath(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/java/project/7.txt"), configMap), proPath + "rely/pom.xml");
       ToolUtil.getFileFromContentStrAndPath(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/java/git/1.txt"), new LinkedHashMap<String, String>()), proPath + "rely/.gitignore");
+    } catch (Exception e) {
+      if (log.isErrorEnabled()) {
+        log.error(e.getMessage(), e);
+      }
+      throw e;
+    }
+  }
+
+  @Override
+  public void codingVueService(ConfigVO configVo) throws Exception {
+    if (log.isDebugEnabled()) {
+      log.debug(ToolUtil.getLog(LOG));
+      log.debug(ToolUtil.LOG + configVo);
+    }
+    try {
+      if (ToolUtil.isNullEntityAllFieldValue(configVo)) {
+        throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      if (ToolUtil.isNullStr(configVo.getDtId())) {
+        throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      StringBuilder vueServiceStr = new StringBuilder();
+      LinkedHashMap<String, String> configMap = new LinkedHashMap<String, String>();
+      Dt dt = dtPersistent.getDtByPk(configVo.getDtId());
+      configMap.putAll(ToolUtil.CONFIG_MAP);
+      configMap.put("controllerUrl", ToolUtil.getControllerUrlStrFromConfig(dt.getProAllName()));
+      configMap.put("initialLowercaseEntityName", dt.getInitialLowercaseEntityName());
+      vueServiceStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/service/1.txt"), configMap));
+      ToolUtil.getFileFromContentStrAndPath(vueServiceStr.toString(), configVo.getVueServiceFilePath());
+    } catch (Exception e) {
+      if (log.isErrorEnabled()) {
+        log.error(e.getMessage(), e);
+      }
+      throw e;
+    }
+  }
+
+  @Override
+  public void codingVueStore(ConfigVO configVo) throws Exception {
+    if (log.isDebugEnabled()) {
+      log.debug(ToolUtil.getLog(LOG));
+      log.debug(ToolUtil.LOG + configVo);
+    }
+    try {
+      if (ToolUtil.isNullEntityAllFieldValue(configVo)) {
+        throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      if (ToolUtil.isNullStr(configVo.getDtId())) {
+        throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      StringBuilder vueStoreStr = new StringBuilder();
+      LinkedHashMap<String, String> configMap = new LinkedHashMap<String, String>();
+      Dt dt = dtPersistent.getDtByPk(configVo.getDtId());
+      configMap.putAll(ToolUtil.CONFIG_MAP);
+      configMap.put("controllerUrl", ToolUtil.getControllerUrlStrFromConfig(dt.getProAllName()));
+      configMap.put("initialCaseEntityName", dt.getInitialCaseEntityName());
+      configMap.put("initialLowercaseEntityName", dt.getInitialLowercaseEntityName());
+      vueStoreStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/store/1.txt"), configMap));
+      ToolUtil.getFileFromContentStrAndPath(vueStoreStr.toString(), configVo.getVueStoreFilePath());
+    } catch (Exception e) {
+      if (log.isErrorEnabled()) {
+        log.error(e.getMessage(), e);
+      }
+      throw e;
+    }
+  }
+
+  @Override
+  public void codingVueEntity(ConfigVO configVo) throws Exception {
+    if (log.isDebugEnabled()) {
+      log.debug(ToolUtil.getLog(LOG));
+      log.debug(ToolUtil.LOG + configVo);
+    }
+    try {
+      if (ToolUtil.isNullEntityAllFieldValue(configVo)) {
+        throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      if (ToolUtil.isNullStr(configVo.getDtId())) {
+        throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      StringBuilder vueEntityStr = new StringBuilder();
+      LinkedHashMap<String, String> configMap = new LinkedHashMap<String, String>();
+      Dt dt = dtPersistent.getDtByPk(configVo.getDtId());
+      ColumnsQuery columnsQuery = new ColumnsQuery();
+      columnsQuery.setDtId(dt.getDtId());
+      Collection<Columns> columnsSet = columnsPersistent.queryColumns(columnsQuery);
+      configMap.putAll(ToolUtil.CONFIG_MAP);
+      configMap.put("initialCaseEntityName", dt.getInitialCaseEntityName());
+      vueEntityStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/entity/1.txt"), configMap));
+      if (ToolUtil.isNotEmpty(columnsSet)) {
+        for (Columns eachColumns : columnsSet) {
+          LinkedHashMap<String, String> columnConfigMap = new LinkedHashMap<String, String>();
+          columnConfigMap.putAll(configMap);
+          columnConfigMap.put("initialLowercaseColumnName", eachColumns.getInitialLowercaseColumnName());
+          columnConfigMap.put("columnNameAnnotation", eachColumns.getColumnNameAnnotation());
+          vueEntityStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/entity/2.txt"), columnConfigMap));
+        }
+      }
+      vueEntityStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/entity/3.txt"), configMap));
+      ToolUtil.getFileFromContentStrAndPath(vueEntityStr.toString(), configVo.getVueEntityFilePath());
+    } catch (Exception e) {
+      if (log.isErrorEnabled()) {
+        log.error(e.getMessage(), e);
+      }
+      throw e;
+    }
+  }
+
+  @Override
+  public void codingVueQuery(ConfigVO configVo) throws Exception {
+    if (log.isDebugEnabled()) {
+      log.debug(ToolUtil.getLog(LOG));
+      log.debug(ToolUtil.LOG + configVo);
+    }
+    try {
+      if (ToolUtil.isNullEntityAllFieldValue(configVo)) {
+        throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      if (ToolUtil.isNullStr(configVo.getDtId())) {
+        throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      StringBuilder vueQueryStr = new StringBuilder();
+      LinkedHashMap<String, String> configMap = new LinkedHashMap<String, String>();
+      Dt dt = dtPersistent.getDtByPk(configVo.getDtId());
+      ColumnsQuery columnsQuery = new ColumnsQuery();
+      columnsQuery.setDtId(dt.getDtId());
+      Collection<Columns> columnsSet = columnsPersistent.queryColumns(columnsQuery);
+      QueryQuery queryQuery = new QueryQuery();
+      queryQuery.setDtId(dt.getDtId());
+      Collection<Query> querySet = queryPersistent.queryQuery(queryQuery);
+      configMap.putAll(ToolUtil.CONFIG_MAP);
+      configMap.put("initialCaseEntityName", dt.getInitialCaseEntityName());
+      vueQueryStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/query/1.txt"), configMap));
+      if (ToolUtil.isNotEmpty(columnsSet)) {
+        for (Columns eachColumns : columnsSet) {
+          LinkedHashMap<String, String> columnConfigMap = new LinkedHashMap<String, String>();
+          columnConfigMap.putAll(configMap);
+          columnConfigMap.put("initialLowercaseColumnName", eachColumns.getInitialLowercaseColumnName());
+          columnConfigMap.put("columnNameAnnotation", eachColumns.getColumnNameAnnotation());
+          vueQueryStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/query/2.txt"), columnConfigMap));
+        }
+      }
+      if (ToolUtil.isNotEmpty(querySet)) {
+        for (Query eachQuery : querySet) {
+          LinkedHashMap<String, String> columnConfigMap = new LinkedHashMap<String, String>();
+          columnConfigMap.putAll(configMap);
+          Columns columns = columnsPersistent.getColumnsByPk(eachQuery.getColumnsId());
+          columnConfigMap.put("initialLowercaseColumnName", columns.getInitialLowercaseColumnName() + eachQuery.getQueryType());
+          columnConfigMap.put("columnNameAnnotation", columns.getColumnNameAnnotation());
+          vueQueryStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/query/2.txt"), columnConfigMap));
+        }
+      }
+      vueQueryStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/query/3.txt"), configMap));
+      ToolUtil.getFileFromContentStrAndPath(vueQueryStr.toString(), configVo.getVueQueryFilePath());
+    } catch (Exception e) {
+      if (log.isErrorEnabled()) {
+        log.error(e.getMessage(), e);
+      }
+      throw e;
+    }
+  }
+
+  @Override
+  public void codingVueVo(ConfigVO configVo) throws Exception {
+    if (log.isDebugEnabled()) {
+      log.debug(ToolUtil.getLog(LOG));
+      log.debug(ToolUtil.LOG + configVo);
+    }
+    try {
+      if (ToolUtil.isNullEntityAllFieldValue(configVo)) {
+        throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      if (ToolUtil.isNullStr(configVo.getDtId())) {
+        throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      StringBuilder vueVoStr = new StringBuilder();
+      LinkedHashMap<String, String> configMap = new LinkedHashMap<String, String>();
+      Dt dt = dtPersistent.getDtByPk(configVo.getDtId());
+      ColumnsQuery columnsQuery = new ColumnsQuery();
+      columnsQuery.setDtId(dt.getDtId());
+      Collection<Columns> columnsSet = columnsPersistent.queryColumns(columnsQuery);
+      configMap.putAll(ToolUtil.CONFIG_MAP);
+      configMap.put("initialCaseEntityName", dt.getInitialCaseEntityName());
+      vueVoStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/vo/1.txt"), configMap));
+      if (ToolUtil.isNotEmpty(columnsSet)) {
+        for (Columns eachColumns : columnsSet) {
+          LinkedHashMap<String, String> columnConfigMap = new LinkedHashMap<String, String>();
+          columnConfigMap.putAll(configMap);
+          columnConfigMap.put("initialLowercaseColumnName", eachColumns.getInitialLowercaseColumnName());
+          columnConfigMap.put("columnNameAnnotation", eachColumns.getColumnNameAnnotation());
+          vueVoStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/vo/2.txt"), columnConfigMap));
+        }
+      }
+      vueVoStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/vo/3.txt"), configMap));
+      ToolUtil.getFileFromContentStrAndPath(vueVoStr.toString(), configVo.getVueVoFilePath());
+    } catch (Exception e) {
+      if (log.isErrorEnabled()) {
+        log.error(e.getMessage(), e);
+      }
+      throw e;
+    }
+  }
+
+  @Override
+  public void codingVueView(ConfigVO configVo) throws Exception {
+    if (log.isDebugEnabled()) {
+      log.debug(ToolUtil.getLog(LOG));
+      log.debug(ToolUtil.LOG + configVo);
+    }
+    try {
+      if (ToolUtil.isNullEntityAllFieldValue(configVo)) {
+        throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      if (ToolUtil.isNullStr(configVo.getDtId())) {
+        throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      StringBuilder vueViewStr = new StringBuilder();
+      LinkedHashMap<String, String> configMap = new LinkedHashMap<String, String>();
+      Dt dt = dtPersistent.getDtByPk(configVo.getDtId());
+      ColumnsQuery columnsQuery = new ColumnsQuery();
+      columnsQuery.setDtId(dt.getDtId());
+      Collection<Columns> columnsSet = columnsPersistent.queryColumns(columnsQuery);
+      QueryQuery queryQuery = new QueryQuery();
+      queryQuery.setDtId(dt.getDtId());
+      Collection<Query> querySet = queryPersistent.queryQuery(queryQuery);
+      configMap.putAll(ToolUtil.CONFIG_MAP);
+      configMap.put("controllerUrl", ToolUtil.getControllerUrlStrFromConfig(dt.getProAllName()));
+      configMap.put("dtNameAnnotation", dt.getDtNameAnnotation());
+      configMap.put("initialCaseEntityName", dt.getInitialCaseEntityName());
+      configMap.put("initialLowercaseEntityName", dt.getInitialLowercaseEntityName());
+      PkQuery pkQuery = new PkQuery();
+      pkQuery.setDtId(dt.getDtId());
+      Collection<Pk> pkSet = pkPersistent.queryPk(pkQuery);
+      String primaryKey = "";
+      if (ToolUtil.isNotEmpty(pkSet)) {
+        Columns columns = columnsPersistent.getColumnsByPk(pkSet.iterator().next().getColumnsId());
+        if (!(columns == null || ToolUtil.isNullEntityAllFieldValue(columns))) {
+          primaryKey = columns.getColumnsId();
+          configMap.put("primaryKeyInitialLowercaseColumnName", columns.getInitialLowercaseColumnName());
+        }
+      }
+      vueViewStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/view/1.txt"), configMap));
+      if (ToolUtil.isNotEmpty(columnsSet)) {
+        for (Columns eachColumns : columnsSet) {
+          if (ToolUtil.isNotNullStr(primaryKey) && primaryKey.equals(eachColumns.getColumnsId())) {
+            continue;
+          }
+          LinkedHashMap<String, String> columnConfigMap = new LinkedHashMap<String, String>();
+          columnConfigMap.putAll(configMap);
+          columnConfigMap.put("initialLowercaseColumnName", eachColumns.getInitialLowercaseColumnName());
+          columnConfigMap.put("columnNameAnnotation", eachColumns.getColumnNameAnnotation());
+          String dataType = ToolUtil.getAngularDataTypeFromDtDataTypeStr(eachColumns.getDataType());
+          if ("string".equals(dataType)) {
+            vueViewStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/view/2.txt"), columnConfigMap));
+          } else if ("number".equals(dataType)) {
+            vueViewStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/view/3.txt"), columnConfigMap));
+          }
+        }
+      }
+      vueViewStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/view/4.txt"), configMap));
+      if (ToolUtil.isNotEmpty(columnsSet)) {
+        for (Columns eachColumns : columnsSet) {
+          if (ToolUtil.isNotNullStr(primaryKey) && primaryKey.equals(eachColumns.getColumnsId())) {
+            continue;
+          }
+          LinkedHashMap<String, String> columnConfigMap = new LinkedHashMap<String, String>();
+          columnConfigMap.putAll(configMap);
+          columnConfigMap.put("initialLowercaseColumnName", eachColumns.getInitialLowercaseColumnName());
+          columnConfigMap.put("columnNameAnnotation", eachColumns.getColumnNameAnnotation());
+          String dataType = ToolUtil.getAngularDataTypeFromDtDataTypeStr(eachColumns.getDataType());
+          if ("string".equals(dataType)) {
+            vueViewStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/view/5.txt"), columnConfigMap));
+          } else if ("number".equals(dataType)) {
+            vueViewStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/view/6.txt"), columnConfigMap));
+          }
+        }
+      }
+      vueViewStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/view/7.txt"), configMap));
+      if (ToolUtil.isNotEmpty(columnsSet)) {
+        for (Columns eachColumns : columnsSet) {
+          LinkedHashMap<String, String> columnConfigMap = new LinkedHashMap<String, String>();
+          columnConfigMap.putAll(configMap);
+          columnConfigMap.put("initialLowercaseColumnName", eachColumns.getInitialLowercaseColumnName());
+          columnConfigMap.put("columnNameAnnotation", eachColumns.getColumnNameAnnotation());
+          vueViewStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/view/8.txt"), columnConfigMap));
+        }
+      }
+      vueViewStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/view/9.txt"), configMap));
+      if (ToolUtil.isNotEmpty(columnsSet)) {
+        for (Columns eachColumns : columnsSet) {
+          if (ToolUtil.isNotNullStr(primaryKey) && primaryKey.equals(eachColumns.getColumnsId())) {
+            continue;
+          }
+          LinkedHashMap<String, String> columnConfigMap = new LinkedHashMap<String, String>();
+          columnConfigMap.putAll(configMap);
+          columnConfigMap.put("initialLowercaseColumnName", eachColumns.getInitialLowercaseColumnName());
+          columnConfigMap.put("columnNameAnnotation", eachColumns.getColumnNameAnnotation());
+          vueViewStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/view/10.txt"), columnConfigMap));
+        }
+      }
+      vueViewStr.delete(vueViewStr.length() - 2, vueViewStr.length()).append("\n");
+      vueViewStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/view/11.txt"), configMap));
+      if (ToolUtil.isNotEmpty(columnsSet)) {
+        for (Columns eachColumns : columnsSet) {
+          if (ToolUtil.isNotNullStr(primaryKey) && primaryKey.equals(eachColumns.getColumnsId())) {
+            continue;
+          }
+          LinkedHashMap<String, String> columnConfigMap = new LinkedHashMap<String, String>();
+          columnConfigMap.putAll(configMap);
+          columnConfigMap.put("initialLowercaseColumnName", eachColumns.getInitialLowercaseColumnName());
+          columnConfigMap.put("columnNameAnnotation", eachColumns.getColumnNameAnnotation());
+          String dataType = ToolUtil.getAngularDataTypeFromDtDataTypeStr(eachColumns.getDataType());
+          if ("n".equals(eachColumns.getIsNull())) {
+            if ("string".equals(dataType)) {
+              vueViewStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/view/12.txt"), columnConfigMap));
+            } else if ("number".equals(dataType)) {
+              vueViewStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/view/13.txt"), columnConfigMap));
+            }
+          }
+        }
+      }
+      vueViewStr.delete(vueViewStr.length() - 2, vueViewStr.length()).append("\n");
+      vueViewStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/view/14.txt"), configMap));
+      if (ToolUtil.isNotEmpty(querySet)) {
+        for (Query eachQuery : querySet) {
+          if ("AndKeyLike".equals(eachQuery.getQueryType()) || "OrKeyLike".equals(eachQuery.getQueryType())) {
+            LinkedHashMap<String, String> columnConfigMap = new LinkedHashMap<String, String>();
+            columnConfigMap.putAll(configMap);
+            Columns columns = columnsPersistent.getColumnsByPk(eachQuery.getColumnsId());
+            columnConfigMap.put("initialLowercaseColumnName", columns.getInitialLowercaseColumnName() + eachQuery.getQueryType());
+            vueViewStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/view/15.txt"), columnConfigMap));
+          }
+        }
+      }
+      vueViewStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/view/16.txt"), configMap));
+      ToolUtil.getFileFromContentStrAndPath(vueViewStr.toString(), configVo.getVueViewFilePath());
+    } catch (Exception e) {
+      if (log.isErrorEnabled()) {
+        log.error(e.getMessage(), e);
+      }
+      throw e;
+    }
+  }
+
+  @Override
+  public void codingVueViewCss(ConfigVO configVo) throws Exception {
+    if (log.isDebugEnabled()) {
+      log.debug(ToolUtil.getLog(LOG));
+      log.debug(ToolUtil.LOG + configVo);
+    }
+    try {
+      if (ToolUtil.isNullEntityAllFieldValue(configVo)) {
+        throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      if (ToolUtil.isNullStr(configVo.getDtId())) {
+        throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      StringBuilder vueViewCssStr = new StringBuilder();
+      LinkedHashMap<String, String> configMap = new LinkedHashMap<String, String>();
+      configMap.putAll(ToolUtil.CONFIG_MAP);
+      vueViewCssStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/view/css/1.txt"), configMap));
+      ToolUtil.getFileFromContentStrAndPath(vueViewCssStr.toString(), configVo.getVueViewCssFilePath());
     } catch (Exception e) {
       if (log.isErrorEnabled()) {
         log.error(e.getMessage(), e);

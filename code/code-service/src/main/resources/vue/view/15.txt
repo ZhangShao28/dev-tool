@@ -1,0 +1,1 @@
+${ci}${ci}${ci}${ci}${initialLowercaseEntityName}QueryKeySearch.${initialLowercaseColumnName} = '%' + keyLikeValue + '%'

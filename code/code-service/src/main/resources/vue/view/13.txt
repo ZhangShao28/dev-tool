@@ -1,0 +1,3 @@
+${ci}${ci}${ci}${ci}${initialLowercaseColumnName}: [
+${ci}${ci}${ci}${ci}${ci}{ type: 'number', required: true, message: '${columnNameAnnotation}不能为空', trigger: 'change' }
+${ci}${ci}${ci}${ci}],

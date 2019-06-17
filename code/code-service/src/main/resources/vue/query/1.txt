@@ -1,0 +1,2 @@
+export default class ${initialCaseEntityName}Query {
+${ci}constructor () {

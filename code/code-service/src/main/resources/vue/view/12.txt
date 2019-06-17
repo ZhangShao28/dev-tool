@@ -1,0 +1,3 @@
+${ci}${ci}${ci}${ci}${initialLowercaseColumnName}: [
+${ci}${ci}${ci}${ci}${ci}{ required: true, message: '${columnNameAnnotation}不能为空', trigger: 'blur' }
+${ci}${ci}${ci}${ci}],

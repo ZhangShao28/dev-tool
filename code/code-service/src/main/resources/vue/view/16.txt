@@ -1,0 +1,74 @@
+${ci}${ci}${ci}${ci}this.query${initialCaseEntityName}(${initialLowercaseEntityName}QueryKeySearch).then(res => {
+${ci}${ci}${ci}${ci}${ci}if (res.data.success) {
+${ci}${ci}${ci}${ci}${ci}${ci}this.${initialLowercaseEntityName}Set = res.data.data
+${ci}${ci}${ci}${ci}${ci}${ci}this.${initialLowercaseEntityName}Count = res.data.count
+${ci}${ci}${ci}${ci}${ci}${ci}this.set${initialCaseEntityName}SelectRow([])
+${ci}${ci}${ci}${ci}${ci}${ci}setTimeout(() => { this.${initialLowercaseEntityName}SpinShow = false }, 700)
+${ci}${ci}${ci}${ci}${ci}${ci}setTimeout(() => { this.${initialLowercaseEntityName}KeySearchSubmitting = false }, 5000)
+${ci}${ci}${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}${ci}${ci}this.$Message.error({ content: res.data.msg, duration: 6 })
+${ci}${ci}${ci}${ci}${ci}${ci}setTimeout(() => { this.${initialLowercaseEntityName}SpinShow = false }, 700)
+${ci}${ci}${ci}${ci}${ci}${ci}setTimeout(() => { this.${initialLowercaseEntityName}KeySearchSubmitting = false }, 5000)
+${ci}${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}}).catch(result => {
+${ci}${ci}${ci}${ci}${ci}this.$Message.error({ content: result.response.statusText, duration: 6 })
+${ci}${ci}${ci}${ci}${ci}setTimeout(() => { this.${initialLowercaseEntityName}SpinShow = false }, 700)
+${ci}${ci}${ci}${ci}${ci}setTimeout(() => { this.${initialLowercaseEntityName}KeySearchSubmitting = false }, 5000)
+${ci}${ci}${ci}${ci}})
+${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}this.${initialLowercaseEntityName}KeySearchClickRate++
+${ci}${ci}${ci}${ci}if (this.${initialLowercaseEntityName}KeySearchClickRate > 10) {
+${ci}${ci}${ci}${ci}${ci}this.$Message.warning({ content: '兄dei，你是闲的吗？', duration: 6 })
+${ci}${ci}${ci}${ci}${ci}this.${initialLowercaseEntityName}KeySearchClickRate = 0
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}}
+${ci}${ci}},
+${ci}${ci}vagueQuery${initialCaseEntityName} () {
+${ci}${ci}${ci}this.${initialLowercaseEntityName}QuerySubmitting = true
+${ci}${ci}${ci}this.${initialLowercaseEntityName}PageShow = false
+${ci}${ci}${ci}this.${initialLowercaseEntityName}SpinShow = true
+${ci}${ci}${ci}this.${initialLowercaseEntityName}QueryPoptipShow = false
+${ci}${ci}${ci}this.query${initialCaseEntityName}(this.${initialLowercaseEntityName}Query).then(res => {
+${ci}${ci}${ci}${ci}if (res.data.success) {
+${ci}${ci}${ci}${ci}${ci}this.${initialLowercaseEntityName}Set = res.data.data
+${ci}${ci}${ci}${ci}${ci}this.${initialLowercaseEntityName}Count = res.data.count
+${ci}${ci}${ci}${ci}${ci}this.set${initialCaseEntityName}SelectRow([])
+${ci}${ci}${ci}${ci}${ci}setTimeout(() => { this.${initialLowercaseEntityName}SpinShow = false }, 700)
+${ci}${ci}${ci}${ci}${ci}setTimeout(() => { this.${initialLowercaseEntityName}QuerySubmitting = false }, 5000)
+${ci}${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}${ci}this.$Message.error({ content: res.data.msg, duration: 6 })
+${ci}${ci}${ci}${ci}${ci}setTimeout(() => { this.${initialLowercaseEntityName}SpinShow = false }, 700)
+${ci}${ci}${ci}${ci}${ci}setTimeout(() => { this.${initialLowercaseEntityName}QuerySubmitting = false }, 5000)
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}}).catch(result => {
+${ci}${ci}${ci}${ci}this.$Message.error({ content: result.response.statusText, duration: 6 })
+${ci}${ci}${ci}${ci}setTimeout(() => { this.${initialLowercaseEntityName}SpinShow = false }, 700)
+${ci}${ci}${ci}${ci}setTimeout(() => { this.${initialLowercaseEntityName}QuerySubmitting = false }, 5000)
+${ci}${ci}${ci}})
+${ci}${ci}},
+${ci}${ci}reset${initialCaseEntityName}QueryForm () {
+${ci}${ci}${ci}this.$refs.${initialLowercaseEntityName}QueryForm.resetFields()
+${ci}${ci}},
+${ci}${ci}set${initialCaseEntityName}SelectRow (list) {
+${ci}${ci}${ci}this.${initialLowercaseEntityName}SelectRow = list
+${ci}${ci}${ci}this.${initialLowercaseEntityName}SelectRowLength = list.length
+${ci}${ci}},
+${ci}${ci}${initialLowercaseEntityName}PageIndexChange (pageIndex) {
+${ci}${ci}${ci}this.${initialLowercaseEntityName}Page = pageIndex
+${ci}${ci}${ci}this.get${initialCaseEntityName}Set()
+${ci}${ci}},
+${ci}${ci}${initialLowercaseEntityName}PageSizeChange (pageSize) {
+${ci}${ci}${ci}this.${initialLowercaseEntityName}Rows = pageSize
+${ci}${ci}${ci}this.${initialLowercaseEntityName}Page = 1
+${ci}${ci}${ci}this.get${initialCaseEntityName}Set()
+${ci}${ci}},
+${ci}${ci}${initialLowercaseEntityName}Refresh () {
+${ci}${ci}${ci}this.${initialLowercaseEntityName}Page = 1
+${ci}${ci}${ci}this.get${initialCaseEntityName}Set()
+${ci}${ci}}
+${ci}},
+${ci}mounted () {
+${ci}${ci}this.get${initialCaseEntityName}Set()
+${ci}}
+}
+</script>

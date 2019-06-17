@@ -1,0 +1,5 @@
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}<Col span="8">
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}<FormItem label="${columnNameAnnotation}：" prop="${initialLowercaseColumnName}">
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}<InputNumber v-model="${initialLowercaseEntityName}Query.${initialLowercaseColumnName}"></InputNumber>
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}</FormItem>
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}</Col>

@@ -1,0 +1,43 @@
+import ToolUtil from '@/tool/ToolUtil'
+import ToolAxios from '@/tool/ToolAxios'
+
+const url = '${controllerUrl}${initialLowercaseEntityName}'
+
+export default {
+${ci}save: (${initialLowercaseEntityName}) => {
+${ci}${ci}return ToolAxios.post(ToolUtil.getUrl(url, ToolUtil.save), ${initialLowercaseEntityName})
+${ci}},
+${ci}batchSave: (${initialLowercaseEntityName}s) => {
+${ci}${ci}return ToolAxios.post(ToolUtil.getUrl(url, ToolUtil.batchSave), ${initialLowercaseEntityName}s)
+${ci}},
+${ci}update: (${initialLowercaseEntityName}) => {
+${ci}${ci}return ToolAxios.post(ToolUtil.getUrl(url, ToolUtil.update), ${initialLowercaseEntityName})
+${ci}},
+${ci}batchUpdate: (${initialLowercaseEntityName}s) => {
+${ci}${ci}return ToolAxios.post(ToolUtil.getUrl(url, ToolUtil.batchUpdate), ${initialLowercaseEntityName}s)
+${ci}},
+${ci}remove: (${initialLowercaseEntityName}) => {
+${ci}${ci}return ToolAxios.post(ToolUtil.getUrl(url, ToolUtil.remove), ${initialLowercaseEntityName})
+${ci}},
+${ci}batchRemove: (${initialLowercaseEntityName}s) => {
+${ci}${ci}return ToolAxios.post(ToolUtil.getUrl(url, ToolUtil.batchRemove), ${initialLowercaseEntityName}s)
+${ci}},
+${ci}getByPk: (${initialLowercaseEntityName}) => {
+${ci}${ci}return ToolAxios.post(ToolUtil.getUrl(url, ToolUtil.getByPk), ${initialLowercaseEntityName})
+${ci}},
+${ci}getAll: (${initialLowercaseEntityName}Query) => {
+${ci}${ci}return ToolAxios.post(ToolUtil.getUrl(url, ToolUtil.getAll), ${initialLowercaseEntityName}Query)
+${ci}},
+${ci}paging: (${initialLowercaseEntityName}Query, rows, page) => {
+${ci}${ci}return ToolAxios.post(ToolUtil.getUrl(url, ToolUtil.paging, rows, page), ${initialLowercaseEntityName}Query)
+${ci}},
+${ci}getVOByPk: (${initialLowercaseEntityName}) => {
+${ci}${ci}return ToolAxios.post(ToolUtil.getUrl(url, ToolUtil.getVOByPk), ${initialLowercaseEntityName})
+${ci}},
+${ci}getAllVO: (${initialLowercaseEntityName}Query) => {
+${ci}${ci}return ToolAxios.post(ToolUtil.getUrl(url, ToolUtil.getAllVO), ${initialLowercaseEntityName}Query)
+${ci}},
+${ci}pagingVO: (${initialLowercaseEntityName}Query, rows, page) => {
+${ci}${ci}return ToolAxios.post(ToolUtil.getUrl(url, ToolUtil.pagingVO, rows, page), ${initialLowercaseEntityName}Query)
+${ci}}
+}

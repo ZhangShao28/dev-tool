@@ -1,0 +1,36 @@
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}</Row>
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}<Divider />
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}<Row>
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}<Col span="24">
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}<FormItem class="pro-float-right">
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}<Button type="primary" @click="vagueQuery${initialCaseEntityName}()" :loading="${initialLowercaseEntityName}QuerySubmitting">精准查询</Button>
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}<Button class="pro-margin-left-8" @click="reset${initialCaseEntityName}QueryForm()">重置</Button>
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}</FormItem>
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}</Col>
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}</Row>
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}</Form>
+${ci}${ci}${ci}${ci}${ci}${ci}</div>
+${ci}${ci}${ci}${ci}${ci}</Poptip>
+${ci}${ci}${ci}${ci}</Col>
+${ci}${ci}${ci}</Row>
+${ci}${ci}${ci}<Button class="pro-list-button" type="primary" icon="ios-add-circle-outline" ghost @click="add${initialCaseEntityName}()">新建</Button>
+${ci}${ci}${ci}<Button class="pro-list-button" type="dashed" icon="ios-brush-outline" @click="up${initialCaseEntityName}()" v-if="${initialLowercaseEntityName}SelectRowLength === 1">编辑</Button>
+${ci}${ci}${ci}<Poptip class="pro-list-button" title="确认删除？" placement="bottom" confirm @on-ok="del${initialCaseEntityName}()" v-if="${initialLowercaseEntityName}SelectRowLength > 0">
+${ci}${ci}${ci}${ci}<Button type="error" icon="ios-backspace-outline" ghost>删除</Button>
+${ci}${ci}${ci}</Poptip>
+${ci}${ci}${ci}<Button class="pro-list-button" icon="md-bulb" @click="detail${initialCaseEntityName}()" v-if="${initialLowercaseEntityName}SelectRowLength === 1">详情</Button>
+${ci}${ci}${ci}<Table :columns="${initialLowercaseEntityName}Columns" :data="${initialLowercaseEntityName}Set" @on-selection-change="set${initialCaseEntityName}SelectRow($event)" @on-row-dblclick="dblclickDetail${initialCaseEntityName}($event)"></Table>
+${ci}${ci}${ci}<Row class="pro-margin-top-10" type="flex" justify="center">
+${ci}${ci}${ci}${ci}<Page size="small" placement="top" show-total show-sizer show-elevator :total="${initialLowercaseEntityName}Count" :current="${initialLowercaseEntityName}Page" :page-size-opts="[10, 30, 50]" @on-change="${initialLowercaseEntityName}PageIndexChange($event)" @on-page-size-change="${initialLowercaseEntityName}PageSizeChange($event)" v-if="${initialLowercaseEntityName}PageShow" />
+${ci}${ci}${ci}${ci}<Button type="text" shape="circle" icon="md-refresh" @click="${initialLowercaseEntityName}Refresh()"></Button>
+${ci}${ci}${ci}</Row>
+${ci}${ci}${ci}<Spin size="large" fix v-if="${initialLowercaseEntityName}SpinShow"></Spin>
+${ci}${ci}</Card>
+${ci}${ci}<Modal width="60" v-model="${initialLowercaseEntityName}EditModalShow" :closable="false" :mask-closable="false" :footer-hide="true">
+${ci}${ci}${ci}<Card>
+${ci}${ci}${ci}${ci}<p slot="title">
+${ci}${ci}${ci}${ci}${ci}<Icon type="ios-brush-outline"></Icon>
+${ci}${ci}${ci}${ci}${ci}编辑${dtNameAnnotation}
+${ci}${ci}${ci}${ci}</p>
+${ci}${ci}${ci}${ci}<Form class="pro-margin-top-20" ref="${initialLowercaseEntityName}Form" :model="${initialLowercaseEntityName}" :rules="${initialLowercaseEntityName}FormValidate" :label-width="120">
+${ci}${ci}${ci}${ci}${ci}<Row type="flex" justify="center">

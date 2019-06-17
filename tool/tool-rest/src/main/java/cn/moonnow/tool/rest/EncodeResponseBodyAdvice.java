@@ -24,9 +24,9 @@ public class EncodeResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
   @Override
   public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-//    String encodeBodyStr = new Gson().toJson(body);
-//    return ToolUtil.encodeAES(encodeBodyStr, ToolUtil.AES_KEY);
-    return body;
+    String encodeBodyStr = new Gson().toJson(body);
+    return ToolUtil.encodeAES(encodeBodyStr, ToolUtil.AES_KEY);
+//    return body;
   }
 
 }

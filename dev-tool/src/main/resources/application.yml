@@ -34,5 +34,5 @@ mybatis-plus:
 proconfig:
   cookies-times-effect: 1800000
   authorization-interceptor: true
-  http-request-body-decode: true
-  http-response-body-encode: true
+  http-request-body-decode: false
+  http-response-body-encode: false

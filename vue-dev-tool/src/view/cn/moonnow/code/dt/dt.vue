@@ -43,6 +43,8 @@ export default {
         } else {
           alert(res.data.msg)
         }
+      }).catch(result => {
+        debugger
       })
     }
   },

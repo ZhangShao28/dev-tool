@@ -28,6 +28,13 @@
       <version>${project.version}</version>
       <type>pom</type>
     </dependency>
+<!--     数据字典 -->
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>dict-rely</artifactId>
+      <version>${project.version}</version>
+      <type>pom</type>
+    </dependency>
   </dependencies>
 
   <build>

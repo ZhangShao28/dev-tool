@@ -25,7 +25,7 @@ public class DecodeRequestBodyAdvice implements RequestBodyAdvice {
   @Override
   public HttpInputMessage beforeBodyRead(HttpInputMessage inputMessage, MethodParameter parameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) throws IOException {
     String decodeHttpInputMessageStr = ToolUtil.getStrFromInputStream(inputMessage.getBody());
-//    decodeHttpInputMessageStr = ToolUtil.decodeAES(decodeHttpInputMessageStr, ToolUtil.AES_KEY);
+    decodeHttpInputMessageStr = ToolUtil.decodeAES(decodeHttpInputMessageStr, ToolUtil.AES_KEY);
     return new DecodeHttpInputMessage(inputMessage.getHeaders(), new ByteArrayInputStream(decodeHttpInputMessageStr.getBytes()));
   }
 

@@ -51,6 +51,35 @@ export default [
     ]
   },
   {
+    path: '/system_manage',
+    name: 'system_manage',
+    meta: {
+      icon: 'md-aperture',
+      title: '系统管理'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'dict',
+        name: 'dict',
+        meta: {
+          icon: 'ios-book',
+          title: '数据字典'
+        },
+        component: () => import('@/view/cn/moonnow/dict/business/dict/dict.vue')
+      },
+      {
+        path: 'cscs',
+        name: 'cscs',
+        meta: {
+          icon: 'md-clipboard',
+          title: '粘贴表格数据'
+        },
+        component: () => import('@/view/update/update-paste.vue')
+      }
+    ]
+  },
+  {
     path: '/cs',
     name: 'cs',
     component: Main,

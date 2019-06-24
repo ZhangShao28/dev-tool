@@ -1,5 +1,5 @@
 <style lang="less" scoped>
-  @import './dt.less';
+  @import './coding.less';
 </style>
 
 <template>
@@ -273,7 +273,6 @@ export default {
     },
     toDtList () {
       this.dtEditModalShow = false
-      this.resetDtForm()
       this.getDtSet()
     },
     resetDtForm () {
@@ -291,7 +290,7 @@ export default {
       this.dtSubmitting = true
       this.$refs.dtForm.validate((valid) => {
         if (valid) {
-          if (this.dt.dtId) {
+          if (this.dt.dtId !== null && this.dt.dtId !== '') {
             this.updateDt(this.dt).then(res => {
               if (res.data.success) {
                 this.$Message.success({ content: '数据库表信息修改成功.', duration: 3 })

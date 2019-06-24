@@ -1036,7 +1036,7 @@ public class CodingServiceImpl implements ICodingService {
           columnConfigMap.putAll(configMap);
           Columns columns = columnsPersistent.getColumnsByPk(eachQuery.getColumnsId());
           columnConfigMap.put("initialLowercaseColumnName", columns.getInitialLowercaseColumnName() + eachQuery.getQueryType());
-          columnConfigMap.put("columnNameAnnotation", columns.getColumnNameAnnotation());
+          columnConfigMap.put("columnNameAnnotation", columns.getColumnNameAnnotation() + eachQuery.getQueryType() + "查询");
           vueQueryStr.append(ToolUtil.renderString(ToolUtil.getStrFromFileResourcesPath("/vue/query/2.txt"), columnConfigMap));
         }
       }

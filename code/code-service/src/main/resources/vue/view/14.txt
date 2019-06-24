@@ -56,6 +56,7 @@ ${ci}${ci}${ci}})
 ${ci}${ci}},
 ${ci}${ci}to${initialCaseEntityName}List () {
 ${ci}${ci}${ci}this.${initialLowercaseEntityName}EditModalShow = false
+${ci}${ci}${ci}this.reset${initialCaseEntityName}Form()
 ${ci}${ci}${ci}this.get${initialCaseEntityName}Set()
 ${ci}${ci}},
 ${ci}${ci}reset${initialCaseEntityName}Form () {
@@ -73,7 +74,7 @@ ${ci}${ci}submit${initialCaseEntityName}Form () {
 ${ci}${ci}${ci}this.${initialLowercaseEntityName}Submitting = true
 ${ci}${ci}${ci}this.$refs.${initialLowercaseEntityName}Form.validate((valid) => {
 ${ci}${ci}${ci}${ci}if (valid) {
-${ci}${ci}${ci}${ci}${ci}if (this.${initialLowercaseEntityName}.${primaryKeyInitialLowercaseColumnName} !== null && this.${initialLowercaseEntityName}.${primaryKeyInitialLowercaseColumnName} !== '') {
+${ci}${ci}${ci}${ci}${ci}if (this.${initialLowercaseEntityName}.${primaryKeyInitialLowercaseColumnName}) {
 ${ci}${ci}${ci}${ci}${ci}${ci}this.update${initialCaseEntityName}(this.${initialLowercaseEntityName}).then(res => {
 ${ci}${ci}${ci}${ci}${ci}${ci}${ci}if (res.data.success) {
 ${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.$Message.success({ content: '${dtNameAnnotation}信息修改成功.', duration: 3 })

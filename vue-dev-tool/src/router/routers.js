@@ -60,6 +60,25 @@ export default [
     component: Main,
     children: [
       {
+        path: 'datatable',
+        name: 'datatable',
+        meta: {
+          icon: 'logo-tumblr',
+          title: '数据库表'
+        },
+        component: () => import('@/view/cn/moonnow/code/business/datatable/datatable.vue')
+      },
+      {
+        path: 'coding',
+        name: 'coding',
+        meta: {
+          icon: 'logo-freebsd-devil',
+          title: '生成代码',
+          notCache: true
+        },
+        component: () => import('@/view/cn/moonnow/code/business/coding/coding.vue')
+      },
+      {
         path: 'dict',
         name: 'dict',
         meta: {
@@ -67,15 +86,6 @@ export default [
           title: '数据字典'
         },
         component: () => import('@/view/cn/moonnow/dict/business/dict/dict.vue')
-      },
-      {
-        path: 'cscs',
-        name: 'cscs',
-        meta: {
-          icon: 'md-clipboard',
-          title: '粘贴表格数据'
-        },
-        component: () => import('@/view/update/update-paste.vue')
       }
     ]
   },

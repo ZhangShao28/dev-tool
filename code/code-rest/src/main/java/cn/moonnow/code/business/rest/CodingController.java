@@ -382,6 +382,13 @@ public class CodingController extends ToolController {
       codingService.codingIService(configVo);
       codingService.codingServiceImpl(configVo);
       codingService.codingController(configVo);
+      codingService.codingVueService(configVo);
+      codingService.codingVueStore(configVo);
+      codingService.codingVueEntity(configVo);
+      codingService.codingVueQuery(configVo);
+      codingService.codingVueVo(configVo);
+      codingService.codingVueView(configVo);
+      codingService.codingVueViewCss(configVo);
     } catch (Exception e) {
       if (log.isErrorEnabled()) {
         log.error(e.getMessage(), e);

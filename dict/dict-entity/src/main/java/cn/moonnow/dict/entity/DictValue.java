@@ -29,18 +29,18 @@ public class DictValue implements Serializable {
 
   protected String dictId; // 数据字典编号
 
-  protected Integer version; // 版本号
+  protected Integer versions; // 版本号
 
-  protected String createId; // 创建人编号
-
-  protected String createAcc; // 创建人账号
+  protected String createId; // 创建人账号
 
   protected String createName; // 创建人名称
 
-  protected String modifyId; // 修改人编号
+  protected Long createTimes; // 创建时间
 
-  protected String modifyAcc; // 修改人账号
+  protected String modifyId; // 修改人账号
 
   protected String modifyName; // 修改人名称
+
+  protected Long modifyTimes; // 修改时间
 
 }

@@ -11,7 +11,6 @@ import queryStore from './cn/moonnow/code/query/queryStore'
 import sortStore from './cn/moonnow/code/sort/sortStore'
 import virtualColumnsStore from './cn/moonnow/code/virtualColumns/virtualColumnsStore'
 import codingStore from './cn/moonnow/code/business/coding/codingStore'
-import usrStore from './cn/moonnow/sign/usr/usrStore'
 import dictStore from './cn/moonnow/dict/dict/dictStore'
 import dictValueStore from './cn/moonnow/dict/dictValue/dictValueStore'
 
@@ -39,7 +38,6 @@ store.registerModule('queryStore', queryStore)
 store.registerModule('sortStore', sortStore)
 store.registerModule('virtualColumnsStore', virtualColumnsStore)
 store.registerModule('codingStore', codingStore)
-store.registerModule('usrStore', usrStore)
 store.registerModule('dictStore', dictStore)
 store.registerModule('dictValueStore', dictValueStore)
 

@@ -23,19 +23,19 @@ public class DictQuery implements Serializable {
 
   protected Integer weightOrder; // 排序权重
 
-  protected Integer version; // 版本号
+  protected Integer versions; // 版本号
 
-  protected String createId; // 创建人编号
-
-  protected String createAcc; // 创建人账号
+  protected String createId; // 创建人账号
 
   protected String createName; // 创建人名称
 
-  protected String modifyId; // 修改人编号
+  protected Long createTimes; // 创建时间
 
-  protected String modifyAcc; // 修改人账号
+  protected String modifyId; // 修改人账号
 
   protected String modifyName; // 修改人名称
+
+  protected Long modifyTimes; // 修改时间
 
   protected List<String> dictIdAndin; // 数据字典编号Andin查询
 
@@ -47,15 +47,11 @@ public class DictQuery implements Serializable {
 
   protected String notesOrKeyLike; // 说明OrKeyLike查询
 
-  protected String createIdOrKeyLike; // 创建人编号OrKeyLike查询
-
-  protected String createAccOrKeyLike; // 创建人账号OrKeyLike查询
+  protected String createIdOrKeyLike; // 创建人账号OrKeyLike查询
 
   protected String createNameOrKeyLike; // 创建人名称OrKeyLike查询
 
-  protected String modifyIdOrKeyLike; // 修改人编号OrKeyLike查询
-
-  protected String modifyAccOrKeyLike; // 修改人账号OrKeyLike查询
+  protected String modifyIdOrKeyLike; // 修改人账号OrKeyLike查询
 
   protected String modifyNameOrKeyLike; // 修改人名称OrKeyLike查询
 

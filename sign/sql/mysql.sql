@@ -19,9 +19,11 @@ create table DEV_ACCOUNT (
   NEXUS_OBJECT_ID                 varchar(36)         character set utf8 collate utf8_bin      null comment '对象编号',
 
   VERSIONS                        integer                                                  not null comment '版本号',
-  CREATE_ID                       varchar(36)         character set utf8 collate utf8_bin  not null comment '创建编号',
+  CREATE_ID                       varchar(36)         character set utf8 collate utf8_bin  not null comment '创建人账号',
+  CREATE_NAME                     varchar(64)         character set utf8 collate utf8_bin  not null comment '创建人名称',
   CREATE_TIMES                    bigint                                                   not null comment '创建时间',
-  MODIFY_ID                       varchar(36)         character set utf8 collate utf8_bin      null comment '修改编号',
+  MODIFY_ID                       varchar(36)         character set utf8 collate utf8_bin      null comment '修改人账号',
+  MODIFY_NAME                     varchar(64)         character set utf8 collate utf8_bin      null comment '修改人名称',
   MODIFY_TIMES                    bigint                                                       null comment '修改时间',
   primary key (ACCOUNT_ID),
   unique key (ACCOUNT)

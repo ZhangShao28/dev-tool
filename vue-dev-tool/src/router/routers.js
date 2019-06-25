@@ -90,25 +90,6 @@ export default [
     ]
   },
   {
-    path: '/cs',
-    name: 'cs',
-    component: Main,
-    meta: {
-      hideInBread: true
-    },
-    children: [
-      {
-        path: 'cs',
-        name: 'cs',
-        meta: {
-          icon: '_qq',
-          title: 'cs'
-        },
-        component: () => import('@/view/cn/moonnow/code/dt/dt.vue')
-      }
-    ]
-  },
-  {
     path: '',
     name: 'doc',
     meta: {

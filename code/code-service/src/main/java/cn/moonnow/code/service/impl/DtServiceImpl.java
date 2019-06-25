@@ -11,9 +11,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import cn.moonnow.code.entity.Columns;
 import cn.moonnow.code.entity.Dt;
+import cn.moonnow.code.entity.Pk;
+import cn.moonnow.code.entity.Query;
+import cn.moonnow.code.entity.Sort;
+import cn.moonnow.code.entity.VirtualColumns;
+import cn.moonnow.code.persistent.IColumnsPersistent;
 import cn.moonnow.code.persistent.IDtPersistent;
+import cn.moonnow.code.persistent.IPkPersistent;
+import cn.moonnow.code.persistent.IQueryPersistent;
+import cn.moonnow.code.persistent.ISortPersistent;
+import cn.moonnow.code.persistent.IVirtualColumnsPersistent;
+import cn.moonnow.code.query.ColumnsQuery;
 import cn.moonnow.code.query.DtQuery;
+import cn.moonnow.code.query.PkQuery;
+import cn.moonnow.code.query.QueryQuery;
+import cn.moonnow.code.query.SortQuery;
+import cn.moonnow.code.query.VirtualColumnsQuery;
 import cn.moonnow.code.service.IDtService;
 import cn.moonnow.code.vo.DtVO;
 import cn.moonnow.tool.exception.ToolException;
@@ -34,6 +49,21 @@ public class DtServiceImpl implements IDtService {
 
   @Resource(name = "cn.moonnow.code.DtPersistent")
   private IDtPersistent dtPersistent;
+
+  @Resource(name = "cn.moonnow.code.ColumnsPersistent")
+  private IColumnsPersistent columnsPersistent;
+
+  @Resource(name = "cn.moonnow.code.PkPersistent")
+  private IPkPersistent pkPersistent;
+
+  @Resource(name = "cn.moonnow.code.QueryPersistent")
+  private IQueryPersistent queryPersistent;
+
+  @Resource(name = "cn.moonnow.code.SortPersistent")
+  private ISortPersistent sortPersistent;
+
+  @Resource(name = "cn.moonnow.code.VirtualColumnsPersistent")
+  private IVirtualColumnsPersistent virtualColumnsPersistent;
 
   @Override
   @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
@@ -193,6 +223,64 @@ public class DtServiceImpl implements IDtService {
         dtSet.add(oldDt);
       }
       if (ToolUtil.isNotEmpty(dtSet)) {
+        Set<VirtualColumns> delVirtualColumnsSet = new LinkedHashSet<>();
+        Set<Query> delQuerySet = new LinkedHashSet<>();
+        Set<Sort> delSortSet = new LinkedHashSet<>();
+        Set<Pk> delPkSet = new LinkedHashSet<>();
+        Set<Columns> delColumnsSet = new LinkedHashSet<>();
+        for (Dt eachDt : dtSet) {
+          VirtualColumnsQuery virtualColumnsSourceQuery = new VirtualColumnsQuery();
+          virtualColumnsSourceQuery.setSourceDtId(eachDt.getDtId());
+          Collection<VirtualColumns> delVirtualColumnsSource = virtualColumnsPersistent.queryVirtualColumns(virtualColumnsSourceQuery);
+          if (ToolUtil.isNotEmpty(delVirtualColumnsSource)) {
+            delVirtualColumnsSet.addAll(delVirtualColumnsSource);
+          }
+          VirtualColumnsQuery virtualColumnsTargetQuery = new VirtualColumnsQuery();
+          virtualColumnsTargetQuery.setTargetDtId(eachDt.getDtId());
+          Collection<VirtualColumns> delVirtualColumnsTarget = virtualColumnsPersistent.queryVirtualColumns(virtualColumnsTargetQuery);
+          if (ToolUtil.isNotEmpty(delVirtualColumnsTarget)) {
+            delVirtualColumnsSet.addAll(delVirtualColumnsTarget);
+          }
+          QueryQuery queryQuery = new QueryQuery();
+          queryQuery.setDtId(eachDt.getDtId());
+          Collection<Query> delQuery = queryPersistent.queryQuery(queryQuery);
+          if (ToolUtil.isNotEmpty(delQuery)) {
+            delQuerySet.addAll(delQuery);
+          }
+          SortQuery sortQuery = new SortQuery();
+          sortQuery.setDtId(eachDt.getDtId());
+          Collection<Sort> delSort = sortPersistent.querySort(sortQuery);
+          if (ToolUtil.isNotEmpty(delSort)) {
+            delSortSet.addAll(delSort);
+          }
+          PkQuery pkQuery = new PkQuery();
+          pkQuery.setDtId(eachDt.getDtId());
+          Collection<Pk> delPk = pkPersistent.queryPk(pkQuery);
+          if (ToolUtil.isNotEmpty(delPk)) {
+            delPkSet.addAll(delPk);
+          }
+          ColumnsQuery columnsQuery = new ColumnsQuery();
+          columnsQuery.setDtId(eachDt.getDtId());
+          Collection<Columns> delColumns = columnsPersistent.queryColumns(columnsQuery);
+          if (ToolUtil.isNotEmpty(delColumns)) {
+            delColumnsSet.addAll(delColumns);
+          }
+        }
+        if (ToolUtil.isNotEmpty(delVirtualColumnsSet)) {
+          virtualColumnsPersistent.batchRemoveVirtualColumns(delVirtualColumnsSet);
+        }
+        if (ToolUtil.isNotEmpty(delQuerySet)) {
+          queryPersistent.batchRemoveQuery(delQuerySet);
+        }
+        if (ToolUtil.isNotEmpty(delSortSet)) {
+          sortPersistent.batchRemoveSort(delSortSet);
+        }
+        if (ToolUtil.isNotEmpty(delPkSet)) {
+          pkPersistent.batchRemovePk(delPkSet);
+        }
+        if (ToolUtil.isNotEmpty(delColumnsSet)) {
+          columnsPersistent.batchRemoveColumns(delColumnsSet);
+        }
         dtPersistent.batchRemoveDt(dtSet);
       }
     } catch (Exception e) {
@@ -232,6 +320,64 @@ public class DtServiceImpl implements IDtService {
         }
       }
       if (ToolUtil.isNotEmpty(dtSet)) {
+        Set<VirtualColumns> delVirtualColumnsSet = new LinkedHashSet<>();
+        Set<Query> delQuerySet = new LinkedHashSet<>();
+        Set<Sort> delSortSet = new LinkedHashSet<>();
+        Set<Pk> delPkSet = new LinkedHashSet<>();
+        Set<Columns> delColumnsSet = new LinkedHashSet<>();
+        for (Dt dt : dtSet) {
+          VirtualColumnsQuery virtualColumnsSourceQuery = new VirtualColumnsQuery();
+          virtualColumnsSourceQuery.setSourceDtId(dt.getDtId());
+          Collection<VirtualColumns> delVirtualColumnsSource = virtualColumnsPersistent.queryVirtualColumns(virtualColumnsSourceQuery);
+          if (ToolUtil.isNotEmpty(delVirtualColumnsSource)) {
+            delVirtualColumnsSet.addAll(delVirtualColumnsSource);
+          }
+          VirtualColumnsQuery virtualColumnsTargetQuery = new VirtualColumnsQuery();
+          virtualColumnsTargetQuery.setTargetDtId(dt.getDtId());
+          Collection<VirtualColumns> delVirtualColumnsTarget = virtualColumnsPersistent.queryVirtualColumns(virtualColumnsTargetQuery);
+          if (ToolUtil.isNotEmpty(delVirtualColumnsTarget)) {
+            delVirtualColumnsSet.addAll(delVirtualColumnsTarget);
+          }
+          QueryQuery queryQuery = new QueryQuery();
+          queryQuery.setDtId(dt.getDtId());
+          Collection<Query> delQuery = queryPersistent.queryQuery(queryQuery);
+          if (ToolUtil.isNotEmpty(delQuery)) {
+            delQuerySet.addAll(delQuery);
+          }
+          SortQuery sortQuery = new SortQuery();
+          sortQuery.setDtId(dt.getDtId());
+          Collection<Sort> delSort = sortPersistent.querySort(sortQuery);
+          if (ToolUtil.isNotEmpty(delSort)) {
+            delSortSet.addAll(delSort);
+          }
+          PkQuery pkQuery = new PkQuery();
+          pkQuery.setDtId(dt.getDtId());
+          Collection<Pk> delPk = pkPersistent.queryPk(pkQuery);
+          if (ToolUtil.isNotEmpty(delPk)) {
+            delPkSet.addAll(delPk);
+          }
+          ColumnsQuery columnsQuery = new ColumnsQuery();
+          columnsQuery.setDtId(dt.getDtId());
+          Collection<Columns> delColumns = columnsPersistent.queryColumns(columnsQuery);
+          if (ToolUtil.isNotEmpty(delColumns)) {
+            delColumnsSet.addAll(delColumns);
+          }
+        }
+        if (ToolUtil.isNotEmpty(delVirtualColumnsSet)) {
+          virtualColumnsPersistent.batchRemoveVirtualColumns(delVirtualColumnsSet);
+        }
+        if (ToolUtil.isNotEmpty(delQuerySet)) {
+          queryPersistent.batchRemoveQuery(delQuerySet);
+        }
+        if (ToolUtil.isNotEmpty(delSortSet)) {
+          sortPersistent.batchRemoveSort(delSortSet);
+        }
+        if (ToolUtil.isNotEmpty(delPkSet)) {
+          pkPersistent.batchRemovePk(delPkSet);
+        }
+        if (ToolUtil.isNotEmpty(delColumnsSet)) {
+          columnsPersistent.batchRemoveColumns(delColumnsSet);
+        }
         dtPersistent.batchRemoveDt(dtSet);
       }
     } catch (Exception e) {

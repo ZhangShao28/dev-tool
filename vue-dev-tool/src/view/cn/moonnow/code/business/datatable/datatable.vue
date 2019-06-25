@@ -73,6 +73,7 @@
             <Button type="error" icon="ios-backspace-outline" ghost>删除</Button>
           </Poptip>
           <Button class="pro-list-button" icon="md-bulb" @click="detailDt()" v-if="dtSelectRowLength === 1">详情</Button>
+          <Button class="pro-list-button" type="info" icon="ios-flash-outline" ghost @click="extractData()" v-if="dtSelectRowLength === 1">提取数据</Button>
           <Table :columns="dtColumns" :data="dtSet" :highlight-row="true" @on-selection-change="setDtSelectRow($event)" @on-row-dblclick="dblclickDetailDt($event)" @on-row-click="clickDtRow($event)"></Table>
           <Row class="pro-margin-top-10" type="flex" justify="center">
             <Page size="small" placement="top" show-total show-sizer show-elevator :total="dtCount" :current="dtPage" :page-size-opts="[10, 30, 50]" @on-change="dtPageIndexChange($event)" @on-page-size-change="dtPageSizeChange($event)" v-if="dtPageShow" />
@@ -263,27 +264,27 @@
         </p>
         <Row>
           <Col :xs="24" :sm="24" :md="24" :lg="24">
-            <p>排序编号：{{ sortVO.sortId }}</p>
+            <p>排序编号：{{ sortVo.sortId }}</p>
             <Divider dashed />
           </Col>
           <Col :xs="24" :sm="24" :md="24" :lg="24">
-            <p>数据库表编号：{{ sortVO.dtId }}</p>
+            <p>数据库表编号：{{ sortVo.dtId }}</p>
             <Divider dashed />
           </Col>
           <Col :xs="24" :sm="24" :md="24" :lg="24">
-            <p>列编号：{{ sortVO.columnsId }}</p>
+            <p>列编号：{{ sortVo.columnsId }}</p>
             <Divider dashed />
           </Col>
           <Col :xs="24" :sm="24" :md="24" :lg="24">
-            <p>列名注释：{{ sortVO.columnNameAnnotation }}</p>
+            <p>列名注释：{{ sortVo.columnNameAnnotation }}</p>
             <Divider dashed />
           </Col>
           <Col :xs="24" :sm="24" :md="24" :lg="24">
-            <p>列名：{{ sortVO.columnName }}</p>
+            <p>列名：{{ sortVo.columnName }}</p>
             <Divider dashed />
           </Col>
           <Col :xs="24" :sm="24" :md="24" :lg="24">
-            <p>排序规则：{{ sortVO.sortRule }}</p>
+            <p>排序规则：{{ sortVo.sortRule }}</p>
             <Divider dashed />
           </Col>
         </Row>
@@ -362,47 +363,47 @@
         </p>
         <Row>
           <Col :xs="24" :sm="24" :md="24" :lg="24">
-            <p>虚拟列编号：{{ virtualColumnsVO.virtualColumnsId }}</p>
+            <p>虚拟列编号：{{ virtualColumnsVo.virtualColumnsId }}</p>
             <Divider dashed />
           </Col>
           <Col :xs="24" :sm="24" :md="24" :lg="24">
-            <p>源表数据库表编号：{{ virtualColumnsVO.sourceDtId }}</p>
+            <p>源表数据库表编号：{{ virtualColumnsVo.sourceDtId }}</p>
             <Divider dashed />
           </Col>
           <Col :xs="24" :sm="24" :md="24" :lg="24">
-            <p>源表列编号：{{ virtualColumnsVO.sourceColumnsId }}</p>
+            <p>源表列编号：{{ virtualColumnsVo.sourceColumnsId }}</p>
             <Divider dashed />
           </Col>
           <Col :xs="24" :sm="24" :md="24" :lg="24">
-            <p>目标表数据库表编号：{{ virtualColumnsVO.targetDtId }}</p>
+            <p>目标表数据库表编号：{{ virtualColumnsVo.targetDtId }}</p>
             <Divider dashed />
           </Col>
           <Col :xs="24" :sm="24" :md="24" :lg="24">
-            <p>目标表列编号：{{ virtualColumnsVO.targetColumnsId }}</p>
+            <p>目标表列编号：{{ virtualColumnsVo.targetColumnsId }}</p>
             <Divider dashed />
           </Col>
           <Col :xs="24" :sm="24" :md="24" :lg="24">
-            <p>目标表显示字段列编号：{{ virtualColumnsVO.targetDisplayColumnsId }}</p>
+            <p>目标表显示字段列编号：{{ virtualColumnsVo.targetDisplayColumnsId }}</p>
             <Divider dashed />
           </Col>
           <Col :xs="24" :sm="24" :md="24" :lg="12">
-            <p>关联列名：{{ virtualColumnsVO.columnName }}</p>
+            <p>关联列名：{{ virtualColumnsVo.columnName }}</p>
             <Divider dashed />
           </Col>
           <Col :xs="24" :sm="24" :md="24" :lg="12">
-            <p>关联表名：{{ virtualColumnsVO.dtName }}</p>
+            <p>关联表名：{{ virtualColumnsVo.dtName }}</p>
             <Divider dashed />
           </Col>
           <Col :xs="24" :sm="24" :md="24" :lg="12">
-            <p>显示字段别名：{{ virtualColumnsVO.displayColumnsAlias }}</p>
+            <p>显示字段别名：{{ virtualColumnsVo.displayColumnsAlias }}</p>
             <Divider dashed />
           </Col>
           <Col :xs="24" :sm="24" :md="24" :lg="12">
-            <p>排序权重：{{ virtualColumnsVO.weightOrder }}</p>
+            <p>排序权重：{{ virtualColumnsVo.weightOrder }}</p>
             <Divider dashed />
           </Col>
           <Col :xs="24" :sm="24" :md="24" :lg="24">
-            <p>虚拟列sql：{{ virtualColumnsVO.virtualColumnsSql }}</p>
+            <p>虚拟列sql：{{ virtualColumnsVo.virtualColumnsSql }}</p>
             <Divider dashed />
           </Col>
         </Row>
@@ -481,7 +482,7 @@ export default {
       sortSelectRow: [],
       sortSelectRowLength: 0,
       sort: new Sort(),
-      sortVO: new SortVO(),
+      sortVo: new SortVO(),
       dtListOfSortEdit: [],
       columnsListOfSortEdit: [],
       columnsSelectDisabledOfSortEdit: false,
@@ -524,7 +525,7 @@ export default {
       virtualColumnsSelectRow: [],
       virtualColumnsSelectRowLength: 0,
       virtualColumns: new VirtualColumns(),
-      virtualColumnsVO: new VirtualColumnsVO(),
+      virtualColumnsVo: new VirtualColumnsVO(),
       sourceDtList: [],
       sourceColumnsList: [],
       targetDtList: [],
@@ -590,6 +591,9 @@ export default {
     ...mapActions('columnsStore', [
       'getColumnsByPk',
       'queryColumns'
+    ]),
+    ...mapActions('codingStore', [
+      'extract'
     ]),
     clickDtRow (rowData) {
       this.currentDtIdOfClickDt = rowData.dtId
@@ -905,6 +909,22 @@ export default {
       this.dtPage = 1
       this.getDtSet()
     },
+    extractData () {
+      this.dtSpinShow = true
+      this.extract(this.dtSelectRow[0]).then(res => {
+        if (res.data.success) {
+          this.$Message.success({ content: '数据库表信息提取成功.', duration: 3 })
+          this.setDtSelectRow([])
+          this.getDtSet()
+        } else {
+          this.$Message.error({ content: res.data.msg, duration: 6 })
+          setTimeout(() => { this.dtSpinShow = false }, 700)
+        }
+      }).catch(result => {
+        this.$Message.error({ content: result.response.statusText, duration: 6 })
+        setTimeout(() => { this.dtSpinShow = false }, 700)
+      })
+    },
     addSort () {
       if (this.currentDtIdOfClickDt) {
         this.sortEditModalShow = true
@@ -1082,7 +1102,7 @@ export default {
       sortDetail.sortId = this.sortSelectRow[0].sortId
       this.getSortVOByPk(sortDetail).then(res => {
         if (res.data.success) {
-          Object.assign(this.sortVO, res.data.data[0])
+          Object.assign(this.sortVo, res.data.data[0])
         } else {
           this.$Message.error({ content: res.data.msg, duration: 6 })
         }
@@ -1096,7 +1116,7 @@ export default {
       sortDetail.sortId = rowData.sortId
       this.getSortVOByPk(sortDetail).then(res => {
         if (res.data.success) {
-          Object.assign(this.sortVO, res.data.data[0])
+          Object.assign(this.sortVo, res.data.data[0])
         } else {
           this.$Message.error({ content: res.data.msg, duration: 6 })
         }
@@ -1278,7 +1298,7 @@ export default {
       virtualColumnsDetail.virtualColumnsId = this.virtualColumnsSelectRow[0].virtualColumnsId
       this.getVirtualColumnsVOByPk(virtualColumnsDetail).then(res => {
         if (res.data.success) {
-          Object.assign(this.virtualColumnsVO, res.data.data[0])
+          Object.assign(this.virtualColumnsVo, res.data.data[0])
         } else {
           this.$Message.error({ content: res.data.msg, duration: 6 })
         }
@@ -1292,7 +1312,7 @@ export default {
       virtualColumnsDetail.virtualColumnsId = rowData.virtualColumnsId
       this.getVirtualColumnsVOByPk(virtualColumnsDetail).then(res => {
         if (res.data.success) {
-          Object.assign(this.virtualColumnsVO, res.data.data[0])
+          Object.assign(this.virtualColumnsVo, res.data.data[0])
         } else {
           this.$Message.error({ content: res.data.msg, duration: 6 })
         }

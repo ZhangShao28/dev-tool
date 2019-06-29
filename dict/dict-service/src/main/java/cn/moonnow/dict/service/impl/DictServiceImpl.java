@@ -11,15 +11,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import cn.moonnow.dict.entity.Dict;
+import cn.moonnow.dict.entity.DictValue;
+import cn.moonnow.dict.persistent.IDictPersistent;
+import cn.moonnow.dict.persistent.IDictValuePersistent;
+import cn.moonnow.dict.query.DictQuery;
+import cn.moonnow.dict.query.DictValueQuery;
+import cn.moonnow.dict.service.IDictService;
+import cn.moonnow.dict.vo.DictVO;
 import cn.moonnow.tool.exception.ToolException;
 import cn.moonnow.tool.util.Paging;
 import cn.moonnow.tool.util.Param;
 import cn.moonnow.tool.util.ToolUtil;
-import cn.moonnow.dict.entity.Dict;
-import cn.moonnow.dict.persistent.IDictPersistent;
-import cn.moonnow.dict.query.DictQuery;
-import cn.moonnow.dict.service.IDictService;
-import cn.moonnow.dict.vo.DictVO;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -34,6 +37,9 @@ public class DictServiceImpl implements IDictService {
 
   @Resource(name = "cn.moonnow.dict.DictPersistent")
   private IDictPersistent dictPersistent;
+
+  @Resource(name = "cn.moonnow.dict.DictValuePersistent")
+  private IDictValuePersistent dictValuePersistent;
 
   @Override
   @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
@@ -165,6 +171,18 @@ public class DictServiceImpl implements IDictService {
         dictSet.add(oldDict);
       }
       if (ToolUtil.isNotEmpty(dictSet)) {
+        Set<DictValue> delDictValueSet = new LinkedHashSet<>();
+        for (Dict eachDict : dictSet) {
+          DictValueQuery dictValueQuery = new DictValueQuery();
+          dictValueQuery.setDictId(eachDict.getDictId());
+          Collection<DictValue> delDictValue = dictValuePersistent.queryDictValue(dictValueQuery);
+          if (ToolUtil.isNotEmpty(delDictValue)) {
+            delDictValueSet.addAll(delDictValue);
+          }
+        }
+        if (ToolUtil.isNotEmpty(delDictValueSet)) {
+          dictValuePersistent.batchRemoveDictValue(delDictValueSet);
+        }
         dictPersistent.batchRemoveDict(dictSet);
       }
     } catch (Exception e) {
@@ -204,6 +222,18 @@ public class DictServiceImpl implements IDictService {
         }
       }
       if (ToolUtil.isNotEmpty(dictSet)) {
+        Set<DictValue> delDictValueSet = new LinkedHashSet<>();
+        for (Dict eachDict : dictSet) {
+          DictValueQuery dictValueQuery = new DictValueQuery();
+          dictValueQuery.setDictId(eachDict.getDictId());
+          Collection<DictValue> delDictValue = dictValuePersistent.queryDictValue(dictValueQuery);
+          if (ToolUtil.isNotEmpty(delDictValue)) {
+            delDictValueSet.addAll(delDictValue);
+          }
+        }
+        if (ToolUtil.isNotEmpty(delDictValueSet)) {
+          dictValuePersistent.batchRemoveDictValue(delDictValueSet);
+        }
         dictPersistent.batchRemoveDict(dictSet);
       }
     } catch (Exception e) {

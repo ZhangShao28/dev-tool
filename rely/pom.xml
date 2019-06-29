@@ -111,17 +111,17 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
-<!--     aop 实现方式自选 可以用spring自身实现 可以用 aspectjrt -->
-<!--     <dependency> -->
-<!--       <groupId>org.springframework.boot</groupId> -->
-<!--       <artifactId>spring-boot-starter-aop</artifactId> -->
-<!--       <exclusions> -->
-<!--         <exclusion> -->
-<!--           <groupId>org.springframework.boot</groupId> -->
-<!--           <artifactId>spring-boot-starter-logging</artifactId> -->
-<!--         </exclusion> -->
-<!--       </exclusions> -->
-<!--     </dependency> -->
+<!--     aop -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-aop</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
 <!--     <dependency> -->
 <!--       <groupId>org.aspectj</groupId> -->
 <!--       <artifactId>aspectjrt</artifactId> -->

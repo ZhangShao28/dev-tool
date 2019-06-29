@@ -16,10 +16,5 @@ export default class DictQuery {
     this.dictKeyAndeq = null // 数据字典标识Andeq查询
     this.dictKeyAndKeyLike = null // 数据字典标识AndKeyLike查询
     this.dictNameOrKeyLike = null // 数据字典名称OrKeyLike查询
-    this.notesOrKeyLike = null // 说明OrKeyLike查询
-    this.createIdOrKeyLike = null // 创建人账号OrKeyLike查询
-    this.createNameOrKeyLike = null // 创建人名称OrKeyLike查询
-    this.modifyIdOrKeyLike = null // 修改人账号OrKeyLike查询
-    this.modifyNameOrKeyLike = null // 修改人名称OrKeyLike查询
   }
 }

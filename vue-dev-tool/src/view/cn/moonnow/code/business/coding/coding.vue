@@ -8,16 +8,16 @@
       <p slot="title">
         选择数据库表（一键生成只生成代码，不生成项目）
       </p>
-      <Form :label-width="170">
+      <Form :label-width="200">
         <Row class="pro-margin-top-20">
-          <Col span="20">
+          <Col span="21">
             <FormItem label="数据库表：">
               <Select v-model="dtId" clearable filterable @on-change="changeDt($event)">
                 <Option v-for="item in dtList" :value="item.dtId" :key="item.dtId">{{ item.dtName + ' [ ' + item.dtNameAnnotation + ' ]' }}</Option>
               </Select>
             </FormItem>
           </Col>
-          <Col span="4">
+          <Col span="3">
             <FormItem :label-width="10">
               <Button type="info" icon="ios-flash-outline" ghost @click="toCodingAll()">一键生成</Button>
             </FormItem>
@@ -29,14 +29,14 @@
       <p slot="title">
         生成项目（项目模块只生成一次就行）
       </p>
-      <Form :label-width="170">
+      <Form :label-width="200">
         <Row class="pro-margin-top-20">
-          <Col span="20">
+          <Col span="21">
             <FormItem label="项目路径：">
               <Input v-model="configVo.projectPath"></Input>
             </FormItem>
           </Col>
-          <Col span="4">
+          <Col span="3">
             <FormItem :label-width="10">
               <Button type="info" icon="ios-flash-outline" ghost @click="toCodingProject()">生成项目</Button>
             </FormItem>
@@ -48,154 +48,154 @@
       <p slot="title">
         生成代码
       </p>
-      <Form :label-width="170">
+      <Form :label-width="200">
         <Row class="pro-margin-top-20">
-          <Col span="20">
+          <Col span="21">
             <FormItem label="java实体类文件路径：">
               <Input v-model="configVo.jdbcEntityFilePath"></Input>
             </FormItem>
           </Col>
-          <Col span="4">
+          <Col span="3">
             <FormItem :label-width="10">
               <Button type="info" icon="ios-flash-outline" ghost @click="toCodingJdbcEntity()">生成代码</Button>
             </FormItem>
           </Col>
-          <Col span="20">
+          <Col span="21">
             <FormItem label="java查询类文件路径：">
               <Input v-model="configVo.queryFilePath"></Input>
             </FormItem>
           </Col>
-          <Col span="4">
+          <Col span="3">
             <FormItem :label-width="10">
               <Button type="info" icon="ios-flash-outline" ghost @click="toCodingQuery()">生成代码</Button>
             </FormItem>
           </Col>
-          <Col span="20">
+          <Col span="21">
             <FormItem label="java展示类文件路径：">
               <Input v-model="configVo.voFilePath"></Input>
             </FormItem>
           </Col>
-          <Col span="4">
+          <Col span="3">
             <FormItem :label-width="10">
               <Button type="info" icon="ios-flash-outline" ghost @click="toCodingVo()">生成代码</Button>
             </FormItem>
           </Col>
-          <Col span="20">
+          <Col span="21">
             <FormItem label="java持久化接口文件路径：">
               <Input v-model="configVo.persistentInterfaceFilePath"></Input>
             </FormItem>
           </Col>
-          <Col span="4">
+          <Col span="3">
             <FormItem :label-width="10">
               <Button type="info" icon="ios-flash-outline" ghost @click="toCodingIPersistent()">生成代码</Button>
             </FormItem>
           </Col>
-          <Col span="20">
+          <Col span="21">
             <FormItem label="java持久化实现文件路径：">
               <Input v-model="configVo.jdbcPersistentImplFilePath"></Input>
             </FormItem>
           </Col>
-          <Col span="4">
+          <Col span="3">
             <FormItem :label-width="10">
               <Button type="info" icon="ios-flash-outline" ghost @click="toCodingJdbcPersistentImpl()">生成代码</Button>
             </FormItem>
           </Col>
-          <Col span="20">
+          <Col span="21">
             <FormItem label="java服务接口文件路径：">
               <Input v-model="configVo.serviceInterfaceFilePath"></Input>
             </FormItem>
           </Col>
-          <Col span="4">
+          <Col span="3">
             <FormItem :label-width="10">
               <Button type="info" icon="ios-flash-outline" ghost @click="toCodingIService()">生成代码</Button>
             </FormItem>
           </Col>
-          <Col span="20">
+          <Col span="21">
             <FormItem label="java服务实现文件路径：">
               <Input v-model="configVo.serviceImplFilePath"></Input>
             </FormItem>
           </Col>
-          <Col span="4">
+          <Col span="3">
             <FormItem :label-width="10">
               <Button type="info" icon="ios-flash-outline" ghost @click="toCodingServiceImpl()">生成代码</Button>
             </FormItem>
           </Col>
-          <Col span="20">
+          <Col span="21">
             <FormItem label="java控制器文件路径：">
               <Input v-model="configVo.controllerFilePath"></Input>
             </FormItem>
           </Col>
-          <Col span="4">
+          <Col span="3">
             <FormItem :label-width="10">
               <Button type="info" icon="ios-flash-outline" ghost @click="toCodingController()">生成代码</Button>
             </FormItem>
           </Col>
-          <Col span="20">
+          <Col span="21">
             <FormItem label="Vue请求服务文件路径：">
               <Input v-model="configVo.vueServiceFilePath"></Input>
             </FormItem>
           </Col>
-          <Col span="4">
+          <Col span="3">
             <FormItem :label-width="10">
               <Button type="info" icon="ios-flash-outline" ghost @click="toCodingVueService()">生成代码</Button>
             </FormItem>
           </Col>
-          <Col span="20">
+          <Col span="21">
             <FormItem label="Vue数据仓库文件路径：">
               <Input v-model="configVo.vueStoreFilePath"></Input>
             </FormItem>
           </Col>
-          <Col span="4">
+          <Col span="3">
             <FormItem :label-width="10">
               <Button type="info" icon="ios-flash-outline" ghost @click="toCodingVueStore()">生成代码</Button>
             </FormItem>
           </Col>
-          <Col span="20">
+          <Col span="21">
             <FormItem label="Vue实体类文件路径：">
               <Input v-model="configVo.vueEntityFilePath"></Input>
             </FormItem>
           </Col>
-          <Col span="4">
+          <Col span="3">
             <FormItem :label-width="10">
               <Button type="info" icon="ios-flash-outline" ghost @click="toCodingVueEntity()">生成代码</Button>
             </FormItem>
           </Col>
-          <Col span="20">
+          <Col span="21">
             <FormItem label="Vue查询类文件路径：">
               <Input v-model="configVo.vueQueryFilePath"></Input>
             </FormItem>
           </Col>
-          <Col span="4">
+          <Col span="3">
             <FormItem :label-width="10">
               <Button type="info" icon="ios-flash-outline" ghost @click="toCodingVueQuery()">生成代码</Button>
             </FormItem>
           </Col>
-          <Col span="20">
+          <Col span="21">
             <FormItem label="Vue展示类文件路径：">
               <Input v-model="configVo.vueVoFilePath"></Input>
             </FormItem>
           </Col>
-          <Col span="4">
+          <Col span="3">
             <FormItem :label-width="10">
               <Button type="info" icon="ios-flash-outline" ghost @click="toCodingVueVo()">生成代码</Button>
             </FormItem>
           </Col>
-          <Col span="20">
+          <Col span="21">
             <FormItem label="Vue页面文件路径：">
               <Input v-model="configVo.vueViewFilePath"></Input>
             </FormItem>
           </Col>
-          <Col span="4">
+          <Col span="3">
             <FormItem :label-width="10">
               <Button type="info" icon="ios-flash-outline" ghost @click="toCodingVueView()">生成代码</Button>
             </FormItem>
           </Col>
-          <Col span="20">
+          <Col span="21">
             <FormItem label="Vue页面样式文件路径：">
               <Input v-model="configVo.vueViewCssFilePath"></Input>
             </FormItem>
           </Col>
-          <Col span="4">
+          <Col span="3">
             <FormItem :label-width="10">
               <Button type="info" icon="ios-flash-outline" ghost @click="toCodingVueViewCss()">生成代码</Button>
             </FormItem>

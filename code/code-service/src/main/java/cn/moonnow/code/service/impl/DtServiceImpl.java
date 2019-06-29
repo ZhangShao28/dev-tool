@@ -325,39 +325,39 @@ public class DtServiceImpl implements IDtService {
         Set<Sort> delSortSet = new LinkedHashSet<>();
         Set<Pk> delPkSet = new LinkedHashSet<>();
         Set<Columns> delColumnsSet = new LinkedHashSet<>();
-        for (Dt dt : dtSet) {
+        for (Dt eachDt : dtSet) {
           VirtualColumnsQuery virtualColumnsSourceQuery = new VirtualColumnsQuery();
-          virtualColumnsSourceQuery.setSourceDtId(dt.getDtId());
+          virtualColumnsSourceQuery.setSourceDtId(eachDt.getDtId());
           Collection<VirtualColumns> delVirtualColumnsSource = virtualColumnsPersistent.queryVirtualColumns(virtualColumnsSourceQuery);
           if (ToolUtil.isNotEmpty(delVirtualColumnsSource)) {
             delVirtualColumnsSet.addAll(delVirtualColumnsSource);
           }
           VirtualColumnsQuery virtualColumnsTargetQuery = new VirtualColumnsQuery();
-          virtualColumnsTargetQuery.setTargetDtId(dt.getDtId());
+          virtualColumnsTargetQuery.setTargetDtId(eachDt.getDtId());
           Collection<VirtualColumns> delVirtualColumnsTarget = virtualColumnsPersistent.queryVirtualColumns(virtualColumnsTargetQuery);
           if (ToolUtil.isNotEmpty(delVirtualColumnsTarget)) {
             delVirtualColumnsSet.addAll(delVirtualColumnsTarget);
           }
           QueryQuery queryQuery = new QueryQuery();
-          queryQuery.setDtId(dt.getDtId());
+          queryQuery.setDtId(eachDt.getDtId());
           Collection<Query> delQuery = queryPersistent.queryQuery(queryQuery);
           if (ToolUtil.isNotEmpty(delQuery)) {
             delQuerySet.addAll(delQuery);
           }
           SortQuery sortQuery = new SortQuery();
-          sortQuery.setDtId(dt.getDtId());
+          sortQuery.setDtId(eachDt.getDtId());
           Collection<Sort> delSort = sortPersistent.querySort(sortQuery);
           if (ToolUtil.isNotEmpty(delSort)) {
             delSortSet.addAll(delSort);
           }
           PkQuery pkQuery = new PkQuery();
-          pkQuery.setDtId(dt.getDtId());
+          pkQuery.setDtId(eachDt.getDtId());
           Collection<Pk> delPk = pkPersistent.queryPk(pkQuery);
           if (ToolUtil.isNotEmpty(delPk)) {
             delPkSet.addAll(delPk);
           }
           ColumnsQuery columnsQuery = new ColumnsQuery();
-          columnsQuery.setDtId(dt.getDtId());
+          columnsQuery.setDtId(eachDt.getDtId());
           Collection<Columns> delColumns = columnsPersistent.queryColumns(columnsQuery);
           if (ToolUtil.isNotEmpty(delColumns)) {
             delColumnsSet.addAll(delColumns);

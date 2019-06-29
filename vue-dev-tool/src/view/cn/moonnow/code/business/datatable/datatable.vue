@@ -340,7 +340,7 @@
             </Col>
             <Col :xs="24" :sm="20" :md="18" :lg="14">
               <FormItem label="排序权重：" prop="weightOrder">
-                <InputNumber v-model="virtualColumns.weightOrder"></InputNumber>
+                <InputNumber v-model="virtualColumns.weightOrder" :min="1"></InputNumber>
               </FormItem>
             </Col>
             <Col :xs="24" :sm="20" :md="18" :lg="14">

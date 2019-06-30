@@ -114,11 +114,11 @@ public class QueryServiceImpl implements IQueryService {
       if (ToolUtil.isNullEntityAllFieldValue(oldQuery)) {
         throw new ToolException(ToolException.E_PARAM_ERR);
       }
-      QueryQuery queryQuery = new QueryQuery();
-      queryQuery.setQueryTypeAndeq(query.getQueryType());
-      queryQuery.setDtIdAndeq(query.getDtId());
-      queryQuery.setColumnsIdAndeq(query.getColumnsId());
-      if (!(query.getQueryType().equals(oldQuery.getQueryType()) && query.getDtId().equals(oldQuery.getDtId()) && query.getColumnsId().equals(oldQuery.getColumnsId()))) {
+      if (!query.getQueryType().equals(oldQuery.getQueryType()) || !query.getDtId().equals(oldQuery.getDtId()) || !query.getColumnsId().equals(oldQuery.getColumnsId())) {
+        QueryQuery queryQuery = new QueryQuery();
+        queryQuery.setQueryTypeAndeq(query.getQueryType());
+        queryQuery.setDtIdAndeq(query.getDtId());
+        queryQuery.setColumnsIdAndeq(query.getColumnsId());
         if (queryPersistent.getCountQuery(queryQuery) > 0) {
           throw new ToolException("查询条件：" + query.getQueryType() + " 不能重复");
         }
@@ -154,11 +154,11 @@ public class QueryServiceImpl implements IQueryService {
         if (ToolUtil.isNullEntityAllFieldValue(oldQuery)) {
           throw new ToolException(ToolException.E_PARAM_ERR);
         }
-        QueryQuery queryQuery = new QueryQuery();
-        queryQuery.setQueryTypeAndeq(query.getQueryType());
-        queryQuery.setDtIdAndeq(query.getDtId());
-        queryQuery.setColumnsIdAndeq(query.getColumnsId());
-        if (!(query.getQueryType().equals(oldQuery.getQueryType()) && query.getDtId().equals(oldQuery.getDtId()) && query.getColumnsId().equals(oldQuery.getColumnsId()))) {
+        if (!query.getQueryType().equals(oldQuery.getQueryType()) || !query.getDtId().equals(oldQuery.getDtId()) || !query.getColumnsId().equals(oldQuery.getColumnsId())) {
+          QueryQuery queryQuery = new QueryQuery();
+          queryQuery.setQueryTypeAndeq(query.getQueryType());
+          queryQuery.setDtIdAndeq(query.getDtId());
+          queryQuery.setColumnsIdAndeq(query.getColumnsId());
           if (queryPersistent.getCountQuery(queryQuery) > 0) {
             throw new ToolException("查询条件：" + query.getQueryType() + " 不能重复");
           }

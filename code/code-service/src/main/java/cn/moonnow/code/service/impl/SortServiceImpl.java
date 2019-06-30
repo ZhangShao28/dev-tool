@@ -112,10 +112,10 @@ public class SortServiceImpl implements ISortService {
       if (ToolUtil.isNullEntityAllFieldValue(oldSort)) {
         throw new ToolException(ToolException.E_PARAM_ERR);
       }
-      SortQuery sortQuery = new SortQuery();
-      sortQuery.setDtIdAndeq(sort.getDtId());
-      sortQuery.setColumnsIdAndeq(sort.getColumnsId());
-      if (!(sort.getDtId().equals(oldSort.getDtId()) && sort.getColumnsId().equals(oldSort.getColumnsId()))) {
+      if (!sort.getDtId().equals(oldSort.getDtId()) || !sort.getColumnsId().equals(oldSort.getColumnsId())) {
+        SortQuery sortQuery = new SortQuery();
+        sortQuery.setDtIdAndeq(sort.getDtId());
+        sortQuery.setColumnsIdAndeq(sort.getColumnsId());
         if (sortPersistent.getCountSort(sortQuery) > 0) {
           throw new ToolException("同一列不能重复添加排序。");
         }
@@ -151,10 +151,10 @@ public class SortServiceImpl implements ISortService {
         if (ToolUtil.isNullEntityAllFieldValue(oldSort)) {
           throw new ToolException(ToolException.E_PARAM_ERR);
         }
-        SortQuery sortQuery = new SortQuery();
-        sortQuery.setDtIdAndeq(sort.getDtId());
-        sortQuery.setColumnsIdAndeq(sort.getColumnsId());
-        if (!(sort.getDtId().equals(oldSort.getDtId()) && sort.getColumnsId().equals(oldSort.getColumnsId()))) {
+        if (!sort.getDtId().equals(oldSort.getDtId()) || !sort.getColumnsId().equals(oldSort.getColumnsId())) {
+          SortQuery sortQuery = new SortQuery();
+          sortQuery.setDtIdAndeq(sort.getDtId());
+          sortQuery.setColumnsIdAndeq(sort.getColumnsId());
           if (sortPersistent.getCountSort(sortQuery) > 0) {
             throw new ToolException("同一列不能重复添加排序。");
           }

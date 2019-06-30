@@ -10,6 +10,9 @@ import org.springframework.web.servlet.ModelAndView;
 import cn.moonnow.tool.util.ToolUtil;
 import lombok.extern.log4j.Log4j2;
 
+/**
+ * 请求拦截器
+ */
 @Log4j2
 @Component
 public class AuthorizationInterceptor implements HandlerInterceptor {

@@ -13,6 +13,9 @@ import com.google.gson.Gson;
 
 import cn.moonnow.tool.util.ToolUtil;
 
+/**
+ * 请求加密
+ */
 @RestControllerAdvice
 @ConditionalOnProperty(prefix = "proconfig", name = "http-response-body-encode", havingValue = "true")
 public class EncodeResponseBodyAdvice implements ResponseBodyAdvice<Object> {

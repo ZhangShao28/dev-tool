@@ -1,5 +1,8 @@
 package cn.moonnow.tool.exception;
 
+/**
+ * 异常封装
+ */
 public class ToolException extends Exception {
 
   private static final long serialVersionUID = 1L;

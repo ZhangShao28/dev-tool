@@ -6,6 +6,9 @@ import java.io.InputStream;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpInputMessage;
 
+/**
+ * 返回请求加密对象
+ */
 public class DecodeHttpInputMessage implements HttpInputMessage {
 
   HttpHeaders headers;

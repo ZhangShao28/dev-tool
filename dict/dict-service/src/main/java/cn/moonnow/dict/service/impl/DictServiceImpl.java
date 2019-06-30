@@ -53,6 +53,11 @@ public class DictServiceImpl implements IDictService {
         throw new ToolException(ToolException.E_PARAM_ERR);
       }
       dict.setDictId(ToolUtil.getUUID());
+      DictQuery dictQuery = new DictQuery();
+      dictQuery.setDictKeyAndeq(dict.getDictKey());
+      if (dictPersistent.getCountDict(dictQuery) > 0) {
+        throw new ToolException("数据字典标识：" + dict.getDictKey() + " 不能重复");
+      }
       return dictPersistent.saveDict(dict);
     } catch (Exception e) {
       if (log.isErrorEnabled()) {
@@ -78,6 +83,11 @@ public class DictServiceImpl implements IDictService {
           throw new ToolException(ToolException.E_PARAM_ERR);
         }
         dict.setDictId(ToolUtil.getUUID());
+        DictQuery dictQuery = new DictQuery();
+        dictQuery.setDictKeyAndeq(dict.getDictKey());
+        if (dictPersistent.getCountDict(dictQuery) > 0) {
+          throw new ToolException("数据字典标识：" + dict.getDictKey() + " 不能重复");
+        }
       }
       return dictPersistent.batchSaveDict(dicts);
     } catch (Exception e) {
@@ -105,6 +115,13 @@ public class DictServiceImpl implements IDictService {
       Dict oldDict = dictPersistent.getDictByPk(dict.getDictId());
       if (ToolUtil.isNullEntityAllFieldValue(oldDict)) {
         throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      if (!dict.getDictKey().equals(oldDict.getDictKey())) {
+        DictQuery dictQuery = new DictQuery();
+        dictQuery.setDictKeyAndeq(dict.getDictKey());
+        if (dictPersistent.getCountDict(dictQuery) > 0) {
+          throw new ToolException("数据字典标识：" + dict.getDictKey() + " 不能重复");
+        }
       }
       return dictPersistent.updateDict(dict);
     } catch (Exception e) {
@@ -136,6 +153,13 @@ public class DictServiceImpl implements IDictService {
         Dict oldDict = dictPersistent.getDictByPk(dict.getDictId());
         if (ToolUtil.isNullEntityAllFieldValue(oldDict)) {
           throw new ToolException(ToolException.E_PARAM_ERR);
+        }
+        if (!dict.getDictKey().equals(oldDict.getDictKey())) {
+          DictQuery dictQuery = new DictQuery();
+          dictQuery.setDictKeyAndeq(dict.getDictKey());
+          if (dictPersistent.getCountDict(dictQuery) > 0) {
+            throw new ToolException("数据字典标识：" + dict.getDictKey() + " 不能重复");
+          }
         }
       }
       return dictPersistent.batchUpdateDict(dicts);

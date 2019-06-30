@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import cn.moonnow.tool.exception.ToolException;
 
+/**
+ * 请求异常拦截器</br>
+ * 同一处理异常
+ */
 @RestControllerAdvice
 public class ToolExceptionHandler {
 

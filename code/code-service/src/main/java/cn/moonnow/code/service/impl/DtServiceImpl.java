@@ -143,9 +143,9 @@ public class DtServiceImpl implements IDtService {
         throw new ToolException(ToolException.E_PARAM_ERR);
       }
       dt.setDtName(ToolUtil.getDtNameFromDtStr(dt.getDtSql()));
-      DtQuery dtQuery = new DtQuery();
-      dtQuery.setDtNameAndeq(dt.getDtName());
-      if (!dtQuery.getDtNameAndeq().equals(oldDt.getDtName())) {
+      if (!dt.getDtName().equals(oldDt.getDtName())) {
+        DtQuery dtQuery = new DtQuery();
+        dtQuery.setDtNameAndeq(dt.getDtName());
         if (dtPersistent.getCountDt(dtQuery) > 0) {
           throw new ToolException("表名：" + dt.getDtName() + " 不能重复");
         }
@@ -182,9 +182,9 @@ public class DtServiceImpl implements IDtService {
           throw new ToolException(ToolException.E_PARAM_ERR);
         }
         dt.setDtName(ToolUtil.getDtNameFromDtStr(dt.getDtSql()));
-        DtQuery dtQuery = new DtQuery();
-        dtQuery.setDtNameAndeq(dt.getDtName());
-        if (!dtQuery.getDtNameAndeq().equals(oldDt.getDtName())) {
+        if (!dt.getDtName().equals(oldDt.getDtName())) {
+          DtQuery dtQuery = new DtQuery();
+          dtQuery.setDtNameAndeq(dt.getDtName());
           if (dtPersistent.getCountDt(dtQuery) > 0) {
             throw new ToolException("表名：" + dt.getDtName() + " 不能重复");
           }

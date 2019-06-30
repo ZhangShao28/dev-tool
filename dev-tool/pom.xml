@@ -15,12 +15,12 @@
 
   <dependencies>
 <!--     登录模块 -->
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>sign-rely</artifactId>
-      <version>${project.version}</version>
-      <type>pom</type>
-    </dependency>
+<!--     <dependency> -->
+<!--       <groupId>${project.groupId}</groupId> -->
+<!--       <artifactId>sign-rely</artifactId> -->
+<!--       <version>${project.version}</version> -->
+<!--       <type>pom</type> -->
+<!--     </dependency> -->
 <!--     编码 -->
     <dependency>
       <groupId>${project.groupId}</groupId>

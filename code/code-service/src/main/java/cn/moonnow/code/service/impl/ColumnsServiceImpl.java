@@ -112,10 +112,10 @@ public class ColumnsServiceImpl implements IColumnsService {
       if (ToolUtil.isNullEntityAllFieldValue(oldColumns)) {
         throw new ToolException(ToolException.E_PARAM_ERR);
       }
-      ColumnsQuery columnsQuery = new ColumnsQuery();
-      columnsQuery.setColumnNameAndeq(columns.getColumnName());
-      columnsQuery.setDtIdAndeq(columns.getDtId());
-      if (!(columns.getColumnName().equals(oldColumns.getColumnName()) && columns.getDtId().equals(oldColumns.getDtId()))) {
+      if (!columns.getColumnName().equals(oldColumns.getColumnName()) || !columns.getDtId().equals(oldColumns.getDtId())) {
+        ColumnsQuery columnsQuery = new ColumnsQuery();
+        columnsQuery.setColumnNameAndeq(columns.getColumnName());
+        columnsQuery.setDtIdAndeq(columns.getDtId());
         if (columnsPersistent.getCountColumns(columnsQuery) > 0) {
           throw new ToolException("列名：" + columns.getColumnName() + " 不能重复");
         }
@@ -151,10 +151,10 @@ public class ColumnsServiceImpl implements IColumnsService {
         if (ToolUtil.isNullEntityAllFieldValue(oldColumns)) {
           throw new ToolException(ToolException.E_PARAM_ERR);
         }
-        ColumnsQuery columnsQuery = new ColumnsQuery();
-        columnsQuery.setColumnNameAndeq(columns.getColumnName());
-        columnsQuery.setDtIdAndeq(columns.getDtId());
-        if (!(columns.getColumnName().equals(oldColumns.getColumnName()) && columns.getDtId().equals(oldColumns.getDtId()))) {
+        if (!columns.getColumnName().equals(oldColumns.getColumnName()) || !columns.getDtId().equals(oldColumns.getDtId())) {
+          ColumnsQuery columnsQuery = new ColumnsQuery();
+          columnsQuery.setColumnNameAndeq(columns.getColumnName());
+          columnsQuery.setDtIdAndeq(columns.getDtId());
           if (columnsPersistent.getCountColumns(columnsQuery) > 0) {
             throw new ToolException("列名：" + columns.getColumnName() + " 不能重复");
           }

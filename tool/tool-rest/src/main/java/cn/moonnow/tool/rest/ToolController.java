@@ -5,6 +5,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * 请求封装
+ */
 public class ToolController {
 
   @Autowired(required = false)

@@ -10,6 +10,9 @@ import cn.moonnow.tool.util.Paging;
 import cn.moonnow.tool.util.Param;
 import lombok.Data;
 
+/**
+ * 返回请求数据
+ */
 @Data
 public class Responses<T> implements Serializable {
 

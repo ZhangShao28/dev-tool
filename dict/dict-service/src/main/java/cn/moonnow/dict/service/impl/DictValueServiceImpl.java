@@ -11,15 +11,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import cn.moonnow.tool.exception.ToolException;
-import cn.moonnow.tool.util.Paging;
-import cn.moonnow.tool.util.Param;
-import cn.moonnow.tool.util.ToolUtil;
 import cn.moonnow.dict.entity.DictValue;
 import cn.moonnow.dict.persistent.IDictValuePersistent;
 import cn.moonnow.dict.query.DictValueQuery;
 import cn.moonnow.dict.service.IDictValueService;
 import cn.moonnow.dict.vo.DictValueVO;
+import cn.moonnow.tool.exception.ToolException;
+import cn.moonnow.tool.util.Paging;
+import cn.moonnow.tool.util.Param;
+import cn.moonnow.tool.util.ToolUtil;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -47,6 +47,12 @@ public class DictValueServiceImpl implements IDictValueService {
         throw new ToolException(ToolException.E_PARAM_ERR);
       }
       dictValue.setDictValueId(ToolUtil.getUUID());
+      DictValueQuery dictValueQuery = new DictValueQuery();
+      dictValueQuery.setCodeAndeq(dictValue.getCode());
+      dictValueQuery.setDictIdAndeq(dictValue.getDictId());
+      if (dictValuePersistent.getCountDictValue(dictValueQuery) > 0) {
+        throw new ToolException("同一数据字典中，代码：" + dictValue.getCode() + " 不能重复");
+      }
       return dictValuePersistent.saveDictValue(dictValue);
     } catch (Exception e) {
       if (log.isErrorEnabled()) {
@@ -72,6 +78,12 @@ public class DictValueServiceImpl implements IDictValueService {
           throw new ToolException(ToolException.E_PARAM_ERR);
         }
         dictValue.setDictValueId(ToolUtil.getUUID());
+        DictValueQuery dictValueQuery = new DictValueQuery();
+        dictValueQuery.setCodeAndeq(dictValue.getCode());
+        dictValueQuery.setDictIdAndeq(dictValue.getDictId());
+        if (dictValuePersistent.getCountDictValue(dictValueQuery) > 0) {
+          throw new ToolException("同一数据字典中，代码：" + dictValue.getCode() + " 不能重复");
+        }
       }
       return dictValuePersistent.batchSaveDictValue(dictValues);
     } catch (Exception e) {
@@ -99,6 +111,14 @@ public class DictValueServiceImpl implements IDictValueService {
       DictValue oldDictValue = dictValuePersistent.getDictValueByPk(dictValue.getDictValueId());
       if (ToolUtil.isNullEntityAllFieldValue(oldDictValue)) {
         throw new ToolException(ToolException.E_PARAM_ERR);
+      }
+      if (!dictValue.getCode().equals(oldDictValue.getCode()) || !dictValue.getDictId().equals(oldDictValue.getDictId())) {
+        DictValueQuery dictValueQuery = new DictValueQuery();
+        dictValueQuery.setCodeAndeq(dictValue.getCode());
+        dictValueQuery.setDictIdAndeq(dictValue.getDictId());
+        if (dictValuePersistent.getCountDictValue(dictValueQuery) > 0) {
+          throw new ToolException("同一数据字典中，代码：" + dictValue.getCode() + " 不能重复");
+        }
       }
       return dictValuePersistent.updateDictValue(dictValue);
     } catch (Exception e) {
@@ -130,6 +150,14 @@ public class DictValueServiceImpl implements IDictValueService {
         DictValue oldDictValue = dictValuePersistent.getDictValueByPk(dictValue.getDictValueId());
         if (ToolUtil.isNullEntityAllFieldValue(oldDictValue)) {
           throw new ToolException(ToolException.E_PARAM_ERR);
+        }
+        if (!dictValue.getCode().equals(oldDictValue.getCode()) || !dictValue.getDictId().equals(oldDictValue.getDictId())) {
+          DictValueQuery dictValueQuery = new DictValueQuery();
+          dictValueQuery.setCodeAndeq(dictValue.getCode());
+          dictValueQuery.setDictIdAndeq(dictValue.getDictId());
+          if (dictValuePersistent.getCountDictValue(dictValueQuery) > 0) {
+            throw new ToolException("同一数据字典中，代码：" + dictValue.getCode() + " 不能重复");
+          }
         }
       }
       return dictValuePersistent.batchUpdateDictValue(dictValues);

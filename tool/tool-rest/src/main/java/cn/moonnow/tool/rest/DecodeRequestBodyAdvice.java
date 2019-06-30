@@ -13,6 +13,9 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdvice;
 
 import cn.moonnow.tool.util.ToolUtil;
 
+/**
+ * 请求解密
+ */
 @RestControllerAdvice
 @ConditionalOnProperty(prefix = "proconfig", name = "http-request-body-decode", havingValue = "true")
 public class DecodeRequestBodyAdvice implements RequestBodyAdvice {

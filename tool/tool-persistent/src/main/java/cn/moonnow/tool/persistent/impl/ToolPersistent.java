@@ -335,155 +335,164 @@ public abstract class ToolPersistent {
             Method tM = o.getClass().getMethod(getMethodStr);
             // 字段有值才进行sql拼接
             if (tM.invoke(o) != null) {
-              // 确定哪个列和那种拼接sql方式
-              for (String column : columns) {
-                if (tField.getName().equals(column)) {
-                  sql.append(" AND ");
-                  if (ToolUtil.isNotNullStr(alias)) {
-                    sql.append(alias).append(".");
+              // 先进行多对多关系sql拼接
+              if ("toolExists".equals(tField.getName())) {
+                sql.append(" AND EXISTS ( ").append((String) tM.invoke(o)).append(" )");
+              } else if ("toolNotExists".equals(tField.getName())) {
+                sql.append(" AND NOT EXISTS ( ").append((String) tM.invoke(o)).append(" )");
+              } else {
+                // 确定哪个列和那种拼接sql方式
+                for (String column : columns) {
+                  if (tField.getName().indexOf(column) == 0) {
+                    if (tField.getName().equals(column)) {
+                      sql.append(" AND ");
+                      if (ToolUtil.isNotNullStr(alias)) {
+                        sql.append(alias).append(".");
+                      }
+                      sql.append(columnsParameter.get(column)).append(" = :").append(tField.getName());
+                      break;
+                    } else if (tField.getName().equals(column + ToolUtil.AND_EQ)) {
+                      sql.append(" AND ");
+                      if (ToolUtil.isNotNullStr(alias)) {
+                        sql.append(alias).append(".");
+                      }
+                      sql.append(columnsParameter.get(column)).append(" = :").append(tField.getName());
+                      break;
+                    } else if (tField.getName().equals(column + ToolUtil.AND_LIKE)) {
+                      sql.append(" AND ");
+                      if (ToolUtil.isNotNullStr(alias)) {
+                        sql.append(alias).append(".");
+                      }
+                      sql.append(columnsParameter.get(column)).append(" LIKE :").append(tField.getName());
+                      break;
+                    } else if (tField.getName().equals(column + ToolUtil.AND_IN)) {
+                      sql.append(" AND ");
+                      if (ToolUtil.isNotNullStr(alias)) {
+                        sql.append(alias).append(".");
+                      }
+                      sql.append(columnsParameter.get(column)).append(" IN ( :").append(tField.getName()).append(" )");
+                      break;
+                    } else if (tField.getName().equals(column + ToolUtil.AND_KEY_LIKE)) {
+                      sql.append(" AND ");
+                      if (ToolUtil.isNotNullStr(alias)) {
+                        sql.append(alias).append(".");
+                      }
+                      sql.append(columnsParameter.get(column)).append(" LIKE :").append(tField.getName());
+                      break;
+                    } else if (tField.getName().equals(column + ToolUtil.OR_KEY_LIKE)) {
+                      sql.append(" OR ");
+                      if (ToolUtil.isNotNullStr(alias)) {
+                        sql.append(alias).append(".");
+                      }
+                      sql.append(columnsParameter.get(column)).append(" LIKE :").append(tField.getName());
+                      break;
+                    } else if (tField.getName().equals(column + ToolUtil.AND_NE)) {
+                      sql.append(" AND ");
+                      if (ToolUtil.isNotNullStr(alias)) {
+                        sql.append(alias).append(".");
+                      }
+                      sql.append(columnsParameter.get(column)).append(" <> :").append(tField.getName());
+                      break;
+                    } else if (tField.getName().equals(column + ToolUtil.AND_NIN)) {
+                      sql.append(" AND ");
+                      if (ToolUtil.isNotNullStr(alias)) {
+                        sql.append(alias).append(".");
+                      }
+                      sql.append(columnsParameter.get(column)).append(" NOT IN ( :").append(tField.getName()).append(" )");
+                      break;
+                    } else if (tField.getName().equals(column + ToolUtil.AND_G)) {
+                      sql.append(" AND ");
+                      if (ToolUtil.isNotNullStr(alias)) {
+                        sql.append(alias).append(".");
+                      }
+                      sql.append(columnsParameter.get(column)).append(" > :").append(tField.getName());
+                      break;
+                    } else if (tField.getName().equals(column + ToolUtil.AND_L)) {
+                      sql.append(" AND ");
+                      if (ToolUtil.isNotNullStr(alias)) {
+                        sql.append(alias).append(".");
+                      }
+                      sql.append(columnsParameter.get(column)).append(" < :").append(tField.getName());
+                      break;
+                    } else if (tField.getName().equals(column + ToolUtil.AND_GE)) {
+                      sql.append(" AND ");
+                      if (ToolUtil.isNotNullStr(alias)) {
+                        sql.append(alias).append(".");
+                      }
+                      sql.append(columnsParameter.get(column)).append(" >= :").append(tField.getName());
+                      break;
+                    } else if (tField.getName().equals(column + ToolUtil.AND_LE)) {
+                      sql.append(" AND ");
+                      if (ToolUtil.isNotNullStr(alias)) {
+                        sql.append(alias).append(".");
+                      }
+                      sql.append(columnsParameter.get(column)).append(" <= :").append(tField.getName());
+                      break;
+                    } else if (tField.getName().equals(column + ToolUtil.OR_EQ)) {
+                      sql.append(" OR ");
+                      if (ToolUtil.isNotNullStr(alias)) {
+                        sql.append(alias).append(".");
+                      }
+                      sql.append(columnsParameter.get(column)).append(" = :").append(tField.getName());
+                      break;
+                    } else if (tField.getName().equals(column + ToolUtil.OR_LIKE)) {
+                      sql.append(" OR ");
+                      if (ToolUtil.isNotNullStr(alias)) {
+                        sql.append(alias).append(".");
+                      }
+                      sql.append(columnsParameter.get(column)).append(" LIKE :").append(tField.getName());
+                      break;
+                    } else if (tField.getName().equals(column + ToolUtil.OR_IN)) {
+                      sql.append(" OR ");
+                      if (ToolUtil.isNotNullStr(alias)) {
+                        sql.append(alias).append(".");
+                      }
+                      sql.append(columnsParameter.get(column)).append(" IN ( :").append(tField.getName()).append(" )");
+                      break;
+                    } else if (tField.getName().equals(column + ToolUtil.OR_NE)) {
+                      sql.append(" OR ");
+                      if (ToolUtil.isNotNullStr(alias)) {
+                        sql.append(alias).append(".");
+                      }
+                      sql.append(columnsParameter.get(column)).append(" <> :").append(tField.getName());
+                      break;
+                    } else if (tField.getName().equals(column + ToolUtil.OR_NIN)) {
+                      sql.append(" OR ");
+                      if (ToolUtil.isNotNullStr(alias)) {
+                        sql.append(alias).append(".");
+                      }
+                      sql.append(columnsParameter.get(column)).append(" NOT IN ( :").append(tField.getName()).append(" )");
+                      break;
+                    } else if (tField.getName().equals(column + ToolUtil.OR_G)) {
+                      sql.append(" OR ");
+                      if (ToolUtil.isNotNullStr(alias)) {
+                        sql.append(alias).append(".");
+                      }
+                      sql.append(columnsParameter.get(column)).append(" > :").append(tField.getName());
+                      break;
+                    } else if (tField.getName().equals(column + ToolUtil.OR_L)) {
+                      sql.append(" OR ");
+                      if (ToolUtil.isNotNullStr(alias)) {
+                        sql.append(alias).append(".");
+                      }
+                      sql.append(columnsParameter.get(column)).append(" < :").append(tField.getName());
+                      break;
+                    } else if (tField.getName().equals(column + ToolUtil.OR_GE)) {
+                      sql.append(" OR ");
+                      if (ToolUtil.isNotNullStr(alias)) {
+                        sql.append(alias).append(".");
+                      }
+                      sql.append(columnsParameter.get(column)).append(" >= :").append(tField.getName());
+                      break;
+                    } else if (tField.getName().equals(column + ToolUtil.OR_LE)) {
+                      sql.append(" OR ");
+                      if (ToolUtil.isNotNullStr(alias)) {
+                        sql.append(alias).append(".");
+                      }
+                      sql.append(columnsParameter.get(column)).append(" <= :").append(tField.getName());
+                      break;
+                    }
                   }
-                  sql.append(columnsParameter.get(column)).append(" = :").append(tField.getName());
-                  break;
-                } else if (tField.getName().equals(column + ToolUtil.AND_EQ)) {
-                  sql.append(" AND ");
-                  if (ToolUtil.isNotNullStr(alias)) {
-                    sql.append(alias).append(".");
-                  }
-                  sql.append(columnsParameter.get(column)).append(" = :").append(tField.getName());
-                  break;
-                } else if (tField.getName().equals(column + ToolUtil.AND_LIKE)) {
-                  sql.append(" AND ");
-                  if (ToolUtil.isNotNullStr(alias)) {
-                    sql.append(alias).append(".");
-                  }
-                  sql.append(columnsParameter.get(column)).append(" LIKE :").append(tField.getName());
-                  break;
-                } else if (tField.getName().equals(column + ToolUtil.AND_IN)) {
-                  sql.append(" AND ");
-                  if (ToolUtil.isNotNullStr(alias)) {
-                    sql.append(alias).append(".");
-                  }
-                  sql.append(columnsParameter.get(column)).append(" IN ( :").append(tField.getName()).append(" )");
-                  break;
-                } else if (tField.getName().equals(column + ToolUtil.AND_NE)) {
-                  sql.append(" AND ");
-                  if (ToolUtil.isNotNullStr(alias)) {
-                    sql.append(alias).append(".");
-                  }
-                  sql.append(columnsParameter.get(column)).append(" <> :").append(tField.getName());
-                  break;
-                } else if (tField.getName().equals(column + ToolUtil.AND_NIN)) {
-                  sql.append(" AND ");
-                  if (ToolUtil.isNotNullStr(alias)) {
-                    sql.append(alias).append(".");
-                  }
-                  sql.append(columnsParameter.get(column)).append(" NOT IN ( :").append(tField.getName()).append(" )");
-                  break;
-                } else if (tField.getName().equals(column + ToolUtil.AND_G)) {
-                  sql.append(" AND ");
-                  if (ToolUtil.isNotNullStr(alias)) {
-                    sql.append(alias).append(".");
-                  }
-                  sql.append(columnsParameter.get(column)).append(" > :").append(tField.getName());
-                  break;
-                } else if (tField.getName().equals(column + ToolUtil.AND_L)) {
-                  sql.append(" AND ");
-                  if (ToolUtil.isNotNullStr(alias)) {
-                    sql.append(alias).append(".");
-                  }
-                  sql.append(columnsParameter.get(column)).append(" < :").append(tField.getName());
-                  break;
-                } else if (tField.getName().equals(column + ToolUtil.AND_GE)) {
-                  sql.append(" AND ");
-                  if (ToolUtil.isNotNullStr(alias)) {
-                    sql.append(alias).append(".");
-                  }
-                  sql.append(columnsParameter.get(column)).append(" >= :").append(tField.getName());
-                  break;
-                } else if (tField.getName().equals(column + ToolUtil.AND_LE)) {
-                  sql.append(" AND ");
-                  if (ToolUtil.isNotNullStr(alias)) {
-                    sql.append(alias).append(".");
-                  }
-                  sql.append(columnsParameter.get(column)).append(" <= :").append(tField.getName());
-                  break;
-                } else if (tField.getName().equals(column + ToolUtil.OR_EQ)) {
-                  sql.append(" OR ");
-                  if (ToolUtil.isNotNullStr(alias)) {
-                    sql.append(alias).append(".");
-                  }
-                  sql.append(columnsParameter.get(column)).append(" = :").append(tField.getName());
-                  break;
-                } else if (tField.getName().equals(column + ToolUtil.OR_LIKE)) {
-                  sql.append(" OR ");
-                  if (ToolUtil.isNotNullStr(alias)) {
-                    sql.append(alias).append(".");
-                  }
-                  sql.append(columnsParameter.get(column)).append(" LIKE :").append(tField.getName());
-                  break;
-                } else if (tField.getName().equals(column + ToolUtil.OR_IN)) {
-                  sql.append(" OR ");
-                  if (ToolUtil.isNotNullStr(alias)) {
-                    sql.append(alias).append(".");
-                  }
-                  sql.append(columnsParameter.get(column)).append(" IN ( :").append(tField.getName()).append(" )");
-                  break;
-                } else if (tField.getName().equals(column + ToolUtil.OR_NE)) {
-                  sql.append(" OR ");
-                  if (ToolUtil.isNotNullStr(alias)) {
-                    sql.append(alias).append(".");
-                  }
-                  sql.append(columnsParameter.get(column)).append(" <> :").append(tField.getName());
-                  break;
-                } else if (tField.getName().equals(column + ToolUtil.OR_NIN)) {
-                  sql.append(" OR ");
-                  if (ToolUtil.isNotNullStr(alias)) {
-                    sql.append(alias).append(".");
-                  }
-                  sql.append(columnsParameter.get(column)).append(" NOT IN ( :").append(tField.getName()).append(" )");
-                  break;
-                } else if (tField.getName().equals(column + ToolUtil.OR_G)) {
-                  sql.append(" OR ");
-                  if (ToolUtil.isNotNullStr(alias)) {
-                    sql.append(alias).append(".");
-                  }
-                  sql.append(columnsParameter.get(column)).append(" > :").append(tField.getName());
-                  break;
-                } else if (tField.getName().equals(column + ToolUtil.OR_L)) {
-                  sql.append(" OR ");
-                  if (ToolUtil.isNotNullStr(alias)) {
-                    sql.append(alias).append(".");
-                  }
-                  sql.append(columnsParameter.get(column)).append(" < :").append(tField.getName());
-                  break;
-                } else if (tField.getName().equals(column + ToolUtil.OR_GE)) {
-                  sql.append(" OR ");
-                  if (ToolUtil.isNotNullStr(alias)) {
-                    sql.append(alias).append(".");
-                  }
-                  sql.append(columnsParameter.get(column)).append(" >= :").append(tField.getName());
-                  break;
-                } else if (tField.getName().equals(column + ToolUtil.OR_LE)) {
-                  sql.append(" OR ");
-                  if (ToolUtil.isNotNullStr(alias)) {
-                    sql.append(alias).append(".");
-                  }
-                  sql.append(columnsParameter.get(column)).append(" <= :").append(tField.getName());
-                  break;
-                } else if (tField.getName().equals(column + ToolUtil.AND_KEY_LIKE)) {
-                  sql.append(" AND ");
-                  if (ToolUtil.isNotNullStr(alias)) {
-                    sql.append(alias).append(".");
-                  }
-                  sql.append(columnsParameter.get(column)).append(" LIKE :").append(tField.getName());
-                  break;
-                } else if (tField.getName().equals(column + ToolUtil.OR_KEY_LIKE)) {
-                  sql.append(" OR ");
-                  if (ToolUtil.isNotNullStr(alias)) {
-                    sql.append(alias).append(".");
-                  }
-                  sql.append(columnsParameter.get(column)).append(" LIKE :").append(tField.getName());
-                  break;
                 }
               }
             }

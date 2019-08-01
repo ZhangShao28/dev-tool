@@ -13,6 +13,10 @@ public class DictQuery implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  protected String toolExists; // 解决多对多关系预留字段之存在
+
+  protected String toolNotExists; // 解决多对多关系预留字段之不存在
+
   protected String dictId; // 数据字典编号
 
   protected String dictKey; // 数据字典标识

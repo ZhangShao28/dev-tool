@@ -199,6 +199,7 @@ public class DictPersistentImpl extends ToolPersistent implements IDictPersisten
     try {
       StringBuilder countSql = new StringBuilder(COUNT_SQL);
       if (!ToolUtil.isNullEntityAllFieldValue(dictQuery)) {
+        this.getExistsSql(dictQuery);
         countSql.append(this.getQuerySql(COLUMNS, COLUMNS_PARAMETER, TABLE_ALIAS, dictQuery));
       }
       if (ToolUtil.isNullEntityAllFieldValue(dictQuery)) {
@@ -268,6 +269,7 @@ public class DictPersistentImpl extends ToolPersistent implements IDictPersisten
     try {
       StringBuilder querySql = new StringBuilder(SELECT_SQL);
       if (!ToolUtil.isNullEntityAllFieldValue(dictQuery)) {
+        this.getExistsSql(dictQuery);
         querySql.append(this.getQuerySql(COLUMNS, COLUMNS_PARAMETER, TABLE_ALIAS, dictQuery));
       }
       querySql.append(this.getSortSql(SORT, COLUMNS_PARAMETER, TABLE_ALIAS));
@@ -304,6 +306,7 @@ public class DictPersistentImpl extends ToolPersistent implements IDictPersisten
       Paging<Dict> paging = new Paging<>(param);
       StringBuilder countSql = new StringBuilder(COUNT_SQL);
       if (!ToolUtil.isNullEntityAllFieldValue(dictQuery)) {
+        this.getExistsSql(dictQuery);
         countSql.append(this.getQuerySql(COLUMNS, COLUMNS_PARAMETER, TABLE_ALIAS, dictQuery));
       }
       Long count = null;
@@ -316,6 +319,7 @@ public class DictPersistentImpl extends ToolPersistent implements IDictPersisten
       if (count > 0) {
         StringBuilder querySql = new StringBuilder(this.getPagingSql(TABLE_NAME, COLUMNS_PARAMETER, PRIMARY_KEY, TABLE_ALIAS));
         if (!ToolUtil.isNullEntityAllFieldValue(dictQuery)) {
+          this.getExistsSql(dictQuery);
           querySql.append(this.getQuerySql(COLUMNS, COLUMNS_PARAMETER, TABLE_ALIAS, dictQuery));
         }
         querySql.append(this.getPagingSql(SORT, COLUMNS_PARAMETER, TABLE_ALIAS, paging));
@@ -401,6 +405,7 @@ public class DictPersistentImpl extends ToolPersistent implements IDictPersisten
     try {
       StringBuilder querySql = new StringBuilder(SELECT_VO_SQL);
       if (!ToolUtil.isNullEntityAllFieldValue(dictQuery)) {
+        this.getExistsSql(dictQuery);
         querySql.append(this.getQuerySql(COLUMNS, COLUMNS_PARAMETER, TABLE_ALIAS, dictQuery));
       }
       querySql.append(this.getSortSql(SORT, COLUMNS_PARAMETER, TABLE_ALIAS));
@@ -437,6 +442,7 @@ public class DictPersistentImpl extends ToolPersistent implements IDictPersisten
       Paging<DictVO> paging = new Paging<>(param);
       StringBuilder countSql = new StringBuilder(COUNT_SQL);
       if (!ToolUtil.isNullEntityAllFieldValue(dictQuery)) {
+        this.getExistsSql(dictQuery);
         countSql.append(this.getQuerySql(COLUMNS, COLUMNS_PARAMETER, TABLE_ALIAS, dictQuery));
       }
       Long count = null;
@@ -449,6 +455,7 @@ public class DictPersistentImpl extends ToolPersistent implements IDictPersisten
       if (count > 0) {
         StringBuilder querySql = new StringBuilder(this.getPagingSql(TABLE_NAME, COLUMNS_PARAMETER, PRIMARY_KEY, TABLE_ALIAS));
         if (!ToolUtil.isNullEntityAllFieldValue(dictQuery)) {
+          this.getExistsSql(dictQuery);
           querySql.append(this.getQuerySql(COLUMNS, COLUMNS_PARAMETER, TABLE_ALIAS, dictQuery));
         }
         querySql.append(this.getPagingSql(SORT, COLUMNS_PARAMETER, TABLE_ALIAS, paging));
@@ -472,6 +479,30 @@ public class DictPersistentImpl extends ToolPersistent implements IDictPersisten
         }
       }
       return paging;
+    } catch (Exception e) {
+      if (log.isErrorEnabled()) {
+        log.error(e.getMessage(), e);
+      }
+      throw e;
+    }
+  }
+
+  private void getExistsSql(DictQuery dictQuery) throws Exception {
+    try {
+      if (ToolUtil.isNotNullStr(dictQuery.getToolExists())) {
+        if ("NEXUS".equals(dictQuery.getToolExists().toUpperCase())) {
+          dictQuery.setToolExists("SELECT NEXUS_ID FROM NEXUS WHERE NEXUS_ID IS NOT NULL AND ID = " + TABLE_ALIAS + ".ID");
+        } else {
+          dictQuery.setToolExists(null);
+        }
+      }
+      if (ToolUtil.isNotNullStr(dictQuery.getToolNotExists())) {
+        if ("NEXUS".equals(dictQuery.getToolNotExists().toUpperCase())) {
+          dictQuery.setToolNotExists("SELECT NEXUS_ID FROM NEXUS WHERE NEXUS_ID IS NOT NULL AND ID = " + TABLE_ALIAS + ".ID");
+        } else {
+          dictQuery.setToolNotExists(null);
+        }
+      }
     } catch (Exception e) {
       if (log.isErrorEnabled()) {
         log.error(e.getMessage(), e);

@@ -199,6 +199,7 @@ ${ci}${ci}}
 ${ci}${ci}try {
 ${ci}${ci}${ci}StringBuilder countSql = new StringBuilder(COUNT_SQL);
 ${ci}${ci}${ci}if (!ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}this.getExistsSql(${initialLowercaseEntityName}Query);
 ${ci}${ci}${ci}${ci}countSql.append(this.getQuerySql(COLUMNS, COLUMNS_PARAMETER, TABLE_ALIAS, ${initialLowercaseEntityName}Query));
 ${ci}${ci}${ci}}
 ${ci}${ci}${ci}if (ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
@@ -268,6 +269,7 @@ ${ci}${ci}}
 ${ci}${ci}try {
 ${ci}${ci}${ci}StringBuilder querySql = new StringBuilder(SELECT_SQL);
 ${ci}${ci}${ci}if (!ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}this.getExistsSql(${initialLowercaseEntityName}Query);
 ${ci}${ci}${ci}${ci}querySql.append(this.getQuerySql(COLUMNS, COLUMNS_PARAMETER, TABLE_ALIAS, ${initialLowercaseEntityName}Query));
 ${ci}${ci}${ci}}
 ${ci}${ci}${ci}querySql.append(this.getSortSql(SORT, COLUMNS_PARAMETER, TABLE_ALIAS));
@@ -304,6 +306,7 @@ ${ci}${ci}${ci}}
 ${ci}${ci}${ci}Paging<${initialCaseEntityName}> paging = new Paging<>(param);
 ${ci}${ci}${ci}StringBuilder countSql = new StringBuilder(COUNT_SQL);
 ${ci}${ci}${ci}if (!ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}this.getExistsSql(${initialLowercaseEntityName}Query);
 ${ci}${ci}${ci}${ci}countSql.append(this.getQuerySql(COLUMNS, COLUMNS_PARAMETER, TABLE_ALIAS, ${initialLowercaseEntityName}Query));
 ${ci}${ci}${ci}}
 ${ci}${ci}${ci}Long count = null;
@@ -316,6 +319,7 @@ ${ci}${ci}${ci}paging.setCount(count);
 ${ci}${ci}${ci}if (count > 0) {
 ${ci}${ci}${ci}${ci}StringBuilder querySql = new StringBuilder(this.getPagingSql(TABLE_NAME, COLUMNS_PARAMETER, PRIMARY_KEY, TABLE_ALIAS));
 ${ci}${ci}${ci}${ci}if (!ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}${ci}this.getExistsSql(${initialLowercaseEntityName}Query);
 ${ci}${ci}${ci}${ci}${ci}querySql.append(this.getQuerySql(COLUMNS, COLUMNS_PARAMETER, TABLE_ALIAS, ${initialLowercaseEntityName}Query));
 ${ci}${ci}${ci}${ci}}
 ${ci}${ci}${ci}${ci}querySql.append(this.getPagingSql(SORT, COLUMNS_PARAMETER, TABLE_ALIAS, paging));
@@ -401,6 +405,7 @@ ${ci}${ci}}
 ${ci}${ci}try {
 ${ci}${ci}${ci}StringBuilder querySql = new StringBuilder(SELECT_VO_SQL);
 ${ci}${ci}${ci}if (!ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}this.getExistsSql(${initialLowercaseEntityName}Query);
 ${ci}${ci}${ci}${ci}querySql.append(this.getQuerySql(COLUMNS, COLUMNS_PARAMETER, TABLE_ALIAS, ${initialLowercaseEntityName}Query));
 ${ci}${ci}${ci}}
 ${ci}${ci}${ci}querySql.append(this.getSortSql(SORT, COLUMNS_PARAMETER, TABLE_ALIAS));
@@ -437,6 +442,7 @@ ${ci}${ci}${ci}}
 ${ci}${ci}${ci}Paging<${initialCaseEntityName}VO> paging = new Paging<>(param);
 ${ci}${ci}${ci}StringBuilder countSql = new StringBuilder(COUNT_SQL);
 ${ci}${ci}${ci}if (!ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}this.getExistsSql(${initialLowercaseEntityName}Query);
 ${ci}${ci}${ci}${ci}countSql.append(this.getQuerySql(COLUMNS, COLUMNS_PARAMETER, TABLE_ALIAS, ${initialLowercaseEntityName}Query));
 ${ci}${ci}${ci}}
 ${ci}${ci}${ci}Long count = null;
@@ -449,6 +455,7 @@ ${ci}${ci}${ci}paging.setCount(count);
 ${ci}${ci}${ci}if (count > 0) {
 ${ci}${ci}${ci}${ci}StringBuilder querySql = new StringBuilder(this.getPagingSql(TABLE_NAME, COLUMNS_PARAMETER, PRIMARY_KEY, TABLE_ALIAS));
 ${ci}${ci}${ci}${ci}if (!ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}${ci}this.getExistsSql(${initialLowercaseEntityName}Query);
 ${ci}${ci}${ci}${ci}${ci}querySql.append(this.getQuerySql(COLUMNS, COLUMNS_PARAMETER, TABLE_ALIAS, ${initialLowercaseEntityName}Query));
 ${ci}${ci}${ci}${ci}}
 ${ci}${ci}${ci}${ci}querySql.append(this.getPagingSql(SORT, COLUMNS_PARAMETER, TABLE_ALIAS, paging));
@@ -472,6 +479,30 @@ ${ci}${ci}${ci}${ci}${ci}}
 ${ci}${ci}${ci}${ci}}
 ${ci}${ci}${ci}}
 ${ci}${ci}${ci}return paging;
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}}
+${ci}}
+
+${ci}private void getExistsSql(${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws Exception {
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isNotNullStr(${initialLowercaseEntityName}Query.getToolExists())) {
+${ci}${ci}${ci}${ci}if ("NEXUS".equals(${initialLowercaseEntityName}Query.getToolExists().toUpperCase())) {
+${ci}${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Query.setToolExists("SELECT NEXUS_ID FROM NEXUS WHERE NEXUS_ID IS NOT NULL AND ID = " + TABLE_ALIAS + ".ID");
+${ci}${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Query.setToolExists(null);
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}}
+${ci}${ci}${ci}if (ToolUtil.isNotNullStr(${initialLowercaseEntityName}Query.getToolNotExists())) {
+${ci}${ci}${ci}${ci}if ("NEXUS".equals(${initialLowercaseEntityName}Query.getToolNotExists().toUpperCase())) {
+${ci}${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Query.setToolNotExists("SELECT NEXUS_ID FROM NEXUS WHERE NEXUS_ID IS NOT NULL AND ID = " + TABLE_ALIAS + ".ID");
+${ci}${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Query.setToolNotExists(null);
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}}
 ${ci}${ci}} catch (Exception e) {
 ${ci}${ci}${ci}if (log.isErrorEnabled()) {
 ${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);

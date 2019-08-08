@@ -1,2 +1,4 @@
 export default class ${initialCaseEntityName}Query {
 ${ci}constructor () {
+${ci}${ci}this.toolExists = null // 解决多对多关系预留字段之存在
+${ci}${ci}this.toolNotExists = null // 解决多对多关系预留字段之不存在

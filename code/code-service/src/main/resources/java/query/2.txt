@@ -12,3 +12,7 @@ import lombok.Data;
 public class ${initialCaseEntityName}Query implements Serializable {
 
 ${ci}private static final long serialVersionUID = 1L;
+
+${ci}protected String toolExists; // 解决多对多关系预留字段之存在
+
+${ci}protected String toolNotExists; // 解决多对多关系预留字段之不存在

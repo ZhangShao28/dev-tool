@@ -1,5 +1,7 @@
 export default class DictQuery {
   constructor () {
+    this.toolExists = null // 解决多对多关系预留字段之存在
+    this.toolNotExists = null // 解决多对多关系预留字段之不存在
     this.dictId = null // 数据字典编号
     this.dictKey = null // 数据字典标识
     this.dictName = null // 数据字典名称

@@ -4,14 +4,14 @@
 
 <template>
   <div class="login">
-    <!-- <div class="login-con">
+    <div class="login-con">
       <Card icon="log-in" title="欢迎登录" :bordered="false">
         <div class="form-con">
           <login-form @on-success-valid="handleSubmit"></login-form>
           <p class="login-tip">输入任意用户名和密码即可</p>
         </div>
       </Card>
-    </div> -->
+    </div>
     <Row class="pro-margin-top-100" type="flex" justify="center">
       <Col class="login-title" span="2">
         <img class="logo" src="../../assets/images/logo-color.svg" />

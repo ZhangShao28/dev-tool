@@ -13,6 +13,7 @@ import virtualColumnsStore from './cn/moonnow/code/virtualColumns/virtualColumns
 import codingStore from './cn/moonnow/code/business/coding/codingStore'
 import dictStore from './cn/moonnow/dict/dict/dictStore'
 import dictValueStore from './cn/moonnow/dict/dictValue/dictValueStore'
+import customerStore from './cn/moonnow/customer/management/customer/customerStore'
 
 Vue.use(Vuex)
 
@@ -40,5 +41,6 @@ store.registerModule('virtualColumnsStore', virtualColumnsStore)
 store.registerModule('codingStore', codingStore)
 store.registerModule('dictStore', dictStore)
 store.registerModule('dictValueStore', dictValueStore)
+store.registerModule('customerStore', customerStore)
 
 export default store

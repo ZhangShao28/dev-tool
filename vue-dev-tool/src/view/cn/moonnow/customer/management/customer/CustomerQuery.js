@@ -1,0 +1,40 @@
+export default class CustomerQuery {
+  constructor () {
+    this.toolExists = null // 解决多对多关系预留字段之存在
+    this.toolNotExists = null // 解决多对多关系预留字段之不存在
+    this.customerId = null // 客户编号
+    this.customerNo = null // 客户序号
+    this.customerName = null // 客户名称
+    this.creditCode = null // 社会统一信用代码
+    this.address = null // 地址
+    this.fax = null // 传真
+    this.legalRepresentative = null // 法定代表人
+    this.legalRepresentativePhone = null // 法定代表人电话
+    this.legalRepresentativeFax = null // 法定代表人传真
+    this.agent = null // 委托代理人
+    this.agentPhone = null // 委托代理人电话
+    this.agentFax = null // 委托代理人传真
+    this.openingBank = null // 开户银行
+    this.bankAccount = null // 银行账号
+    this.taxRegistrationNumber = null // 纳税登记号
+    this.phoneNumber = null // 联系电话
+    this.accountBalance = null // 账户余额
+    this.availableBalance = null // 可用余额
+    this.customerIdAndin = null // 客户编号Andin查询
+    this.customerNoAndKeyLike = null // 客户序号AndKeyLike查询
+    this.customerNameOrKeyLike = null // 客户名称OrKeyLike查询
+    this.creditCodeOrKeyLike = null // 社会统一信用代码OrKeyLike查询
+    this.addressOrKeyLike = null // 地址OrKeyLike查询
+    this.faxOrKeyLike = null // 传真OrKeyLike查询
+    this.legalRepresentativeOrKeyLike = null // 法定代表人OrKeyLike查询
+    this.legalRepresentativePhoneOrKeyLike = null // 法定代表人电话OrKeyLike查询
+    this.legalRepresentativeFaxOrKeyLike = null // 法定代表人传真OrKeyLike查询
+    this.agentOrKeyLike = null // 委托代理人OrKeyLike查询
+    this.agentPhoneOrKeyLike = null // 委托代理人电话OrKeyLike查询
+    this.agentFaxOrKeyLike = null // 委托代理人传真OrKeyLike查询
+    this.openingBankOrKeyLike = null // 开户银行OrKeyLike查询
+    this.bankAccountOrKeyLike = null // 银行账号OrKeyLike查询
+    this.taxRegistrationNumberOrKeyLike = null // 纳税登记号OrKeyLike查询
+    this.phoneNumberOrKeyLike = null // 联系电话OrKeyLike查询
+  }
+}

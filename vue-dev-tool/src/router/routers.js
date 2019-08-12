@@ -86,6 +86,15 @@ export default [
           title: '数据字典'
         },
         component: () => import('@/view/cn/moonnow/dict/business/dict/dict.vue')
+      },
+      {
+        path: 'customer',
+        name: 'customer',
+        meta: {
+          icon: 'ios-people',
+          title: '客户管理'
+        },
+        component: () => import('@/view/cn/moonnow/customer/management/customer/customer.vue')
       }
     ]
   },

@@ -35,6 +35,13 @@
       <version>${project.version}</version>
       <type>pom</type>
     </dependency>
+<!--     客户管理 -->
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>customer-management-rely</artifactId>
+      <version>${project.version}</version>
+      <type>pom</type>
+    </dependency>
   </dependencies>
 
   <build>

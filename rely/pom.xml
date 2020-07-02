@@ -50,7 +50,7 @@
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
-      <version>8.0.11</version><!--$NO-MVN-MAN-VER$-->
+      <version>8.0.16</version><!--$NO-MVN-MAN-VER$-->
     </dependency>
 <!--     oracle数据库连接驱动 -->
 <!--     maven安装驱动jar包命令  path替换为实际路径 -->
